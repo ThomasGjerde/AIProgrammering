@@ -26,17 +26,20 @@ public class Node {
 		if(node.getChildren().isEmpty()){
 			return null;
 		}
-		ArrayList<Node> validChildren = new ArrayList<Node>();
+		//ArrayList<Node> validChildren = new ArrayList<Node>();
 		for(int i=0; i<node.getChildren().size(); i++){
 			if(node.getChildren().get(i).status == status.Unvisited){
-				validChildren.add(node.getChildren().get(i));
+				//validChildren.add(node.getChildren().get(i));
+				return node.getChildren().get(i);
 			}
 		}
+		return null;
+		/*
 		if(!validChildren.isEmpty()){
 			return validChildren.get(0);
 		}else{
 			return null;
-		}
+		}*/
 	}
 	
 	public enum Status {
