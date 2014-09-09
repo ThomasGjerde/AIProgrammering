@@ -24,9 +24,11 @@ public class Board {
 				generateObstacle(parseLine(input.get(i)));
 			}
 			setChildrenForAllNodes();
+			/* Test for node
 			for(Node node: boardArray[0][1].children){
 				System.out.println("(0,1) Child: (" + node.positionX + "," + node.positionY + ")");
 			}
+			*/
 		}
 	}
 	
