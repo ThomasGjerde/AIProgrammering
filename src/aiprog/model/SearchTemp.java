@@ -39,6 +39,13 @@ public class SearchTemp {
 		node.setStatus(Status.Visited);
 		queue.add(node);
 		
+		while(!queue.isEmpty()){
+			Node r = queue.remove();
+			if(r.getNextChild(r) != null){
+				
+			}
+		}
+		
 		while(!queue.isEmpty())
         {
             //removes from front of queue

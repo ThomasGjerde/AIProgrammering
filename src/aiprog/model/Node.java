@@ -4,7 +4,6 @@ import java.util.ArrayList;
 
 public class Node {
 	ArrayList<Node> children;
-	public boolean obstacle;
 	public Status status;
 	
 	public Node(){
@@ -46,6 +45,7 @@ public class Node {
 	public enum Status {
 		Unvisited,
 		Visiting,
-		Visited
+		Visited,
+		Obstacle
 	}
 }
