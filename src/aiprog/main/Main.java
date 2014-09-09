@@ -12,7 +12,7 @@ public class Main {
 	 */
 	public static void main(String[] args) {
 		try {
-			Board board = new Board("C:\\board.txt");
+			Board board = new Board("D:\\board.txt");
 			Graphics graphics = new Graphics(board);
 			graphics.setBoard(board);
 		} catch (IOException e) {
