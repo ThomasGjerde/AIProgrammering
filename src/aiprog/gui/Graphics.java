@@ -60,12 +60,23 @@ public class Graphics implements ActionListener {
 	}
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		SearchTemp temp = new SearchTemp(board1, this);
+		final SearchTemp temp = new SearchTemp(board1, this);
 		if(((JComboBox)e.getSource()).getSelectedIndex() == 1){
-			temp.aStar(board1.boardArray[board1.startX][board1.startY]);
+			Thread worker = new Thread(){
+				public void run(){
+				temp.aStar(board1.boardArray[board1.startX][board1.startY]);
+				}
+				};
+			worker.start();
 		}
 		if(((JComboBox)e.getSource()).getSelectedIndex() == 2){
-			temp.bfs(board1.boardArray[board1.startX][board1.startY]);
+			//temp.bfs(board1.boardArray[board1.startX][board1.startY]);
+			Thread worker = new Thread(){
+				public void run(){
+				temp.bfs(board1.boardArray[board1.startX][board1.startY]);
+				}
+				};
+			worker.start();
 		}
 		if(((JComboBox)e.getSource()).getSelectedIndex() == 3){
 			temp.dfs(board1.boardArray[board1.startX][board1.startY]);
