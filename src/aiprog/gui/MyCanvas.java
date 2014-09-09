@@ -12,10 +12,12 @@ public class MyCanvas
 
         private List<Point> blackCells;
         private List<Point> redCells;
+        private List<Point> whiteCells;
 
         public Grid() {
             blackCells = new ArrayList<>(25);
             redCells = new ArrayList<>(25);
+            whiteCells = new ArrayList<>(25);
         }
 
         @Override
@@ -33,6 +35,12 @@ public class MyCanvas
             	g.setColor(Color.RED);
             	g.fillRect(cellX, cellY, 40, 40);
             }
+            for (Point whiteCell : whiteCells){
+            	int cellX = 40 + (whiteCell.x * 40);
+            	int cellY = 40 + (whiteCell.y * 40);
+            	g.setColor(Color.WHITE);
+            	g.fillRect(cellX, cellY, 40, 40);
+            }
             //g.setColor(Color.BLACK);
         }
 
@@ -42,6 +50,10 @@ public class MyCanvas
         }
         public void fillCellRed(int x, int y){
         	redCells.add(new Point(x, y));
+        	repaint();
+        }
+        public void fillCellWhite(int x, int y){
+        	whiteCells.add(new Point(x, y));
         	repaint();
         }
 
