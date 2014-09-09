@@ -41,11 +41,14 @@ public class SearchTemp {
 		
 		while(!queue.isEmpty()){
 			Node r = queue.remove();
-			if(r.getNextChild(r) != null){
-				
-			}
+			//if(r.getNextChild(r) != null){
+				while(r.getNextChild(r) != null){
+					queue.add(r.getNextChild(r));
+					r.getNextChild(r).setStatus(Status.Visited);
+				}
+			//}
 		}
-		
+		/*
 		while(!queue.isEmpty())
         {
             //removes from front of queue
@@ -61,6 +64,7 @@ public class SearchTemp {
                 }
             }
         }
+        */
 		
 	}
 	
