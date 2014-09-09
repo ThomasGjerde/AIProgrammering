@@ -5,15 +5,12 @@ import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
 import aiprog.gui.MyCanvas.Grid;
+import aiprog.model.Board;
+import aiprog.model.Node;
 
-public class GraphicTest
-{
-
-	/**
-	 * @param args
-	 */
-	public static void main(String[] args)
-	{
+public class Graphics {
+	Grid grid;
+	public Graphics(){
 		try
 		{
 			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
@@ -23,21 +20,25 @@ public class GraphicTest
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
-
-        Grid grid = new Grid();
+        grid = new Grid();
         JFrame window = new JFrame();
         window.setSize(840, 560);
         window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         window.add(grid);
         window.setVisible(true);
-        for(int i = 0; i < 80; i++)
+	}
+	public void setBoard(Board board){
+        for(int i = 0; i < board.sizeX; i++)
         {
-        	for(int j = 0; j < 50; j++)
+        	for(int j = board.sizeY; j > 0; j--)
         	{
-        		grid.fillCellBlack(i, j);
+        		if(board.boardArray[i][board.sizeY - j].status == Node.Status.Obstacle){
+        			grid.fillCellBlack(i, j);
+        		}
+        		else if(board.boardArray[i][board.sizeY - j].status == Node.Status.Visiting){
+        			grid.fillCellRed(i, j);
+        		}
         	}
         }
 	}
-
 }
