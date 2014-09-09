@@ -3,8 +3,10 @@ package aiprog.model;
 import java.util.ArrayList;
 
 public class Node {
-	ArrayList<Node> children;
+	public ArrayList<Node> children;
 	public Status status;
+	public int positionX;
+	public int positionY;
 	
 	public Node(){
 		status = Status.Unvisited;

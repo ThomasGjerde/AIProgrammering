@@ -2,12 +2,12 @@ package aiprog.model;
 
 import java.util.LinkedList;
 import java.util.Queue;
-
+import aiprog.model.Board;
 import aiprog.model.Node.Status;
 
 public class SearchTemp {
 	
-	
+	Board board;
 	public SearchTemp(){
 		
 	}
@@ -19,7 +19,11 @@ public class SearchTemp {
 		node.setStatus(Status.Visited);
 		
 		if(node.getNextChild(node) != null){
-			dfs(node.getNextChild(node));
+			if(board.endX == node.positionX && board.endY == node.positionY){
+				
+			}else{
+				dfs(node.getNextChild(node));
+			}
 		}
 		/*
 		while(node.getChildren().size()>0){
@@ -45,6 +49,9 @@ public class SearchTemp {
 				while(r.getNextChild(r) != null){
 					queue.add(r.getNextChild(r));
 					r.getNextChild(r).setStatus(Status.Visited);
+					if(board.endX == r.positionX && board.endY == r.positionY){
+						break;
+					}
 				}
 			//}
 		}
