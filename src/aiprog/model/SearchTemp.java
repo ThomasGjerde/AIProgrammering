@@ -1,7 +1,9 @@
 package aiprog.model;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Queue;
+
 import aiprog.model.Board;
 import aiprog.model.Node.Status;
 
@@ -76,6 +78,35 @@ public class SearchTemp {
 	}
 	
 	public void aStar(){
+		
+		ArrayList<Node> openList = new ArrayList<Node>(); //noder vi ikke har vært i
+		ArrayList<Node> closedList = new ArrayList<Node>(); //noder vi har vært i
+		
+	}
+	
+	public int heuristic(Node node){
+		
+		int nodeX = Math.abs(node.positionX);
+		int nodeY = Math.abs(node.positionY);
+		int endX = Math.abs(board.endX);
+		int endY = Math.abs(board.endY);
+		int heuristic = 0;
+		int midX = 0;
+		int midY = 0;
+		if(nodeX > endX){
+			midX = nodeX - endX;
+		}else{
+			midX = endX - nodeX;
+		}
+		if(nodeY > endY){
+			midY = nodeY - endY;
+		}else{
+			midY = endY - nodeY;
+		}
+		heuristic = midY + midX;
+		
+		//node.h = heuristic;
+		return heuristic;
 		
 	}
 	

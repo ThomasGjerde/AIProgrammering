@@ -7,6 +7,7 @@ public class Node {
 	public Status status;
 	public int positionX;
 	public int positionY;
+	public int h;
 	
 	public Node(int positionX, int positionY){
 		status = Status.Unvisited;
