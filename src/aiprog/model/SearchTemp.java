@@ -39,13 +39,21 @@ public class SearchTemp {
 		node.setStatus(Status.Visited);
 		queue.add(node);
 		
-		while(!queue.isEmpty()){
-			Node r = queue.remove();
-			
-			for(Node n: r.getChildren()){
-				
-			}
-		}
+		while(!queue.isEmpty())
+        {
+            //removes from front of queue
+            Node r = queue.remove(); 
+
+            //Visit child first before grandchild
+            for(Node n: r.getChild())
+            {
+                if(n.state == State.Unvisited)
+                {
+                    queue.add(n);
+                    n.state = State.Visited;
+                }
+            }
+        }
 		
 	}
 	
