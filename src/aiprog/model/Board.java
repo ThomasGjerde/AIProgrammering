@@ -19,9 +19,33 @@ public class Board {
 			setStartAndEnd(parseLine(input.get(1)));
 			generateBoard();
 			for(int i = 2; i < input.size(); i++){
-				System.out.println("Obstacle i:" + i);
 				generateObstacle(parseLine(input.get(i)));
 			}
+			setChildrenForAllNodes();
+		}
+	}
+	
+	private void setChildrenForAllNodes(){
+		for(int i = 0; i < sizeX; i++){
+			for(int j = 0; j < sizeY; j++){
+				setChildren(boardArray[i][j]);
+			}
+		}
+	}
+	private void setChildren(Node node){
+		System.out.println("Current node: (" + node.positionX + "," + node.positionY + ")");
+		if(node.positionX > 0){
+			node.addChild(boardArray[node.positionX -1][node.positionY]);
+		}
+		if(node.positionX < sizeX){
+			node.addChild(boardArray[node.positionX + 1][node.positionY]);
+		}
+		if(node.positionY > 0)
+		{
+			node.addChild(boardArray[node.positionX][node.positionY - 1]);
+		}
+		if(node.positionY < sizeY){
+			node.addChild(boardArray[node.positionX][node.positionY + 1]);
 		}
 	}
 	private void generateObstacle(ArrayList<Integer> input){
@@ -33,7 +57,6 @@ public class Board {
 		for(int i = x; i < (x + width); i++){
 			for(int j = y; j < (y + height); j++){
 				boardArray[i][j].status = Node.Status.Obstacle;
-				System.out.println("Obs:" + i + j);
 			}
 		}
 	}
@@ -42,7 +65,7 @@ public class Board {
 		for(int i = 0; i < sizeX; i++){
 			for(int j = 0; j < sizeY; j++)
 			{
-				boardArray[i][j] = new Node();
+				boardArray[i][j] = new Node(i,j);
 			}
 		}
 	}

@@ -8,8 +8,11 @@ public class Node {
 	public int positionX;
 	public int positionY;
 	
-	public Node(){
+	public Node(int positionX, int positionY){
 		status = Status.Unvisited;
+		children = new ArrayList<Node>();
+		this.positionX = positionX;
+		this.positionY = positionY;
 	}
 	
 	public void addChild(Node node){
