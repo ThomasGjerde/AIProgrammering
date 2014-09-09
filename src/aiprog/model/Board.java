@@ -18,6 +18,21 @@ public class Board {
 			setBoardSize(parseLine(input.get(0)));
 			setStartAndEnd(parseLine(input.get(1)));
 			generateBoard();
+			for(int i = 2; i < input.size(); i++){
+				generateObstacle(parseLine(input.get(i)));
+			}
+		}
+	}
+	private void generateObstacle(ArrayList<Integer> input){
+		//System.out.println("Obstacle: " + input.get(0) + ":" + input.get(1) + ":" + input.get(2) + ":" + input.get(3));
+		int x = input.get(0);
+		int y = input.get(1);
+		int width = input.get(2);
+		int height = input.get(3);
+		for(int i = x; i < width; i++){
+			for(int j = y; j < height; j++){
+				boardArray[i][j].status = Node.Status.Obstacle;
+			}
 		}
 	}
 	private void generateBoard(){
