@@ -4,53 +4,45 @@ import java.awt.Graphics;
 import java.awt.Point;
 import java.util.ArrayList;
 import java.util.List;
-
-import javax.swing.JComponent;
-import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 public class MyCanvas
 {
 	public static class Grid extends JPanel {
 
-        private List<Point> fillCells;
+        private List<Point> blackCells;
+        private List<Point> redCells;
 
         public Grid() {
-            fillCells = new ArrayList<>(25);
+            blackCells = new ArrayList<>(25);
+            redCells = new ArrayList<>(25);
         }
 
         @Override
         protected void paintComponent(Graphics g) {
             super.paintComponent(g);
-            for (Point fillCell : fillCells) {
-                int cellX = 10 + (fillCell.x * 10);
-                int cellY = 10 + (fillCell.y * 10);
-                g.setColor(Color.RED);
-                g.fillRect(cellX, cellY, 10, 10);
+            for (Point blackCell : blackCells) {
+                int cellX = 40 + (blackCell.x * 40);
+                int cellY = 40 + (blackCell.y * 40);
+                g.setColor(Color.BLACK);
+                g.fillRect(cellX, cellY, 40, 40);
             }
-            g.setColor(Color.BLACK);
-            //g.drawRect(10, 10, 800, 500);
-
-            for (int i = 10; i <= 800; i += 10) {
-                //g.drawLine(i, 10, i, 510);
+            for (Point redCell : redCells) {
+            	int cellX = 40 + (redCell.x * 40);
+            	int cellY = 40 + (redCell.y * 40);
+            	g.setColor(Color.RED);
+            	g.fillRect(cellX, cellY, 40, 40);
             }
-
-            for (int i = 10; i <= 500; i += 10) {
-                //g.drawLine(10, i, 810, i);
-            }
+            //g.setColor(Color.BLACK);
         }
 
-        public void fillCell(int x, int y) {
-            fillCells.add(new Point(x, y));
-            try
-			{
-				Thread.sleep(50);
-			} catch (InterruptedException e)
-			{
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+        public void fillCellBlack(int x, int y) {
+            blackCells.add(new Point(x, y));
             repaint();
+        }
+        public void fillCellRed(int x, int y){
+        	redCells.add(new Point(x, y));
+        	repaint();
         }
 
     }

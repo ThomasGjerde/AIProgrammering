@@ -18,6 +18,23 @@ public class Board {
 			setBoardSize(parseLine(input.get(0)));
 			setStartAndEnd(parseLine(input.get(1)));
 			generateBoard();
+			for(int i = 2; i < input.size(); i++){
+				System.out.println("Obstacle i:" + i);
+				generateObstacle(parseLine(input.get(i)));
+			}
+		}
+	}
+	private void generateObstacle(ArrayList<Integer> input){
+		//System.out.println("Obstacle: " + input.get(0) + ":" + input.get(1) + ":" + input.get(2) + ":" + input.get(3));
+		int x = input.get(0);
+		int y = input.get(1);
+		int width = input.get(2);
+		int height = input.get(3);
+		for(int i = x; i < (x + width); i++){
+			for(int j = y; j < (y + height); j++){
+				boardArray[i][j].status = Node.Status.Obstacle;
+				System.out.println("Obs:" + i + j);
+			}
 		}
 	}
 	private void generateBoard(){
@@ -44,7 +61,6 @@ public class Board {
 		ArrayList<Integer> returnArray = new ArrayList<Integer>();
 		for(int i = 0; i < tempArray.length; i++){
 			returnArray.add(Integer.parseInt(tempArray[i]));
-			System.out.println(tempArray[i]);
 		}
 		return returnArray;
 	}
