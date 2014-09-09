@@ -21,15 +21,33 @@ public class SearchTemp {
 		if(node == null){
 			return;
 		}
+		
+		node.setStatus(Status.Visiting);
+		graph1.setBoard(board1);
+		
+		try {
+			Thread.sleep(100);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		
 		node.setStatus(Status.Visited);
 		
+		for(Node n: node.getChildren()){
+			if(n.status == Status.Unvisited){
+				dfs(n);
+			}
+		}
+		/*
 		if(node.getNextChild(node) != null){
 			if(board1.endX == node.positionX && board1.endY == node.positionY){
 				
 			}else{
 				dfs(node.getNextChild(node));
 			}
-		}
+		}*/
 		System.out.println("rposX " + node.positionX + " rposY " + node.positionY);
 		/*
 		while(node.getChildren().size()>0){
@@ -62,7 +80,6 @@ public class SearchTemp {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
-					
 					
 					
 					r.setStatus(Status.Visiting);

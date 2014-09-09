@@ -62,24 +62,30 @@ public class Graphics implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		final SearchTemp temp = new SearchTemp(board1, this);
 		if(((JComboBox)e.getSource()).getSelectedIndex() == 1){
-			Thread worker = new Thread(){
+			Thread worker1 = new Thread(){
 				public void run(){
 				temp.aStar(board1.boardArray[board1.startX][board1.startY]);
 				}
 				};
-			worker.start();
+			worker1.start();
 		}
 		if(((JComboBox)e.getSource()).getSelectedIndex() == 2){
 			//temp.bfs(board1.boardArray[board1.startX][board1.startY]);
-			Thread worker = new Thread(){
+			Thread worker2 = new Thread(){
 				public void run(){
 				temp.bfs(board1.boardArray[board1.startX][board1.startY]);
 				}
 				};
-			worker.start();
+			worker2.start();
 		}
 		if(((JComboBox)e.getSource()).getSelectedIndex() == 3){
-			temp.dfs(board1.boardArray[board1.startX][board1.startY]);
+			//temp.dfs(board1.boardArray[board1.startX][board1.startY]);
+			Thread worker3 = new Thread(){
+				public void run(){
+				temp.dfs(board1.boardArray[board1.startX][board1.startY]);
+				}
+			};
+			worker3.start();
 		}
 		System.out.println(((JComboBox)e.getSource()).getSelectedItem().toString());
 		System.out.println(((JComboBox)e.getSource()).getSelectedIndex());
