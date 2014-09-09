@@ -77,11 +77,32 @@ public class SearchTemp {
 		
 	}
 	
-	public void aStar(){
+	public void aStar(Node node){
 		
 		ArrayList<Node> openList = new ArrayList<Node>(); //noder vi ikke har vært i
 		ArrayList<Node> closedList = new ArrayList<Node>(); //noder vi har vært i
+		boolean victory = false;
+		openList.add(node);
+		heuristic(node);
+		Node midNode = node;
+		while(!openList.isEmpty()){
+			for(int i = 0; i<midNode.getChildren().size(); i++){
+				heuristic(midNode.getChildren().get(i));
+				if(midNode.getChildren().get(i).h <= midNode.h){
+					openList.add(midNode.getChildren().get(i));
+				}else{
+					closedList.add(midNode.getChildren().get(i));
+				}
+			}
+			openList.remove(midNode);
+			midNode = openList.get(0);
+		}
 		
+		for(int j = 0;j<openList.size(); j++){
+			System.out.println("Node " + j + ": X: " + openList.get(j).positionX + " Y:" + openList.get(j).positionY);
+		}
+		//while(node.positionX != board.endX && node.positionY != board.endY){		
+		//}
 	}
 	
 	public int heuristic(Node node){
@@ -105,7 +126,7 @@ public class SearchTemp {
 		}
 		heuristic = midY + midX;
 		
-		//node.h = heuristic;
+		node.h = heuristic;
 		return heuristic;
 		
 	}
