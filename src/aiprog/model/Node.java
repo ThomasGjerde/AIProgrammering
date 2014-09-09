@@ -14,9 +14,12 @@ public class Node {
 	public ArrayList<Node> getChildren(){
 		return children;
 	}
+	public void setStatus(Status newStatus){
+		status = newStatus;
+	}
 	public enum Status {
 		Unvisited,
-		Current,
+		Visiting,
 		Visited
 	}
 }
