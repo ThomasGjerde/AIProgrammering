@@ -3,6 +3,8 @@ package aiprog.model;
 import java.io.*;
 import java.util.ArrayList;
 
+import javax.swing.JOptionPane;
+
 public class Board {
 	public int sizeX;
 	public int sizeY;
@@ -22,6 +24,9 @@ public class Board {
 				generateObstacle(parseLine(input.get(i)));
 			}
 			setChildrenForAllNodes();
+			for(Node node: boardArray[0][1].children){
+				System.out.println("(0,1) Child: (" + node.positionX + "," + node.positionY + ")");
+			}
 		}
 	}
 	
@@ -37,14 +42,13 @@ public class Board {
 		if(node.positionX > 0){
 			node.addChild(boardArray[node.positionX -1][node.positionY]);
 		}
-		if(node.positionX < sizeX){
+		if(node.positionX < sizeX - 1){
 			node.addChild(boardArray[node.positionX + 1][node.positionY]);
 		}
-		if(node.positionY > 0)
-		{
+		if(node.positionY > 0){
 			node.addChild(boardArray[node.positionX][node.positionY - 1]);
 		}
-		if(node.positionY < sizeY){
+		if(node.positionY < sizeY - 1){
 			node.addChild(boardArray[node.positionX][node.positionY + 1]);
 		}
 	}
