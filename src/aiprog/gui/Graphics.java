@@ -11,10 +11,14 @@ import javax.swing.UnsupportedLookAndFeelException;
 import aiprog.gui.MyCanvas.Grid;
 import aiprog.model.Board;
 import aiprog.model.Node;
+import aiprog.model.SearchTemp;
 
 public class Graphics implements ActionListener {
 	Grid grid;
-	public Graphics(){
+	Board board1;
+	public Graphics(Board board2){
+		this.board1 = board2;
+		//setBoard(board1);
 		try
 		{
 			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
@@ -56,6 +60,17 @@ public class Graphics implements ActionListener {
 	}
 	@Override
 	public void actionPerformed(ActionEvent e) {
+		SearchTemp temp = new SearchTemp(board1, this);
+		if(((JComboBox)e.getSource()).getSelectedIndex() == 1){
+			temp.aStar(board1.boardArray[board1.startX][board1.startY]);
+		}
+		if(((JComboBox)e.getSource()).getSelectedIndex() == 2){
+			temp.bfs(board1.boardArray[board1.startX][board1.startY]);
+		}
+		if(((JComboBox)e.getSource()).getSelectedIndex() == 3){
+			temp.dfs(board1.boardArray[board1.startX][board1.startY]);
+		}
 		System.out.println(((JComboBox)e.getSource()).getSelectedItem().toString());
+		System.out.println(((JComboBox)e.getSource()).getSelectedIndex());
 	}
 }

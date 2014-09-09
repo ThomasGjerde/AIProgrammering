@@ -13,7 +13,7 @@ public class Main {
 	public static void main(String[] args) {
 		try {
 			Board board = new Board("C:\\board.txt");
-			Graphics graphics = new Graphics();
+			Graphics graphics = new Graphics(board);
 			graphics.setBoard(board);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block

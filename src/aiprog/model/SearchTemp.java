@@ -4,14 +4,17 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Queue;
 
+import aiprog.gui.Graphics;
 import aiprog.model.Board;
 import aiprog.model.Node.Status;
 
 public class SearchTemp {
 	
-	Board board;
-	public SearchTemp(){
-		
+	Board board1;
+	Graphics graph1;
+	public SearchTemp(Board board, Graphics graph){
+		board1 = board;
+		graph1 = graph;
 	}
 	
 	public void dfs(Node node){
@@ -21,12 +24,13 @@ public class SearchTemp {
 		node.setStatus(Status.Visited);
 		
 		if(node.getNextChild(node) != null){
-			if(board.endX == node.positionX && board.endY == node.positionY){
+			if(board1.endX == node.positionX && board1.endY == node.positionY){
 				
 			}else{
 				dfs(node.getNextChild(node));
 			}
 		}
+		System.out.println("rposX " + node.positionX + " rposY " + node.positionY);
 		/*
 		while(node.getChildren().size()>0){
 			if(node.getChildren().get(0).status == Status.Unvisited){
@@ -47,15 +51,28 @@ public class SearchTemp {
 		
 		while(!queue.isEmpty()){
 			Node r = queue.remove();
-			//if(r.getNextChild(r) != null){
+			
+			
 				while(r.getNextChild(r) != null){
 					queue.add(r.getNextChild(r));
+					
+					try {
+						Thread.sleep(50);
+					} catch (InterruptedException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					
+					
+					
+					r.setStatus(Status.Visiting);
+					graph1.setBoard(board1);
+					System.out.println("rposX " + r.positionX + " rposY " + r.positionY);
 					r.getNextChild(r).setStatus(Status.Visited);
-					if(board.endX == r.positionX && board.endY == r.positionY){
-						break;
+					if(board1.endX == r.positionX && board1.endY == r.positionY){
+						System.out.println("ferdig vistnok");
 					}
 				}
-			//}
 		}
 		/*
 		while(!queue.isEmpty())
@@ -109,8 +126,8 @@ public class SearchTemp {
 		
 		int nodeX = Math.abs(node.positionX);
 		int nodeY = Math.abs(node.positionY);
-		int endX = Math.abs(board.endX);
-		int endY = Math.abs(board.endY);
+		int endX = Math.abs(board1.endX);
+		int endY = Math.abs(board1.endY);
 		int heuristic = 0;
 		int midX = 0;
 		int midY = 0;
