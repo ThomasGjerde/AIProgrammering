@@ -12,6 +12,7 @@ public class Node {
 	public Node(int positionX, int positionY){
 		status = Status.Unvisited;
 		children = new ArrayList<Node>();
+		h = 0;
 		this.positionX = positionX;
 		this.positionY = positionY;
 	}
