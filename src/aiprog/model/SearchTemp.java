@@ -75,4 +75,8 @@ public class SearchTemp {
 		
 	}
 	
+	public void aStar(){
+		
+	}
+	
 }

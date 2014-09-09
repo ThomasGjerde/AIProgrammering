@@ -30,7 +30,7 @@ public class Node {
 		}
 		//ArrayList<Node> validChildren = new ArrayList<Node>();
 		for(int i=0; i<node.getChildren().size(); i++){
-			if(node.getChildren().get(i).status == status.Unvisited){
+			if(node.getChildren().get(i).status == Status.Unvisited){
 				//validChildren.add(node.getChildren().get(i));
 				return node.getChildren().get(i);
 			}
