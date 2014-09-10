@@ -54,9 +54,9 @@ public class Graphics implements ActionListener {
         		}
         		else if(board.boardArray[i][board.sizeY - j].status == Node.Status.Visiting){
         			grid.fillCellRed(i, j);
-        		}else{
-        			grid.fillCellWhite(i, j);
-        		}
+        		}//else if(board.boardArray[i][board.sizeY - j].status == Node.Status.Unvisited){
+        			//grid.fillCellWhite(i, j);
+        		//}
         	}
         }
 	}

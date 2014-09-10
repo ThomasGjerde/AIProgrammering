@@ -12,17 +12,30 @@ public class SearchTemp {
 	
 	Board board1;
 	Graphics graph1;
+	ArrayList<Node> drawArray;
 	public SearchTemp(Board board, Graphics graph){
 		board1 = board;
 		graph1 = graph;
+		drawArray = new ArrayList<Node>();
 	}
 	
 	public void dfs(Node node){
 		if(node == null){
 			return;
 		}
+		drawArray.add(node);
+		
+		if(drawArray.size() > 10){
+			drawArray.get(drawArray.size()-1).setStatus(Status.Visited);
+			if(!drawArray.isEmpty()){
+				drawArray.remove(0);
+			}
+		}
+		
+		
 		
 		node.setStatus(Status.Visiting);
+		//drawArray.add(node);
 		graph1.setBoard(board1);
 		
 		try {
@@ -32,6 +45,7 @@ public class SearchTemp {
 			e.printStackTrace();
 		}
 		
+				
 		
 		node.setStatus(Status.Visited);
 		
