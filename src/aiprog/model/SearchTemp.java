@@ -93,7 +93,9 @@ public class SearchTemp {
 			}
 			
 				while(r.getNextChild(r) != null){
-					queue.add(r.getNextChild(r));
+					Node r2 = r.getNextChild(r);
+					r2.setStatus(Status.Visiting);
+					queue.add(r2);
 					
 					try {
 						Thread.sleep(100);
@@ -101,16 +103,14 @@ public class SearchTemp {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
-					
-					
-					r.setStatus(Status.Visiting);
 					graph1.setBoard(board1);
 					System.out.println("rposX " + r.positionX + " rposY " + r.positionY);
-					r.getNextChild(r).setStatus(Status.Visited);
+					//r.getNextChild(r).setStatus(Status.Visited);
 					if(board1.endX == r.positionX && board1.endY == r.positionY){
 						System.out.println("ferdig vistnok");
 					}
 				}
+				r.setStatus(Status.Visited);
 		}
 		/*
 		while(!queue.isEmpty())
