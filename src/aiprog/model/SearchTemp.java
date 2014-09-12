@@ -20,7 +20,12 @@ public class SearchTemp {
 	}
 	
 	public void dfs(Node node){
-		if(node == null){
+		if(node == null || board1.complete){
+			return;
+		}
+		if(board1.isEndNode(node)){
+			System.out.println("Goal");
+			board1.complete = true;
 			return;
 		}
 		drawArray.add(node);
@@ -47,13 +52,14 @@ public class SearchTemp {
 		
 				
 		
-		node.setStatus(Status.Visited);
+		
 		
 		for(Node n: node.getChildren()){
 			if(n.status == Status.Unvisited){
 				dfs(n);
 			}
 		}
+		node.setStatus(Status.Visited);
 		/*
 		if(node.getNextChild(node) != null){
 			if(board1.endX == node.positionX && board1.endY == node.positionY){

@@ -13,6 +13,7 @@ public class Board {
 	public int endX;
 	public int endY;
 	public Node[][] boardArray;
+	public boolean complete = false;
 	
 	public Board(String path) throws IOException{
 		ArrayList<String> input = getInputFromFile(path);
