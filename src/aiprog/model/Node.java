@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 public class Node {
 	public ArrayList<Node> children;
+	public Node parent;
 	public Status status;
 	public int positionX;
 	public int positionY;
@@ -29,13 +30,15 @@ public class Node {
 		status = newStatus;
 	}
 	
-	public Node getNextChild(Node node){
-		if(node.getChildren().isEmpty()){
+	public Node getNextChild(){
+		if(getChildren().isEmpty()){
 			return null;
 		}
-		for(int i=0; i<node.getChildren().size(); i++){
-			if(node.getChildren().get(i).status == Status.Unvisited){
-				return node.getChildren().get(i);
+		for(int i = 0; i < getChildren().size(); i++){
+			if(getChildren().get(i).status == Status.Unvisited){
+				Node child = getChildren().get(i);
+				child.parent = this;
+				return child;
 			}
 		}
 		return null;

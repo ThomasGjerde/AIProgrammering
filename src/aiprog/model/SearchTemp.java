@@ -92,8 +92,8 @@ public class SearchTemp {
 				break;
 			}
 			
-				while(r.getNextChild(r) != null){
-					Node r2 = r.getNextChild(r);
+				while(r.getNextChild() != null){
+					Node r2 = r.getNextChild();
 					r2.setStatus(Status.Visiting);
 					queue.add(r2);
 					
@@ -102,6 +102,18 @@ public class SearchTemp {
 					} catch (InterruptedException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
+					}
+					for(int i = 0; i < board1.sizeX; i++){
+						for(int j = 0; j < board1.sizeY; j++){
+							if(board1.boardArray[i][j].status == Status.Visiting){
+								board1.boardArray[i][j].status = Status.Visited;
+							}
+						}
+					}
+					while(r2.parent != null)
+					{
+						r2.setStatus(Status.Visiting);
+						r2 = r2.parent;
 					}
 					graph1.setBoard(board1);
 					System.out.println("rposX " + r.positionX + " rposY " + r.positionY);
