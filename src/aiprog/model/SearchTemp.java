@@ -79,16 +79,18 @@ public class SearchTemp {
 	public void bfs(Node node){
 		Queue<Node> queue = new LinkedList<Node>();
 		
-		if(node == null){
+		if(node == null || board1.complete){
 			return;
 		}
-		
 		node.setStatus(Status.Visited);
 		queue.add(node);
 		
 		while(!queue.isEmpty()){
 			Node r = queue.remove();
-			
+			if(board1.isEndNode(r)){
+				System.out.println("Goal");
+				break;
+			}
 			
 				while(r.getNextChild(r) != null){
 					queue.add(r.getNextChild(r));
