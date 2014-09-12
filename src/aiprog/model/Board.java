@@ -31,7 +31,13 @@ public class Board {
 			*/
 		}
 	}
-	
+	public boolean isEndNode(Node node){
+		if(node.positionX == endX && node.positionY == endY){
+			return true;
+		}else{
+			return false;
+		}
+	}
 	private void setChildrenForAllNodes(){
 		for(int i = 0; i < sizeX; i++){
 			for(int j = 0; j < sizeY; j++){
