@@ -51,15 +51,16 @@ public class Board {
 		if(node.positionX > 0){
 			node.addChild(boardArray[node.positionX -1][node.positionY]);
 		}
+		if(node.positionY < sizeY - 1){
+			node.addChild(boardArray[node.positionX][node.positionY + 1]);
+		}
 		if(node.positionX < sizeX - 1){
 			node.addChild(boardArray[node.positionX + 1][node.positionY]);
 		}
 		if(node.positionY > 0){
 			node.addChild(boardArray[node.positionX][node.positionY - 1]);
 		}
-		if(node.positionY < sizeY - 1){
-			node.addChild(boardArray[node.positionX][node.positionY + 1]);
-		}
+
 	}
 	private void generateObstacle(ArrayList<Integer> input){
 		//System.out.println("Obstacle: " + input.get(0) + ":" + input.get(1) + ":" + input.get(2) + ":" + input.get(3));
