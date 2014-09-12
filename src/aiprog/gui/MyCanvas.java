@@ -35,12 +35,13 @@ public class MyCanvas
             	g.setColor(Color.RED);
             	g.fillRect(cellX, cellY, 40, 40);
             }
-            /*for (Point whiteCell : whiteCells){
+            for (Point whiteCell : whiteCells){
             	int cellX = 40 + (whiteCell.x * 40);
             	int cellY = 40 + (whiteCell.y * 40);
             	g.setColor(Color.WHITE);
             	g.fillRect(cellX, cellY, 40, 40);
-            }*/
+            	//g.drawChars("End".toCharArray(),0,3,cellX,cellY);
+            }
             //g.setColor(Color.BLACK);
         }
 
@@ -51,6 +52,9 @@ public class MyCanvas
         public void fillCellRed(int x, int y){
         	redCells.add(new Point(x, y));
         	repaint();
+        }
+        public void clearRed(){
+        	redCells.clear();
         }
         public void fillCellWhite(int x, int y){
         	whiteCells.add(new Point(x, y));

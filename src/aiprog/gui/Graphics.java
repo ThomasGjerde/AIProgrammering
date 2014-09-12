@@ -45,6 +45,7 @@ public class Graphics implements ActionListener {
         grid.add(algorithmList);
 	}
 	public void setBoard(Board board){
+		grid.clearRed();
         for(int i = 0; i < board.sizeX; i++)
         {
         	for(int j = board.sizeY; j > 0; j--)
@@ -54,9 +55,9 @@ public class Graphics implements ActionListener {
         		}
         		else if(board.boardArray[i][board.sizeY - j].status == Node.Status.Visiting){
         			grid.fillCellRed(i, j);
-        		}//else if(board.boardArray[i][board.sizeY - j].status == Node.Status.Unvisited){
-        			//grid.fillCellWhite(i, j);
-        		//}
+        		}else if(board.boardArray[i][board.sizeY - j].positionX == board.endX && board.boardArray[i][board.sizeY - j].positionY == board.endY){
+        			grid.fillCellWhite(i, j);
+        		}
         	}
         }
 	}

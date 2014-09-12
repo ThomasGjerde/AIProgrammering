@@ -26,7 +26,6 @@ public class SearchTemp {
 		if(board1.isEndNode(node)){
 			System.out.println("Goal");
 			board1.complete = true;
-			return;
 		}
 		drawArray.add(node);
 		
