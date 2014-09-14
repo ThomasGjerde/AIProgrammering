@@ -13,10 +13,13 @@ public class SearchTemp {
 	Board board1;
 	Graphics graph1;
 	ArrayList<Node> drawArray;
+	ArrayList<Node> openList; //til aStar
+	
 	public SearchTemp(Board board, Graphics graph){
 		board1 = board;
 		graph1 = graph;
 		drawArray = new ArrayList<Node>();
+		openList = new ArrayList<Node>();
 	}
 	
 	public void dfs(Node node){
@@ -146,10 +149,19 @@ public class SearchTemp {
 	
 	public void aStar(Node node){
 		
-		ArrayList<Node> openList = new ArrayList<Node>(); //noder vi ikke har vært i
+		/*
+		Startnode: Legg til alle barna til openlist, og gi dem h i samme slengen
+		sorter h slik at laveste h er først
+		gå til laveste h, og legg til barna rundt denne nye noden i openlist (sorteres ved input). Legg startnode i closedlist.
+		parent burde lagres på en eller annen måte (ikke helt sikker på akkurat det her atm)
+		
+		*/
 		ArrayList<Node> closedList = new ArrayList<Node>(); //noder vi har vært i
-		boolean victory = false;
-		openList.add(node);
+		boolean victory = false; //ikke sikker på om denne skal brukes
+		closedList.add(node); //ingen vits og ha startnoden i openlist....
+		
+		//en for/while der jeg legger til barn?
+		
 		heuristic(node);
 		Node midNode = node;
 		while(!openList.isEmpty()){
@@ -172,8 +184,40 @@ public class SearchTemp {
 		//}
 	}
 	
+	//ikke testet, freestyle forsøk på noe ala insert sort, tror egentlig det er bubblesort med iterative adding da....
+	public void addToOpenList(Node node){
+		if(openList.isEmpty()){
+			openList.add(node);
+		}else if(openList.size() < 1){ //ikke sikker på om det skal være <1 eller <2 her
+			if(openList.get(0).h < node.h){
+				openList.add(node);
+			}else{
+				openList.add(openList.size()-1, node); //ho hey får håpe dette går
+			}
+		}else{
+			for(int i=0; i<openList.size(); i++){
+				int a = openList.get(i).h;
+				int b = openList.get(i+1).h;
+				if(node.h > a && node.h < b){
+					openList.add(i+1, node);
+				}else{
+					openList.add(openList.size()-1, node);
+				}
+			}
+		}
+	}
+	
+	public Node getBestOpenList(){
+		if(openList.isEmpty()){
+			return null;
+		}else{
+			return openList.get(0);
+		}
+	}
+	
 	public int heuristic(Node node){
-		
+		//her må noe gjøres
+		//må ha avstand tilbake til start etc
 		int nodeX = Math.abs(node.positionX);
 		int nodeY = Math.abs(node.positionY);
 		int endX = Math.abs(board1.endX);
