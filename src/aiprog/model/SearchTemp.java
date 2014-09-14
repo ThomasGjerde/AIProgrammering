@@ -250,9 +250,12 @@ public class SearchTemp {
 				int a = openList.get(i).h;
 				int b = openList.get(i+1).h;
 				//I HAVE SPOTTET THE CULPRIT!
-				if(node.h >= a && node.h <= b){
-					openList.add(i+1, node);
+				if(node.h == a || node.h == b){
+					openList.add(i, node);
 					System.out.println("hei her er jeg");
+				}else if(node.h > a && node.h < b){
+					openList.add(i, node);
+					System.out.println("hei her er jeg1");
 					System.out.println("nodeX: " + node.positionX + " nodeY: " + node.positionY);
 				}else{
 					openList.add(openList.size(), node);
