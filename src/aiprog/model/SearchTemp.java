@@ -158,10 +158,38 @@ public class SearchTemp {
 		*/
 		ArrayList<Node> closedList = new ArrayList<Node>(); //noder vi har vært i
 		boolean victory = false; //ikke sikker på om denne skal brukes
-		closedList.add(node); //ingen vits og ha startnoden i openlist....
+		heuristic(node); //håper denne kan greie 0 + distance to end.
+		openList.add(node); //ingen vits og ha startnoden i openlist....
 		
 		//en for/while der jeg legger til barn?
+		//og jeg må legge node.h fær sortereinga blir gjort, siden h ikke er en del a constructor i node.
 		
+		
+		//Har ikke tenkt det her skikkelig igjennom
+		//skal legge til barna her, mulig det blir 2 for loops:(
+		while(!openList.isEmpty()){
+			for(int i = 0; i<node.getChildren().size(); i++){
+				Node midNode = node.getChildren().get(i);
+				if(!openList.contains(midNode) && !closedList.contains(midNode)){
+					heuristic(midNode);
+					addToOpenList(midNode);
+				}
+			}
+			openList.remove(node);
+			closedList.add(node);
+			node.setStatus(Status.Visited);
+			getBestOpenList().parent = node; //det her ser skada ut, men vel, sparer en mid node da:P
+			node = getBestOpenList();
+			node.setStatus(Status.Visiting);
+		}
+		
+		//tror kanskje det her er greia, men føler at jeg mangler et eller annet
+		//mangler gui styr
+		//og status setting, bruker vel egentlig open og closedList som statuser, kanskje ikke openList
+		
+		
+		
+		/*
 		heuristic(node);
 		Node midNode = node;
 		while(!openList.isEmpty()){
@@ -176,7 +204,7 @@ public class SearchTemp {
 			openList.remove(midNode);
 			midNode = openList.get(0);
 		}
-		
+		*/
 		for(int j = 0;j<openList.size(); j++){
 			System.out.println("Node " + j + ": X: " + openList.get(j).positionX + " Y:" + openList.get(j).positionY);
 		}
@@ -214,17 +242,30 @@ public class SearchTemp {
 			return openList.get(0);
 		}
 	}
+	/*
+	public void removeFromOpenList(Node node){
+		openList.remove(node);
+	}
+	*/
 	
-	public int heuristic(Node node){
-		//her må noe gjøres
-		//må ha avstand tilbake til start etc
-		int nodeX = Math.abs(node.positionX);
-		int nodeY = Math.abs(node.positionY);
-		int endX = Math.abs(board1.endX);
-		int endY = Math.abs(board1.endY);
-		int heuristic = 0;
-		int midX = 0;
-		int midY = 0;
+	public void heuristic(Node node){
+		//vet ikke om dette funker
+		//utesta
+		
+		
+		//DistToFinish
+		int nodeX = node.positionX;
+		int nodeY = node.positionY;
+		int endX = board1.endX;
+		int endY = board1.endY;
+		int startX = board1.startX;
+		int startY = board1.startY;
+		int distToFinish;
+		int distFromStart;
+		int midX;
+		int midY;
+		
+		//DistToFinish
 		if(nodeX > endX){
 			midX = nodeX - endX;
 		}else{
@@ -235,10 +276,22 @@ public class SearchTemp {
 		}else{
 			midY = endY - nodeY;
 		}
-		heuristic = midY + midX;
+		distToFinish = midY + midX;
 		
-		node.h = heuristic;
-		return heuristic;
+		//DistFromStart
+		
+		if(startX > nodeX){
+			midX = startX - nodeX;
+		}else{
+			midX = nodeX - startX;
+		}
+		if(startY > nodeY){
+			midY = startY - nodeY;
+		}else{
+			midY = nodeY - startY;
+		}
+		distFromStart = midY + midX;
+		node.h = distFromStart + distToFinish;
 		
 	}
 	
