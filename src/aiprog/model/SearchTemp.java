@@ -159,6 +159,7 @@ public class SearchTemp {
 		ArrayList<Node> closedList = new ArrayList<Node>(); //noder vi har vært i
 		boolean victory = false; //ikke sikker på om denne skal brukes
 		heuristic(node); //håper denne kan greie 0 + distance to end.
+		System.out.println("NodeH: " + node.h);
 		openList.add(node); //ingen vits og ha startnoden i openlist....
 		
 		//en for/while der jeg legger til barn?
@@ -172,9 +173,11 @@ public class SearchTemp {
 		//faen, kanskje det her er en uendelig loop?
 		//hem, nei alt skal jo ende opp i closedList tilslutt, og da blir de jo ikke adda 
 		//må være denne
-		while(!openList.isEmpty()){
+		//while(!openList.isEmpty()){
+		while(!victory){
 			for(int i = 0; i<node.getChildren().size(); i++){
 				Node midNode = node.getChildren().get(i);
+				System.out.println("NodeCX: " + midNode.positionX + " NodeCY: " + midNode.positionY);
 				if(!openList.contains(midNode) || !closedList.contains(midNode)){
 					heuristic(midNode);
 					addToOpenList(midNode);
@@ -196,6 +199,9 @@ public class SearchTemp {
 				e.printStackTrace();
 			}*/
 			graph1.setBoard(board1);
+			if(node.positionX == board1.endX && node.positionY == board1.endY){
+				victory = true;
+			}
 		}
 		
 		//tror kanskje det her er greia, men føler at jeg mangler et eller annet
@@ -238,15 +244,21 @@ public class SearchTemp {
 				openList.add(openList.size()-1, node); //ho hey får håpe dette går
 			}
 		}else{
+			//okey wtf, det er denne som suger ja!
 			for(int i=0; i<openList.size(); i++){
+				//System.out.println(openList.size() + " i: " + i);
 				int a = openList.get(i).h;
 				int b = openList.get(i+1).h;
-				if(node.h > a && node.h < b){
+				//I HAVE SPOTTET THE CULPRIT!
+				if(node.h >= a && node.h <= b){
 					openList.add(i+1, node);
+					System.out.println("hei her er jeg");
+					System.out.println("nodeX: " + node.positionX + " nodeY: " + node.positionY);
 				}else{
 					openList.add(openList.size(), node);
 				}
 			}
+			System.out.println("Jeg er ute");
 		}
 	}
 	
