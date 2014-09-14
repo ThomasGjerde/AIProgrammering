@@ -160,7 +160,7 @@ public class SearchTemp {
 		boolean victory = false; //ikke sikker på om denne skal brukes
 		heuristic(node); //håper denne kan greie 0 + distance to end.
 		System.out.println("NodeH: " + node.h);
-		openList.add(node); //ingen vits og ha startnoden i openlist....
+		closedList.add(node); //ingen vits og ha startnoden i openlist....
 		
 		//en for/while der jeg legger til barn?
 		//og jeg må legge node.h fær sortereinga blir gjort, siden h ikke er en del a constructor i node.
@@ -177,28 +177,32 @@ public class SearchTemp {
 		while(!victory){
 			for(int i = 0; i<node.getChildren().size(); i++){
 				Node midNode = node.getChildren().get(i);
-				System.out.println("NodeCX: " + midNode.positionX + " NodeCY: " + midNode.positionY);
-				if(((!openList.contains(midNode) || !closedList.contains(midNode)) && midNode.status != Status.Visited) && midNode.status != Status.Obstacle){
+				//System.out.println("NodeCX: " + midNode.positionX + " NodeCY: " + midNode.positionY);
+				if(!openList.contains(midNode) && !closedList.contains(midNode) && midNode.status != Status.Visited && midNode.status != Status.Obstacle){
 					heuristic(midNode);
 					addToOpenList(midNode);
-					System.out.println("X: " + openList.get(i).positionX + " Y: " + openList.get(i).positionY + " H: " + openList.get(i).h);
+					//System.out.println("X: " + openList.get(i).positionX + " Y: " + openList.get(i).positionY + " H: " + openList.get(i).h);
 				}
 			}
+			
 			openList.remove(node);
+			System.out.println("OpenListSize: " + openList.size());
 			closedList.add(node);
-			//node.setStatus(Status.Visited);
+			node.setStatus(Status.Visited);
 			getBestOpenList().parent = node; //det her ser skada ut, men vel, sparer en mid node da:P
 			node = getBestOpenList();
 			node.setStatus(Status.Visiting);
 			//trenger og bremse det her nå
 			//okey det er helt klart noe galt med openList greia, size på 10000.....
+			
 			try {
-				Thread.sleep(100);
+				Thread.sleep(1000);
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			System.out.println("openList: " + openList.size());
+			
+			//System.out.println("openList: " + openList.size());
 			graph1.setBoard(board1);
 			if(node.positionX == board1.endX && node.positionY == board1.endY){
 				victory = true;
@@ -227,9 +231,11 @@ public class SearchTemp {
 			midNode = openList.get(0);
 		}
 		*/
+		/*
 		for(int j = 0;j<openList.size(); j++){
-			System.out.println("Node " + j + ": X: " + openList.get(j).positionX + " Y:" + openList.get(j).positionY);
+			//System.out.println("Node " + j + ": X: " + openList.get(j).positionX + " Y:" + openList.get(j).positionY);
 		}
+		*/
 		//while(node.positionX != board.endX && node.positionY != board.endY){		
 		//}
 	}
@@ -242,7 +248,7 @@ public class SearchTemp {
 			if(openList.get(0).h < node.h){
 				openList.add(node);
 			}else{
-				openList.add(openList.size()-1, node); //ho hey får håpe dette går
+				openList.add(node); //ho hey får håpe dette går
 			}
 		}else{
 			//okey wtf, det er denne som suger ja!
@@ -258,7 +264,7 @@ public class SearchTemp {
 					openList.add(i+1, node);
 					break;
 				}else{
-					openList.add(openList.size(), node);
+					openList.add(node);
 				}
 			}
 		}
