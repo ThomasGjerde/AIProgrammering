@@ -167,12 +167,18 @@ public class SearchTemp {
 		
 		//Har ikke tenkt det her skikkelig igjennom
 		//skal legge til barna her, mulig det blir 2 for loops:(
+		
+		//her er det et eller annet alvorlig galt....
+		//faen, kanskje det her er en uendelig loop?
+		//hem, nei alt skal jo ende opp i closedList tilslutt, og da blir de jo ikke adda 
 		while(!openList.isEmpty()){
 			for(int i = 0; i<node.getChildren().size(); i++){
 				Node midNode = node.getChildren().get(i);
-				if(!openList.contains(midNode) && !closedList.contains(midNode)){
+				if(!openList.contains(midNode) || !closedList.contains(midNode)){
 					heuristic(midNode);
 					addToOpenList(midNode);
+					System.out.println("NodeX: " + openList.get(i).positionX + " NodeY: " + openList.get(i).positionY);
+					System.out.println("H" + midNode.h);
 				}
 			}
 			openList.remove(node);
@@ -181,12 +187,20 @@ public class SearchTemp {
 			getBestOpenList().parent = node; //det her ser skada ut, men vel, sparer en mid node da:P
 			node = getBestOpenList();
 			node.setStatus(Status.Visiting);
+			/*
+			try {
+				Thread.sleep(100);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}*/
+			graph1.setBoard(board1);
 		}
 		
 		//tror kanskje det her er greia, men føler at jeg mangler et eller annet
 		//mangler gui styr
 		//og status setting, bruker vel egentlig open og closedList som statuser, kanskje ikke openList
-		
+		//fK! har glemt victory state
 		
 		
 		/*
@@ -216,7 +230,7 @@ public class SearchTemp {
 	public void addToOpenList(Node node){
 		if(openList.isEmpty()){
 			openList.add(node);
-		}else if(openList.size() < 1){ //ikke sikker på om det skal være <1 eller <2 her
+		}else if(openList.size() < 2){ //ikke sikker på om det skal være <1 eller <2 her
 			if(openList.get(0).h < node.h){
 				openList.add(node);
 			}else{
