@@ -251,12 +251,14 @@ public class SearchTemp {
 				int b = openList.get(i+1).h;
 				//I HAVE SPOTTET THE CULPRIT!
 				if(node.h == a || node.h == b){
-					openList.add(i, node);
+					openList.add(i+1, node);
 					System.out.println("hei her er jeg");
+					break;
 				}else if(node.h > a && node.h < b){
-					openList.add(i, node);
+					openList.add(i+1, node);
 					System.out.println("hei her er jeg1");
 					System.out.println("nodeX: " + node.positionX + " nodeY: " + node.positionY);
+					break;
 				}else{
 					openList.add(openList.size(), node);
 				}
