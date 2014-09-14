@@ -182,6 +182,7 @@ public class SearchTemp {
 				//System.out.println("NodeCX: " + midNode.positionX + " NodeCY: " + midNode.positionY);
 				if(!openList.contains(midNode) && !closedList.contains(midNode) && midNode.status != Status.Visited && midNode.status != Status.Obstacle){
 					heuristic(midNode);
+					midNode.parent = node;
 					addToOpenList(midNode);
 					//System.out.println("X: " + openList.get(i).positionX + " Y: " + openList.get(i).positionY + " H: " + openList.get(i).h);
 				}
@@ -191,20 +192,34 @@ public class SearchTemp {
 			System.out.println("OpenListSize: " + openList.size());
 			closedList.add(node);
 			node.setStatus(Status.Visited);
-			getBestOpenList().parent = node; //det her ser skada ut, men vel, sparer en mid node da:P
+			//getBestOpenList().parent = node; //det her ser skada ut, men vel, sparer en mid node da:P
 			node = getBestOpenList();
 			node.setStatus(Status.Visiting);
 			//trenger og bremse det her nå
 			//okey det er helt klart noe galt med openList greia, size på 10000.....
 			
 			try {
-				Thread.sleep(1000);
+				Thread.sleep(100);
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			
 			//System.out.println("openList: " + openList.size());
+			for(int i = 0; i < board1.sizeX; i++){
+				for(int j = 0; j < board1.sizeY; j++){
+					if(board1.boardArray[i][j].status == Status.Visiting){
+						System.out.println("(" + i + "," + j + ") Visiting");
+						board1.boardArray[i][j].status = Status.Visited;
+					}
+				}
+			}			
+			Node r2 = node;
+			while(r2.parent != null)
+			{
+				r2.setStatus(Status.Visiting);
+				r2 = r2.parent;
+			}
 			graph1.setBoard(board1);
 			if(node.positionX == board1.endX && node.positionY == board1.endY){
 				victory = true;
