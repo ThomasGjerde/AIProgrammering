@@ -1,6 +1,8 @@
 package aiprog.model;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.Queue;
 
@@ -242,6 +244,15 @@ public class SearchTemp {
 	
 	//ikke testet, freestyle forsøk på noe ala insert sort, tror egentlig det er bubblesort med iterative adding da....
 	public void addToOpenList(Node node){
+
+		openList.add(node);
+		Collections.sort(openList, new Comparator<Node>(){
+		     public int compare(Node o1, Node o2){
+		    	 return o1.h - o2.h;
+		     }
+		});
+/*
+		System.out.println("AddToOpenList Triggered");
 		if(openList.isEmpty()){
 			openList.add(node);
 		}else if(openList.size() < 2){ //ikke sikker på om det skal være <1 eller <2 her
@@ -253,21 +264,26 @@ public class SearchTemp {
 		}else{
 			//okey wtf, det er denne som suger ja!
 			for(int i=0; i<openList.size(); i++){
+				System.out.println("Node: (" + node.positionX + "," + node.positionY + ")");
 				//System.out.println(openList.size() + " i: " + i);
 				int a = openList.get(i).h;
 				int b = openList.get(i+1).h;
 				//I HAVE SPOTTET THE CULPRIT!
 				if(node.h == a || node.h == b){
 					openList.add(i+1, node);
+					System.out.println("Added");
 					break;
 				}else if(node.h > a && node.h < b){
 					openList.add(i+1, node);
+					System.out.println("Added");
 					break;
 				}else{
 					openList.add(node);
+					System.out.println("Added by catch all");
 				}
 			}
 		}
+		*/
 	}
 	
 	public Node getBestOpenList(){
