@@ -178,26 +178,27 @@ public class SearchTemp {
 			for(int i = 0; i<node.getChildren().size(); i++){
 				Node midNode = node.getChildren().get(i);
 				System.out.println("NodeCX: " + midNode.positionX + " NodeCY: " + midNode.positionY);
-				if(!openList.contains(midNode) || !closedList.contains(midNode)){
+				if(((!openList.contains(midNode) || !closedList.contains(midNode)) && midNode.status != Status.Visited) && midNode.status != Status.Obstacle){
 					heuristic(midNode);
 					addToOpenList(midNode);
-					System.out.println("NodeX: " + openList.get(i).positionX + " NodeY: " + openList.get(i).positionY);
-					System.out.println("H" + midNode.h);
+					System.out.println("X: " + openList.get(i).positionX + " Y: " + openList.get(i).positionY + " H: " + openList.get(i).h);
 				}
 			}
 			openList.remove(node);
 			closedList.add(node);
-			node.setStatus(Status.Visited);
+			//node.setStatus(Status.Visited);
 			getBestOpenList().parent = node; //det her ser skada ut, men vel, sparer en mid node da:P
 			node = getBestOpenList();
 			node.setStatus(Status.Visiting);
-			/*
+			//trenger og bremse det her nå
+			//okey det er helt klart noe galt med openList greia, size på 10000.....
 			try {
 				Thread.sleep(100);
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
-			}*/
+			}
+			System.out.println("openList: " + openList.size());
 			graph1.setBoard(board1);
 			if(node.positionX == board1.endX && node.positionY == board1.endY){
 				victory = true;
@@ -252,18 +253,14 @@ public class SearchTemp {
 				//I HAVE SPOTTET THE CULPRIT!
 				if(node.h == a || node.h == b){
 					openList.add(i+1, node);
-					System.out.println("hei her er jeg");
 					break;
 				}else if(node.h > a && node.h < b){
 					openList.add(i+1, node);
-					System.out.println("hei her er jeg1");
-					System.out.println("nodeX: " + node.positionX + " nodeY: " + node.positionY);
 					break;
 				}else{
 					openList.add(openList.size(), node);
 				}
 			}
-			System.out.println("Jeg er ute");
 		}
 	}
 	
@@ -311,7 +308,7 @@ public class SearchTemp {
 		distToFinish = midY + midX;
 		
 		//DistFromStart
-		
+		/*
 		if(startX > nodeX){
 			midX = startX - nodeX;
 		}else{
@@ -323,8 +320,9 @@ public class SearchTemp {
 			midY = nodeY - startY;
 		}
 		distFromStart = midY + midX;
-		node.h = distFromStart + distToFinish;
-		
+		*/
+		//node.h = distFromStart + distToFinish;
+		node.h = distToFinish;
 	}
 	
 }
