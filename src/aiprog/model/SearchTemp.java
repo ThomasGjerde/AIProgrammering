@@ -171,6 +171,7 @@ public class SearchTemp {
 		//her er det et eller annet alvorlig galt....
 		//faen, kanskje det her er en uendelig loop?
 		//hem, nei alt skal jo ende opp i closedList tilslutt, og da blir de jo ikke adda 
+		//må være denne
 		while(!openList.isEmpty()){
 			for(int i = 0; i<node.getChildren().size(); i++){
 				Node midNode = node.getChildren().get(i);
@@ -243,7 +244,7 @@ public class SearchTemp {
 				if(node.h > a && node.h < b){
 					openList.add(i+1, node);
 				}else{
-					openList.add(openList.size()-1, node);
+					openList.add(openList.size(), node);
 				}
 			}
 		}
