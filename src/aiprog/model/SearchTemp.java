@@ -12,25 +12,25 @@ import aiprog.model.Node.Status;
 
 public class SearchTemp {
 	
-	Board board1;
-	Graphics graph1;
+	Board board;
+	Graphics graph;
 	ArrayList<Node> drawArray;
 	ArrayList<Node> openList; //til aStar
 	
 	public SearchTemp(Board board, Graphics graph){
-		board1 = board;
-		graph1 = graph;
+		this.board = board;
+		this.graph = graph;
 		drawArray = new ArrayList<Node>();
 		openList = new ArrayList<Node>();
 	}
 	
 	public void dfs(Node node){
-		if(node == null || board1.complete){
+		if(node == null || board.complete){
 			return;
 		}
-		if(board1.isEndNode(node)){
+		if(board.isEndNode(node)){
 			System.out.println("Goal");
-			board1.complete = true;
+			board.complete = true;
 		}
 		drawArray.add(node);
 		
@@ -40,12 +40,8 @@ public class SearchTemp {
 				drawArray.remove(0);
 			}
 		}
-		
-		
-		
 		node.setStatus(Status.Visiting);
-		//drawArray.add(node);
-		graph1.setBoard(board1);
+		graph.setBoard(board);
 		
 		try {
 			Thread.sleep(100);
@@ -53,38 +49,18 @@ public class SearchTemp {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
-				
-		
-		
-		
 		for(Node n: node.getChildren()){
 			if(n.status == Status.Unvisited){
 				dfs(n);
 			}
 		}
 		node.setStatus(Status.Visited);
-		/*
-		if(node.getNextChild(node) != null){
-			if(board1.endX == node.positionX && board1.endY == node.positionY){
-				
-			}else{
-				dfs(node.getNextChild(node));
-			}
-		}*/
-		System.out.println("rposX " + node.positionX + " rposY " + node.positionY);
-		/*
-		while(node.getChildren().size()>0){
-			if(node.getChildren().get(0).status == Status.Unvisited){
-				dfs(node.getChildren().get(0));
-			}
-		}*/
 	}
 	
 	public void bfs(Node node){
 		Queue<Node> queue = new LinkedList<Node>();
 		
-		if(node == null || board1.complete){
+		if(node == null || board.complete){
 			return;
 		}
 		node.setStatus(Status.Visited);
@@ -92,7 +68,7 @@ public class SearchTemp {
 		
 		while(!queue.isEmpty()){
 			Node r = queue.remove();
-			if(board1.isEndNode(r)){
+			if(board.isEndNode(r)){
 				System.out.println("Goal");
 				break;
 			}
@@ -108,10 +84,10 @@ public class SearchTemp {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
-					for(int i = 0; i < board1.sizeX; i++){
-						for(int j = 0; j < board1.sizeY; j++){
-							if(board1.boardArray[i][j].status == Status.Visiting){
-								board1.boardArray[i][j].status = Status.Visited;
+					for(int i = 0; i < board.sizeX; i++){
+						for(int j = 0; j < board.sizeY; j++){
+							if(board.boardArray[i][j].status == Status.Visiting){
+								board.boardArray[i][j].status = Status.Visited;
 							}
 						}
 					}
@@ -120,71 +96,25 @@ public class SearchTemp {
 						r2.setStatus(Status.Visiting);
 						r2 = r2.parent;
 					}
-					graph1.setBoard(board1);
-					System.out.println("rposX " + r.positionX + " rposY " + r.positionY);
-					//r.getNextChild(r).setStatus(Status.Visited);
-					if(board1.endX == r.positionX && board1.endY == r.positionY){
-						System.out.println("ferdig vistnok");
-					}
+					graph.setBoard(board);
 				}
 				r.setStatus(Status.Visited);
 		}
-		/*
-		while(!queue.isEmpty())
-        {
-            //removes from front of queue
-            Node r = queue.remove(); 
-
-            //Visit child first before grandchild
-            for(Node n: r.getChild())
-            {
-                if(n.state == State.Unvisited)
-                {
-                    queue.add(n);
-                    n.state = State.Visited;
-                }
-            }
-        }
-        */
-		
 	}
 	
 	public void aStar(Node node){
-		
-		/*
-		Startnode: Legg til alle barna til openlist, og gi dem h i samme slengen
-		sorter h slik at laveste h er først
-		gå til laveste h, og legg til barna rundt denne nye noden i openlist (sorteres ved input). Legg startnode i closedlist.
-		parent burde lagres på en eller annen måte (ikke helt sikker på akkurat det her atm)
-		
-		*/
-		ArrayList<Node> closedList = new ArrayList<Node>(); //noder vi har vært i
-		boolean victory = false; //ikke sikker på om denne skal brukes
-		heuristic(node); //håper denne kan greie 0 + distance to end.
+		ArrayList<Node> closedList = new ArrayList<Node>(); //Visited nodes
+		boolean victory = false;
+		heuristic(node);
 		System.out.println("NodeH: " + node.h);
 		closedList.add(node); //ingen vits og ha startnoden i openlist....
-		
-		//en for/while der jeg legger til barn?
-		//og jeg må legge node.h fær sortereinga blir gjort, siden h ikke er en del a constructor i node.
-		
-		
-		//Har ikke tenkt det her skikkelig igjennom
-		//skal legge til barna her, mulig det blir 2 for loops:(
-		
-		//her er det et eller annet alvorlig galt....
-		//faen, kanskje det her er en uendelig loop?
-		//hem, nei alt skal jo ende opp i closedList tilslutt, og da blir de jo ikke adda 
-		//må være denne
-		//while(!openList.isEmpty()){
 		while(!victory){
 			for(int i = 0; i<node.getChildren().size(); i++){
 				Node midNode = node.getChildren().get(i);
-				//System.out.println("NodeCX: " + midNode.positionX + " NodeCY: " + midNode.positionY);
 				if(!openList.contains(midNode) && !closedList.contains(midNode) && midNode.status != Status.Visited && midNode.status != Status.Obstacle){
 					heuristic(midNode);
 					midNode.parent = node;
 					addToOpenList(midNode);
-					//System.out.println("X: " + openList.get(i).positionX + " Y: " + openList.get(i).positionY + " H: " + openList.get(i).h);
 				}
 			}
 			
@@ -192,11 +122,8 @@ public class SearchTemp {
 			System.out.println("OpenListSize: " + openList.size());
 			closedList.add(node);
 			node.setStatus(Status.Visited);
-			//getBestOpenList().parent = node; //det her ser skada ut, men vel, sparer en mid node da:P
 			node = getBestOpenList();
 			node.setStatus(Status.Visiting);
-			//trenger og bremse det her nå
-			//okey det er helt klart noe galt med openList greia, size på 10000.....
 			
 			try {
 				Thread.sleep(100);
@@ -206,11 +133,11 @@ public class SearchTemp {
 			}
 			
 			//System.out.println("openList: " + openList.size());
-			for(int i = 0; i < board1.sizeX; i++){
-				for(int j = 0; j < board1.sizeY; j++){
-					if(board1.boardArray[i][j].status == Status.Visiting){
+			for(int i = 0; i < board.sizeX; i++){
+				for(int j = 0; j < board.sizeY; j++){
+					if(board.boardArray[i][j].status == Status.Visiting){
 						System.out.println("(" + i + "," + j + ") Visiting");
-						board1.boardArray[i][j].status = Status.Visited;
+						board.boardArray[i][j].status = Status.Visited;
 					}
 				}
 			}			
@@ -220,85 +147,20 @@ public class SearchTemp {
 				r2.setStatus(Status.Visiting);
 				r2 = r2.parent;
 			}
-			graph1.setBoard(board1);
-			if(node.positionX == board1.endX && node.positionY == board1.endY){
+			graph.setBoard(board);
+			if(node.positionX == board.endX && node.positionY == board.endY){
 				victory = true;
 			}
 		}
-		
-		//tror kanskje det her er greia, men føler at jeg mangler et eller annet
-		//mangler gui styr
-		//og status setting, bruker vel egentlig open og closedList som statuser, kanskje ikke openList
-		//fK! har glemt victory state
-		
-		
-		/*
-		heuristic(node);
-		Node midNode = node;
-		while(!openList.isEmpty()){
-			for(int i = 0; i<midNode.getChildren().size(); i++){
-				heuristic(midNode.getChildren().get(i));
-				if(midNode.getChildren().get(i).h <= midNode.h){
-					openList.add(midNode.getChildren().get(i));
-				}else{
-					closedList.add(midNode.getChildren().get(i));
-				}
-			}
-			openList.remove(midNode);
-			midNode = openList.get(0);
-		}
-		*/
-		/*
-		for(int j = 0;j<openList.size(); j++){
-			//System.out.println("Node " + j + ": X: " + openList.get(j).positionX + " Y:" + openList.get(j).positionY);
-		}
-		*/
-		//while(node.positionX != board.endX && node.positionY != board.endY){		
-		//}
 	}
 	
-	//ikke testet, freestyle forsøk på noe ala insert sort, tror egentlig det er bubblesort med iterative adding da....
 	public void addToOpenList(Node node){
-
 		openList.add(node);
 		Collections.sort(openList, new Comparator<Node>(){
 		     public int compare(Node o1, Node o2){
 		    	 return o1.h - o2.h;
 		     }
 		});
-/*
-		System.out.println("AddToOpenList Triggered");
-		if(openList.isEmpty()){
-			openList.add(node);
-		}else if(openList.size() < 2){ //ikke sikker på om det skal være <1 eller <2 her
-			if(openList.get(0).h < node.h){
-				openList.add(node);
-			}else{
-				openList.add(node); //ho hey får håpe dette går
-			}
-		}else{
-			//okey wtf, det er denne som suger ja!
-			for(int i=0; i<openList.size(); i++){
-				System.out.println("Node: (" + node.positionX + "," + node.positionY + ")");
-				//System.out.println(openList.size() + " i: " + i);
-				int a = openList.get(i).h;
-				int b = openList.get(i+1).h;
-				//I HAVE SPOTTET THE CULPRIT!
-				if(node.h == a || node.h == b){
-					openList.add(i+1, node);
-					System.out.println("Added");
-					break;
-				}else if(node.h > a && node.h < b){
-					openList.add(i+1, node);
-					System.out.println("Added");
-					break;
-				}else{
-					openList.add(node);
-					System.out.println("Added by catch all");
-				}
-			}
-		}
-		*/
 	}
 	
 	public Node getBestOpenList(){
@@ -308,11 +170,6 @@ public class SearchTemp {
 			return openList.get(0);
 		}
 	}
-	/*
-	public void removeFromOpenList(Node node){
-		openList.remove(node);
-	}
-	*/
 	
 	public void heuristic(Node node){
 		//vet ikke om dette funker
@@ -322,10 +179,10 @@ public class SearchTemp {
 		//DistToFinish
 		int nodeX = node.positionX;
 		int nodeY = node.positionY;
-		int endX = board1.endX;
-		int endY = board1.endY;
-		int startX = board1.startX;
-		int startY = board1.startY;
+		int endX = board.endX;
+		int endY = board.endY;
+		int startX = board.startX;
+		int startY = board.startY;
 		int distToFinish;
 		int distFromStart;
 		int midX;

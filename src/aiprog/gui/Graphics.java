@@ -15,17 +15,13 @@ import aiprog.model.SearchTemp;
 
 public class Graphics implements ActionListener {
 	Grid grid;
-	Board board1;
-	public Graphics(Board board2){
-		this.board1 = board2;
-		//setBoard(board1);
-		try
-		{
+	Board board;
+	public Graphics(Board board){
+		this.board = board;
+		try{
 			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
 		} catch (ClassNotFoundException | InstantiationException
-				| IllegalAccessException | UnsupportedLookAndFeelException e)
-		{
-			// TODO Auto-generated catch block
+				| IllegalAccessException | UnsupportedLookAndFeelException e){
 			e.printStackTrace();
 		}
 		//Board
@@ -45,7 +41,7 @@ public class Graphics implements ActionListener {
         grid.add(algorithmList);
 	}
 	public void setBoard(Board board){
-		grid.clearRed();
+		grid.clearRed(); //Delete old tail
         for(int i = 0; i < board.sizeX; i++)
         {
         	for(int j = board.sizeY; j > 0; j--)
@@ -63,34 +59,33 @@ public class Graphics implements ActionListener {
 	}
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		final SearchTemp temp = new SearchTemp(board1, this);
+		final SearchTemp temp = new SearchTemp(board, this);
 		if(((JComboBox)e.getSource()).getSelectedIndex() == 1){
 			Thread worker1 = new Thread(){
 				public void run(){
-				temp.aStar(board1.boardArray[board1.startX][board1.startY]);
+					board.resetBoard();
+				temp.aStar(board.boardArray[board.startX][board.startY]);
 				}
 				};
 			worker1.start();
 		}
 		if(((JComboBox)e.getSource()).getSelectedIndex() == 2){
-			//temp.bfs(board1.boardArray[board1.startX][board1.startY]);
 			Thread worker2 = new Thread(){
 				public void run(){
-				temp.bfs(board1.boardArray[board1.startX][board1.startY]);
+					board.resetBoard();
+				temp.bfs(board.boardArray[board.startX][board.startY]);
 				}
 				};
 			worker2.start();
 		}
 		if(((JComboBox)e.getSource()).getSelectedIndex() == 3){
-			//temp.dfs(board1.boardArray[board1.startX][board1.startY]);
 			Thread worker3 = new Thread(){
 				public void run(){
-				temp.dfs(board1.boardArray[board1.startX][board1.startY]);
+					board.resetBoard();
+				temp.dfs(board.boardArray[board.startX][board.startY]);
 				}
 			};
 			worker3.start();
 		}
-		System.out.println(((JComboBox)e.getSource()).getSelectedItem().toString());
-		System.out.println(((JComboBox)e.getSource()).getSelectedIndex());
 	}
 }

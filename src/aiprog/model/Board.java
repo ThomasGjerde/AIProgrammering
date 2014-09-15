@@ -5,6 +5,8 @@ import java.util.ArrayList;
 
 import javax.swing.JOptionPane;
 
+import aiprog.model.Node.Status;
+
 public class Board {
 	public int sizeX;
 	public int sizeY;
@@ -25,11 +27,6 @@ public class Board {
 				generateObstacle(parseLine(input.get(i)));
 			}
 			setChildrenForAllNodes();
-			/* Test for node
-			for(Node node: boardArray[0][1].children){
-				System.out.println("(0,1) Child: (" + node.positionX + "," + node.positionY + ")");
-			}
-			*/
 		}
 	}
 	public boolean isEndNode(Node node){
@@ -37,6 +34,17 @@ public class Board {
 			return true;
 		}else{
 			return false;
+		}
+	}
+	public void resetBoard(){
+		complete = false;
+		for(int i = 0; i < sizeX; i++){
+			for(int j = 0; j < sizeY; j++){
+				Node currentNode = boardArray[i][j];
+				if(currentNode.status != Status.Obstacle){
+					currentNode.status = Status.Unvisited;
+				}
+			}
 		}
 	}
 	private void setChildrenForAllNodes(){
@@ -47,7 +55,6 @@ public class Board {
 		}
 	}
 	private void setChildren(Node node){
-		System.out.println("Current node: (" + node.positionX + "," + node.positionY + ")");
 		if(node.positionX > 0){
 			node.addChild(boardArray[node.positionX -1][node.positionY]);
 		}
@@ -60,10 +67,8 @@ public class Board {
 		if(node.positionY > 0){
 			node.addChild(boardArray[node.positionX][node.positionY - 1]);
 		}
-
 	}
 	private void generateObstacle(ArrayList<Integer> input){
-		//System.out.println("Obstacle: " + input.get(0) + ":" + input.get(1) + ":" + input.get(2) + ":" + input.get(3));
 		int x = input.get(0);
 		int y = input.get(1);
 		int width = input.get(2);
@@ -111,5 +116,4 @@ public class Board {
 	    br.close();
 	    return returnArray;
 	}
-
 }
