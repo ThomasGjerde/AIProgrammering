@@ -33,6 +33,7 @@ public class SearchTemp {
 			System.out.println("Goal");
 			System.out.println("Steps: " + board.steps);
 			board.complete = true;
+			pathLength();
 		}
 		node.setStatus(Status.Visiting);
 		graph.setBoard(board);
@@ -64,6 +65,7 @@ public class SearchTemp {
 			if(board.isEndNode(r)){
 				System.out.println("Goal");
 				System.out.println("Steps: " + board.steps);
+				pathLength();
 				break;
 			}
 			
@@ -143,6 +145,7 @@ public class SearchTemp {
 				victory = true;
 				System.out.println("Goal");
 				System.out.println("Steps: " + board.steps);
+				pathLength();
 			}
 		}
 	}
@@ -163,6 +166,17 @@ public class SearchTemp {
 		}else{
 			return openList.get(0);
 		}
+	}
+	
+	public void pathLength(){
+		int pathLength = 0;
+		for(int x=0; x< board.sizeX; x++){
+			for(int y=0; y<board.sizeY; y++)
+				if(board.boardArray[x][y].status == Status.Visiting){
+					pathLength++;
+				}
+		}
+		System.out.println("PathLength: " + pathLength);
 	}
 	
 	public void heuristic(Node node){
