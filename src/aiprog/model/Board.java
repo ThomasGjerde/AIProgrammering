@@ -14,6 +14,7 @@ public class Board {
 	public int startY;
 	public int endX;
 	public int endY;
+	public int steps = 0;
 	public Node[][] boardArray;
 	public boolean complete = false;
 	
@@ -38,6 +39,7 @@ public class Board {
 	}
 	public void resetBoard(){
 		complete = false;
+		steps = 0;
 		for(int i = 0; i < sizeX; i++){
 			for(int j = 0; j < sizeY; j++){
 				Node currentNode = boardArray[i][j];

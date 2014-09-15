@@ -21,7 +21,7 @@ public class MyCanvas
         }
 
         @Override
-        protected void paintComponent(Graphics g) {
+        protected synchronized void paintComponent(Graphics g) {
             super.paintComponent(g);
             for (Point blackCell : blackCells) {
                 int cellX = scale + (blackCell.x * scale);

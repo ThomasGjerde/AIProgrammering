@@ -50,4 +50,16 @@ public class Node {
 		Visited,
 		Obstacle
 	}
+	public int getCostFromStart(){
+		Node tempNode = this.parent;
+		int cost = 0;
+		if(tempNode == null){
+			return 0;
+		}
+		while(tempNode.parent != null){
+			cost++;
+			tempNode = tempNode.parent;
+		}
+		return cost;
+	}
 }
