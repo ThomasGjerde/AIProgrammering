@@ -106,8 +106,9 @@ public class SearchTemp {
 			for(int i = 0; i<node.getChildren().size(); i++){
 				Node midNode = node.getChildren().get(i);
 				if(!openList.contains(midNode) && !closedList.contains(midNode) && midNode.status != Status.Visited && midNode.status != Status.Obstacle){
-					heuristic(midNode);
 					midNode.parent = node;
+					heuristic(midNode);
+	
 					addToOpenList(midNode);
 					board.steps++;
 				}
@@ -156,6 +157,7 @@ public class SearchTemp {
 	}
 	
 	public Node getBestOpenList(){
+
 		if(openList.isEmpty()){
 			return null;
 		}else{
@@ -174,16 +176,8 @@ public class SearchTemp {
 		int midY;
 		
 		//DistToFinish
-		if(nodeX > endX){
-			midX = nodeX - endX;
-		}else{
-			midX = endX - nodeX;
-		}
-		if(nodeY > endY){
-			midY = nodeY - endY;
-		}else{
-			midY = endY - nodeY;
-		}
+		midX = Math.abs(nodeX - endX);
+		midY = Math.abs(nodeY - endY);
 		distToFinish = midY + midX;
 		
 		//DistFromStart
