@@ -59,7 +59,6 @@ public class SearchTemp {
 		}
 		node.setStatus(Status.Visited);
 		queue.add(node);
-		
 		while(!queue.isEmpty()){
 			Node r = queue.remove();
 			if(board.isEndNode(r)){
@@ -74,6 +73,7 @@ public class SearchTemp {
 					Node r2 = r.getNextChild();
 					r2.setStatus(Status.Visiting);
 					queue.add(r2);
+					
 					
 					try {
 						Thread.sleep(100);
@@ -95,7 +95,6 @@ public class SearchTemp {
 					}
 					graph.setBoard(board);
 				}
-				r.setStatus(Status.Visited);
 		}
 	}
 	
