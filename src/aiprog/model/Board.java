@@ -2,18 +2,12 @@ package aiprog.model;
 
 import java.io.*;
 import java.util.ArrayList;
-
-import javax.swing.JOptionPane;
-
 import aiprog.model.Node.Status;
 
 public class Board {
-	public int sizeX;
-	public int sizeY;
-	public int startX;
-	public int startY;
-	public int endX;
-	public int endY;
+	public Point size;
+	public Point startPos;
+	public Point endPos;
 	public int steps = 0;
 	public Node[][] boardArray;
 	public boolean complete = false;
@@ -31,7 +25,7 @@ public class Board {
 		}
 	}
 	public boolean isEndNode(Node node){
-		if(node.positionX == endX && node.positionY == endY){
+		if(node.pos.x == endPos.x && node.pos.y == endPos.y){
 			return true;
 		}else{
 			return false;
@@ -40,8 +34,8 @@ public class Board {
 	public void resetBoard(){
 		complete = false;
 		steps = 0;
-		for(int i = 0; i < sizeX; i++){
-			for(int j = 0; j < sizeY; j++){
+		for(int i = 0; i < size.x; i++){
+			for(int j = 0; j < size.y; j++){
 				Node currentNode = boardArray[i][j];
 				if(currentNode.status != Status.Obstacle){
 					currentNode.status = Status.Unvisited;
@@ -50,24 +44,24 @@ public class Board {
 		}
 	}
 	private void setChildrenForAllNodes(){
-		for(int i = 0; i < sizeX; i++){
-			for(int j = 0; j < sizeY; j++){
+		for(int i = 0; i < size.x; i++){
+			for(int j = 0; j < size.y; j++){
 				setChildren(boardArray[i][j]);
 			}
 		}
 	}
 	private void setChildren(Node node){
-		if(node.positionX > 0){
-			node.addChild(boardArray[node.positionX -1][node.positionY]);
+		if(node.pos.x > 0){
+			node.addChild(boardArray[node.pos.x -1][node.pos.y]);
 		}
-		if(node.positionY < sizeY - 1){
-			node.addChild(boardArray[node.positionX][node.positionY + 1]);
+		if(node.pos.y < size.y - 1){
+			node.addChild(boardArray[node.pos.x][node.pos.y + 1]);
 		}
-		if(node.positionX < sizeX - 1){
-			node.addChild(boardArray[node.positionX + 1][node.positionY]);
+		if(node.pos.x < size.x - 1){
+			node.addChild(boardArray[node.pos.x + 1][node.pos.y]);
 		}
-		if(node.positionY > 0){
-			node.addChild(boardArray[node.positionX][node.positionY - 1]);
+		if(node.pos.y > 0){
+			node.addChild(boardArray[node.pos.x][node.pos.y - 1]);
 		}
 	}
 	private void generateObstacle(ArrayList<Integer> input){
@@ -82,23 +76,22 @@ public class Board {
 		}
 	}
 	private void generateBoard(){
-		boardArray = new Node[sizeX][sizeY];
-		for(int i = 0; i < sizeX; i++){
-			for(int j = 0; j < sizeY; j++)
-			{
-				boardArray[i][j] = new Node(i,j);
+		boardArray = new Node[size.x][size.y];
+		for(int i = 0; i < size.x; i++){
+			for(int j = 0; j < size.y; j++){
+				boardArray[i][j] = new Node(new Point(i,j));
 			}
 		}
 	}
 	private void setBoardSize(ArrayList<Integer> input){
-		sizeX = input.get(0);
-		sizeY = input.get(1);
+		size.x = input.get(0);
+		size.y = input.get(1);
 	}
 	private void setStartAndEnd(ArrayList<Integer> input){
-		startX = input.get(0);
-		startY = input.get(1);
-		endX = input.get(2);
-		endY = input.get(3);
+		startPos.x = input.get(0);
+		startPos.y = input.get(1);
+		endPos.x = input.get(2);
+		endPos.y = input.get(3);
 	}
 	private ArrayList<Integer> parseLine(String input){
 		String tempArray[] = input.split(",");
