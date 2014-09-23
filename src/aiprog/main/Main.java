@@ -1,7 +1,6 @@
 package aiprog.main;
 
 import java.io.IOException;
-import aiprog.gui.Graphics;
 import aiprog.model.Board;
 
 
@@ -12,9 +11,9 @@ public class Main {
 	 */
 	public static void main(String[] args) {
 		try {
-			Board board = new Board("C:\\board.txt");
-			Graphics graphics = new Graphics(board);
-			graphics.setBoard(board);
+			Board board = new Board("/home/board.txt");
+			GridDepthFirstSearch gbfs = new GridDepthFirstSearch(board.boardArray[board.startPos.x][board.startPos.y], board.endPos, board);
+			gbfs.search();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
