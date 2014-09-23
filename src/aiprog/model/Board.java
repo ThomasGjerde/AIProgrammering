@@ -5,9 +5,9 @@ import java.util.ArrayList;
 import aiprog.model.Node.Status;
 
 public class Board {
-	public Point size;
-	public Point startPos;
-	public Point endPos;
+	public Point size = new Point();
+	public Point startPos = new Point();
+	public Point endPos = new Point();
 	public int steps = 0;
 	public Node[][] boardArray;
 	public boolean complete = false;

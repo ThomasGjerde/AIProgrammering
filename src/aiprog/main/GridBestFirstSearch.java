@@ -18,6 +18,13 @@ public class GridBestFirstSearch extends BestFirstSearch{
 
 	@Override
 	protected void updateGui() {
+		try {
+			Thread.sleep(100);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		//System.out.println("GUI");
 		for(int i = 0; i < board.size.x; i++){
 			for(int j = 0; j < board.size.y; j++){
 				if(board.boardArray[i][j].status == Status.Visiting){

@@ -9,16 +9,15 @@ import aiprog.model.Node.Status;
 import aiprog.model.Point;
 
 public abstract class AStar {
-	protected ArrayList<Node> openList;
-	protected ArrayList<Node> closedList;
+	protected ArrayList<Node> openList = new ArrayList<Node>();
+	protected ArrayList<Node> closedList = new ArrayList<Node>();
 	protected Node currentNode;
-	protected Point endPoint;
+	protected Point endPoint = new Point();
 	public AStar(Node startNode, Point endPoint){
 		this.currentNode = startNode;
 		this.endPoint = endPoint;
 	}
-	protected void search(){
-		closedList = new ArrayList<Node>(); //Visited nodes
+	public void search(){
 		boolean victory = false;
 		setHeuristic(currentNode);
 		closedList.add(currentNode); //ingen vits og ha startnoden i openlist....

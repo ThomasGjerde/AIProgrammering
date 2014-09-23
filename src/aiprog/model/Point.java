@@ -7,6 +7,9 @@ public class Point {
 		this.x = x;
 		this.y = y;
 	}
+	public Point(){
+		
+	}
 	public int getManhattanDistance(Point endPoint){
 		int xDist = Math.abs(this.x - endPoint.x);
 		int yDist = Math.abs(this.y - endPoint.y);

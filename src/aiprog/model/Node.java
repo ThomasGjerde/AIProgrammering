@@ -6,7 +6,7 @@ public class Node {
 	public ArrayList<Node> children;
 	public Node parent;
 	public Status status;
-	public Point pos;
+	public Point pos = new Point();
 	public int heuristic;
 	
 	public Node(Point position){
