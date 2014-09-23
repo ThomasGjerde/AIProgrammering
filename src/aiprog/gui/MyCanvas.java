@@ -8,6 +8,7 @@ import javax.swing.JPanel;
 
 public class MyCanvas
 {
+	@SuppressWarnings("serial")
 	public static class Grid extends JPanel {
 		private static int scale = 30;
         private List<Point> blackCells;

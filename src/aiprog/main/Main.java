@@ -12,7 +12,7 @@ public class Main {
 	public static void main(String[] args) {
 		try {
 			Board board = new Board("/home/board.txt");
-			GridBestFirstSearch gbfs = new GridBestFirstSearch(board.boardArray[board.startPos.x][board.startPos.y], board.endPos, board);
+			GridDepthFirstSearch gbfs = new GridDepthFirstSearch(board.boardArray[board.startPos.x][board.startPos.y], board.endPos, board);
 			gbfs.search();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block

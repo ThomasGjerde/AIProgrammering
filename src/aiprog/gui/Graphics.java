@@ -7,7 +7,6 @@ import javax.swing.UnsupportedLookAndFeelException;
 import aiprog.gui.MyCanvas.Grid;
 import aiprog.model.Board;
 import aiprog.model.Node;
-import aiprog.model.SearchTemp;
 
 public class Graphics {
 	Grid grid;
