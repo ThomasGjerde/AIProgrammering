@@ -3,7 +3,6 @@ package aiprog.search;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
-
 import aiprog.model.Node;
 import aiprog.model.Node.Status;
 import aiprog.model.Point;
@@ -13,6 +12,8 @@ public abstract class AStar {
 	protected ArrayList<Node> closedList = new ArrayList<Node>();
 	protected Node currentNode;
 	protected Point endPoint = new Point();
+	private int steps = 0;
+	private int pathLength = 0;
 	public AStar(Node startNode, Point endPoint){
 		this.currentNode = startNode;
 		this.endPoint = endPoint;
@@ -20,7 +21,7 @@ public abstract class AStar {
 	public void search(){
 		boolean victory = false;
 		setHeuristic(currentNode);
-		closedList.add(currentNode); //ingen vits og ha startnoden i openlist....
+		closedList.add(currentNode);
 		while(!victory){
 			for(int i = 0; i < currentNode.getChildren().size(); i++){
 				Node midNode = currentNode.getChildren().get(i);
@@ -38,13 +39,22 @@ public abstract class AStar {
 			currentNode.setStatus(Status.Visited);
 			currentNode = getBestOpenList();
 			currentNode.setStatus(Status.Visiting);
+			steps++;
 			updateGui();
 			
 			if(currentNode.pos.x == endPoint.x && currentNode.pos.y == endPoint.y){
 				victory = true;
 				System.out.println("Goal");
-				//System.out.println("Steps: " + board.steps);
-				//pathLength();
+				calculatePathLenght();
+			}
+		}
+	}
+	private void calculatePathLenght(){
+		if(currentNode != null){
+			Node tempNode = currentNode;
+			while(tempNode != null){
+				tempNode = tempNode.parent;
+				pathLength++;
 			}
 		}
 	}
@@ -57,7 +67,6 @@ public abstract class AStar {
 		});
 	}
 	protected Node getBestOpenList(){
-
 		if(openList.isEmpty()){
 			return null;
 		}else{
