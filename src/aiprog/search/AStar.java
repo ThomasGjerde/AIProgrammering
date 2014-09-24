@@ -72,6 +72,12 @@ public abstract class AStar {
 			return openList.get(0);
 		}
 	}
+	public int getSteps(){
+		return steps;
+	}
+	public int getPathLength(){
+		return pathLength;
+	}
 	protected abstract void setHeuristic(Node node);
 	protected abstract void updateGui();
 }
