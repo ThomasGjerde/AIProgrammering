@@ -29,17 +29,27 @@ public class Node {
 	}
 	
 	public Node getNextChild(){
-		if(getChildren().isEmpty()){
+		if(children.isEmpty()){
 			return null;
 		}
-		for(int i = 0; i < getChildren().size(); i++){
-			if(getChildren().get(i).status == Status.Unvisited){
-				Node child = getChildren().get(i);
-				child.parent = this;
+		for(int i = 0; i < children.size(); i++){
+			if(children.get(i).status == Status.Unvisited){
+				Node child = children.get(i);
+				//child.parent = this;
 				return child;
 			}
 		}
 		return null;
+	}
+	public ArrayList<Node> getUnoccupiedChildren(){
+		ArrayList<Node> returnArray = new ArrayList<Node>();
+		for(int i = 0; i < children.size(); i++){
+			Node tempNode = children.get(i);
+			if(tempNode.status == Status.Unvisited || tempNode.status == Status.Visiting){
+				returnArray.add(tempNode);
+			}
+		}
+		return returnArray;
 	}
 	
 	public enum Status {

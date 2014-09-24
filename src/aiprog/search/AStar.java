@@ -23,17 +23,16 @@ public abstract class AStar {
 		setHeuristic(currentNode);
 		closedList.add(currentNode);
 		while(!victory){
-			for(int i = 0; i < currentNode.getChildren().size(); i++){
-				Node midNode = currentNode.getChildren().get(i);
-				//Remember to move obstacle check to Node
-				if(!openList.contains(midNode) && !closedList.contains(midNode) && midNode.status != Status.Visited && midNode.status != Status.Obstacle){
-					midNode.parent = currentNode;
-					setHeuristic(midNode);
-	
-					addToOpenList(midNode);
-					//board.steps++;
+			ArrayList<Node> children = currentNode.getUnoccupiedChildren();
+			for(int i = 0; i < children.size(); i++){
+				Node tempNode = children.get(i);
+				if(!openList.contains(tempNode) && !closedList.contains(tempNode)){
+					tempNode.parent = currentNode;
+					setHeuristic(tempNode);
+					addToOpenList(tempNode);
 				}
 			}
+			
 			openList.remove(currentNode);
 			closedList.add(currentNode);
 			currentNode.setStatus(Status.Visited);
