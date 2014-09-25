@@ -1,4 +1,4 @@
-package aiprog.main;
+package aiprog.navigation;
 
 import aiprog.gui.Graphics;
 import aiprog.model.Board;

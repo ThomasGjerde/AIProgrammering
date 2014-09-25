@@ -5,21 +5,18 @@ import java.util.Collections;
 import java.util.Comparator;
 import aiprog.model.Node;
 import aiprog.model.Node.Status;
-import aiprog.model.Point;
 
 public abstract class AStar {
 	protected ArrayList<Node> openList = new ArrayList<Node>();
 	protected ArrayList<Node> closedList = new ArrayList<Node>();
 	protected Node currentNode;
-	protected Point endPoint = new Point();
 	private int steps = 0;
 	private int pathLength = 0;
-	public AStar(Node startNode, Point endPoint){
+	protected boolean victory = false;
+	public AStar(Node startNode){
 		this.currentNode = startNode;
-		this.endPoint = endPoint;
 	}
 	public void search(){
-		boolean victory = false;
 		setHeuristic(currentNode);
 		closedList.add(currentNode);
 		while(!victory){
@@ -40,15 +37,16 @@ public abstract class AStar {
 			currentNode.setStatus(Status.Visiting);
 			steps++;
 			updateGui();
-			
-			if(currentNode.pos.x == endPoint.x && currentNode.pos.y == endPoint.y){
-				victory = true;
-				System.out.println("Goal");
+			victory = checkVictory();
+			if(victory){
+				System.out.println("Victory");
 				calculatePathLenght();
 			}
+
 		}
 	}
-	private void calculatePathLenght(){
+	protected abstract boolean checkVictory();
+	protected void calculatePathLenght(){
 		if(currentNode != null){
 			Node tempNode = currentNode;
 			while(tempNode != null){
