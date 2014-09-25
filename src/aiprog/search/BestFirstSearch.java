@@ -3,7 +3,7 @@ package aiprog.search;
 import aiprog.model.Node;
 import aiprog.model.Point;
 
-public abstract class BestFirstSearch extends AStar{
+public abstract class BestFirstSearch extends AStarWithEndPoint{
 
 	public BestFirstSearch(Node startNode, Point endPoint) {
 		super(startNode, endPoint);

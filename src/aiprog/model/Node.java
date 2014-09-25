@@ -8,11 +8,13 @@ public class Node {
 	public Status status;
 	public Point pos = new Point();
 	public int heuristic;
+	public int cost;
 	
 	public Node(Point position){
 		status = Status.Unvisited;
 		children = new ArrayList<Node>();
 		heuristic = 0;
+		cost = 1;
 		this.pos = position;
 	}
 	
@@ -26,20 +28,6 @@ public class Node {
 	
 	public void setStatus(Status newStatus){
 		status = newStatus;
-	}
-	
-	public Node getNextChild(){
-		if(children.isEmpty()){
-			return null;
-		}
-		for(int i = 0; i < children.size(); i++){
-			if(children.get(i).status == Status.Unvisited){
-				Node child = children.get(i);
-				//child.parent = this;
-				return child;
-			}
-		}
-		return null;
 	}
 	public ArrayList<Node> getUnoccupiedChildren(){
 		ArrayList<Node> returnArray = new ArrayList<Node>();
@@ -65,7 +53,7 @@ public class Node {
 			return 0;
 		}
 		while(tempNode.parent != null){
-			cost++;
+			cost += tempNode.cost;
 			tempNode = tempNode.parent;
 		}
 		return cost;

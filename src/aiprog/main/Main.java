@@ -2,6 +2,7 @@ package aiprog.main;
 
 import java.io.IOException;
 import aiprog.model.Board;
+import aiprog.navigation.GridBestFirstSearch;
 
 
 public class Main {

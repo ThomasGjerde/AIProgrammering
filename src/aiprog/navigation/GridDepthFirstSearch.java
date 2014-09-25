@@ -1,30 +1,31 @@
-package aiprog.main;
+package aiprog.navigation;
 
 import aiprog.gui.Graphics;
 import aiprog.model.Board;
 import aiprog.model.Node;
-import aiprog.model.Node.Status;
 import aiprog.model.Point;
-import aiprog.search.BestFirstSearch;
+import aiprog.model.Node.Status;
+import aiprog.search.DepthFirstSearch;
 
-public class GridBestFirstSearch extends BestFirstSearch{
+public class GridDepthFirstSearch extends DepthFirstSearch{
 	Board board;
 	Graphics graphics;
-	public GridBestFirstSearch(Node startNode, Point endPoint, Board board) {
+	public GridDepthFirstSearch(Node startNode, Point endPoint, Board board) {
 		super(startNode, endPoint);
 		this.board = board;
 		graphics = new Graphics(board);
+		// TODO Auto-generated constructor stub
 	}
 
 	@Override
 	protected void updateGui() {
+		
 		try {
 			Thread.sleep(100);
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		//System.out.println("GUI");
 		for(int i = 0; i < board.size.x; i++){
 			for(int j = 0; j < board.size.y; j++){
 				if(board.boardArray[i][j].status == Status.Visiting){
@@ -40,5 +41,4 @@ public class GridBestFirstSearch extends BestFirstSearch{
 		}
 		graphics.setBoard(board);
 	}
-
 }
