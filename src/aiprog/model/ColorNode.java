@@ -4,10 +4,10 @@ import java.awt.Color;
 import java.util.ArrayList;
 
 public class ColorNode extends Node {
-	ArrayList<Color> standardColors;
-	ArrayList<Color> domain;
-	ArrayList<Constraint> constraints;
-	Color nodeColor;
+	public ArrayList<Color> standardColors;
+	public ArrayList<Color> domain;
+	public ArrayList<Constraint> constraints;
+	public Color nodeColor;
 	
 	public ColorNode(Point position){
 		super(position);
