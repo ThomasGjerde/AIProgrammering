@@ -16,4 +16,10 @@ public class Constraint {
 		}
 		return false;
 	}
+	public ColorNode getConstraintX(){
+		return x;
+	}
+	public ColorNode getConstraintY(){
+		return y;
+	}
 }
