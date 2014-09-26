@@ -39,6 +39,16 @@ public class ColorNode extends Node {
 		return domain;
 	}
 	
+	public boolean reduseDomain(Color removeColor){
+		if(!this.getDomain().isEmpty()){
+			if(this.getDomain().contains(removeColor)){
+				getDomain().remove(removeColor);
+				return true;
+			}
+		}
+		return false;
+	}
+	
 	public void addDomain(){
 		domain.add(standardColors.get(0));
 		standardColors.remove(0);
