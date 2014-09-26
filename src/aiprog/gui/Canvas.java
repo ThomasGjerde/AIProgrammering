@@ -15,9 +15,9 @@ public abstract class Canvas extends JPanel{
         @Override
         protected synchronized void paintComponent(Graphics g) {
             super.paintComponent(g);
-            renderGraphics();
+            renderGraphics(g);
         }
-        protected abstract void renderGraphics();
+        protected abstract void renderGraphics(Graphics g);
         
 
 }
