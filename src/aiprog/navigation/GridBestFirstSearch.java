@@ -1,6 +1,6 @@
 package aiprog.navigation;
 
-import aiprog.gui.Graphics;
+import aiprog.gui.GridGraphics;
 import aiprog.model.Board;
 import aiprog.model.Node;
 import aiprog.model.Node.Status;
@@ -9,11 +9,11 @@ import aiprog.search.BestFirstSearch;
 
 public class GridBestFirstSearch extends BestFirstSearch{
 	Board board;
-	Graphics graphics;
+	GridGraphics graphics;
 	public GridBestFirstSearch(Node startNode, Point endPoint, Board board) {
 		super(startNode, endPoint);
 		this.board = board;
-		graphics = new Graphics(board);
+		graphics = new GridGraphics(board);
 	}
 
 	@Override

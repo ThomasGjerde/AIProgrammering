@@ -1,6 +1,6 @@
 package aiprog.navigation;
 
-import aiprog.gui.Graphics;
+import aiprog.gui.GridGraphics;
 import aiprog.model.Board;
 import aiprog.model.Node;
 import aiprog.model.Point;
@@ -9,11 +9,11 @@ import aiprog.search.DepthFirstSearch;
 
 public class GridDepthFirstSearch extends DepthFirstSearch{
 	Board board;
-	Graphics graphics;
+	GridGraphics graphics;
 	public GridDepthFirstSearch(Node startNode, Point endPoint, Board board) {
 		super(startNode, endPoint);
 		this.board = board;
-		graphics = new Graphics(board);
+		graphics = new GridGraphics(board);
 		// TODO Auto-generated constructor stub
 	}
 

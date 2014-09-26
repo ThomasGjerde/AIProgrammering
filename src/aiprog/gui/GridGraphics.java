@@ -4,14 +4,14 @@ import javax.swing.JFrame;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
-import aiprog.gui.MyCanvas.Grid;
+import aiprog.gui.GridCanvas.Grid;
 import aiprog.model.Board;
 import aiprog.model.Node;
 
-public class Graphics {
+public class GridGraphics {
 	Grid grid;
 	Board board;
-	public Graphics(Board board){
+	public GridGraphics(Board board){
 		this.board = board;
 		try{
 			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
