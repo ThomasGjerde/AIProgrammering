@@ -13,6 +13,7 @@ public class StateNode extends Node{
 		victoryState = checkVictory(this.nodes);
 	}
 	
+	//dette må skrives om, vekk med constraints
 	public boolean checkVictory(ArrayList<ColorNode> completeList){
 		boolean check = true;
 		for(int i=0; i<completeList.size(); i++){
@@ -29,6 +30,14 @@ public class StateNode extends Node{
 	
 	public boolean isVictory(){
 		return victoryState;
+	}
+	
+	
+	//Øker domenet i alle nodene med 1 farge
+	public void increaseNodeDomain(){
+		for(int i=0; i<getNodeList().size(); i++){
+			getNodeList().get(i).addDomain();
+		}
 	}
 	
 	public void setParent(StateNode parentNode){
