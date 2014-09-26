@@ -1,6 +1,6 @@
 package aiprog.navigation;
 
-import aiprog.gui.GridGraphics;
+import aiprog.gui.BoardGraphics;
 import aiprog.model.Board;
 import aiprog.model.Node;
 import aiprog.model.Point;
@@ -9,11 +9,11 @@ import aiprog.search.BreadthFirstSearch;
 
 public class GridBreadthFirstSearch extends BreadthFirstSearch{
 	Board board;
-	GridGraphics graphics;
+	BoardGraphics graphics;
 	public GridBreadthFirstSearch(Node startNode, Point endPoint, Board board) {
 		super(startNode, endPoint);
 		this.board = board;
-		graphics = new GridGraphics(board);
+		graphics = new BoardGraphics(board);
 		// TODO Auto-generated constructor stub
 	}
 
