@@ -8,6 +8,7 @@ public class ColorNode extends Node {
 	public ArrayList<Color> domain;
 	public ArrayList<Constraint> constraints;
 	public Color nodeColor;
+	public int id = -1;
 	
 	public ColorNode(Point position){
 		super(position);

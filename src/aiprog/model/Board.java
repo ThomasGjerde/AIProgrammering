@@ -3,6 +3,7 @@ package aiprog.model;
 import java.io.*;
 import java.util.ArrayList;
 import aiprog.model.Node.Status;
+import aiprog.utility.IOUtils;
 
 public class Board {
 	public Point size = new Point();
@@ -13,7 +14,7 @@ public class Board {
 	public boolean complete = false;
 	
 	public Board(String path) throws IOException{
-		ArrayList<String> input = getInputFromFile(path);
+		ArrayList<String> input = IOUtils.getInputFromFile(path);
 		if(input.size() >= 2){
 			setBoardSize(parseLine(input.get(0)));
 			setStartAndEnd(parseLine(input.get(1)));
@@ -23,6 +24,14 @@ public class Board {
 			}
 			setChildrenForAllNodes();
 		}
+	}
+	public ArrayList<Integer> parseLine(String input){
+		String tempArray[] = input.split(",");
+		ArrayList<Integer> returnArray = new ArrayList<Integer>();
+		for(int i = 0; i < tempArray.length; i++){
+			returnArray.add(Integer.parseInt(tempArray[i]));
+		}
+		return returnArray;
 	}
 	public boolean isEndNode(Node node){
 		if(node.pos.x == endPos.x && node.pos.y == endPos.y){
@@ -92,23 +101,5 @@ public class Board {
 		startPos.y = input.get(1);
 		endPos.x = input.get(2);
 		endPos.y = input.get(3);
-	}
-	private ArrayList<Integer> parseLine(String input){
-		String tempArray[] = input.split(",");
-		ArrayList<Integer> returnArray = new ArrayList<Integer>();
-		for(int i = 0; i < tempArray.length; i++){
-			returnArray.add(Integer.parseInt(tempArray[i]));
-		}
-		return returnArray;
-	}
-	private ArrayList<String> getInputFromFile(String path) throws IOException{
-		BufferedReader br = new BufferedReader(new FileReader(new File(path)));
-		ArrayList<String> returnArray = new ArrayList<String>();
-		String line;
-	    while ((line = br.readLine()) != null) {
-	        returnArray.add(line.replace("(", "").replace(")","").replace(" ", ","));
-	    }
-	    br.close();
-	    return returnArray;
 	}
 }
