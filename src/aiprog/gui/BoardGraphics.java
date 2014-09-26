@@ -21,14 +21,15 @@ public class BoardGraphics extends Graphics{
         	for(int j = board.size.y; j > 0; j--)
         	{
         		if(board.boardArray[i][board.size.y - j].status == Node.Status.Obstacle){
-        			grid.setCellColor(i, j -1, Color.BLACK);
+        			grid.setCellColorWithoutRepaint(i, j -1, Color.BLACK);
         		}
         		else if(board.boardArray[i][board.size.y - j].status == Node.Status.Visiting){
-        			grid.setCellColor(i, j -1, Color.RED);
+        			grid.setCellColorWithoutRepaint(i, j -1, Color.RED);
         		}else if(board.boardArray[i][board.size.y - j].pos.x == board.endPos.x && board.boardArray[i][board.size.y - j].pos.y == board.endPos.y){
-        			grid.setCellColor(i, j -1, Color.WHITE);
+        			grid.setCellColorWithoutRepaint(i, j -1, Color.WHITE);
         		}
         	}
         }
+        grid.repaint();
 	}
 }

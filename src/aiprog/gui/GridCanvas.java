@@ -26,6 +26,9 @@ public class GridCanvas extends Canvas
 		cells[x][y] = color;
 		repaint();
 	}
+	public void setCellColorWithoutRepaint(int x, int y, Color color){
+		cells[x][y] = color;
+	}
 	protected void renderGraphics(Graphics g) {
 		for(int i = 0; i < cells.length; i++){
 			for(int j = 0; j < cells[0].length; j++){
