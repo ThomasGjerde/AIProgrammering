@@ -9,6 +9,7 @@ public class ColorNode extends Node {
 	public ArrayList<Constraint> constraints;
 	public Color nodeColor;
 	public int id = -1;
+	public boolean affected;
 	
 	public ColorNode(Point position){
 		super(position);
@@ -16,6 +17,7 @@ public class ColorNode extends Node {
 		fillStandardColors();
 		domain = new ArrayList<Color>();
 		constraints = new ArrayList<Constraint>();
+		affected = false;
 	}
 	
 	public void fillStandardColors(){
@@ -37,6 +39,27 @@ public class ColorNode extends Node {
 			return null;
 		}
 		return domain;
+	}
+	/*
+	public boolean checkConstrain(){
+		if(this.getColor() != null && this.y.getColor() != null){
+			if(this.getColor() != this.y.getColor()){
+				return true;
+			}
+		}
+		return false;
+	}*/
+	
+	public boolean checkConstrain(){
+		for(int i=0; i<this.getChildren().size(); i++){
+			ColorNode midChild = (ColorNode) this.getChildren().get(i);
+			if(this.getColor() != null && midChild.getColor() != null){
+				if(this.getColor() != midChild.getColor()){
+					return true;
+				}
+			}
+		}
+		return false;
 	}
 	
 	public boolean reduseDomain(Color removeColor){
@@ -67,6 +90,13 @@ public class ColorNode extends Node {
 				nodeColor = color;
 				return true;
 			}
+		}
+		return false;
+	}
+	
+	public boolean checkColor(Color color){
+		if(domain.contains(color)){
+			return true;
 		}
 		return false;
 	}
