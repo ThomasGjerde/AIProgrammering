@@ -2,10 +2,14 @@ package aiprog.gui;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Point;
+import java.util.ArrayList;
+
+import aiprog.model.Line;
 
 public class GridCanvas extends Canvas
 {
 	Color[][] cells;
+	ArrayList<Line> lines = new ArrayList<Line>();
 	public GridCanvas(int sizeX, int sizeY) {
 		super();
 		cells = new Color[sizeX][sizeY];
@@ -36,13 +40,35 @@ public class GridCanvas extends Canvas
 					int cellX = scale + (i*scale);
 					int cellY = scale + (j*scale);
 					g.setColor(cells[i][j]);
-					g.fillRect(cellX, cellY, scale, scale);
+					g.fillRect(cellX, cellY, scale - spacing, scale - spacing);
 				}
 			}
 		}
+		drawLines(g);
 		
 	}
-	public void drawLine(Point startPoint, Point endPoint){
-		
+	private void drawLines(Graphics g){
+		int variance = 0;
+		for(int i = 0; i < lines.size(); i++){
+			Line line = lines.get(i);
+			int startX = (line.startPoint.x*scale) + scale + ((scale-spacing)/2);
+			int startY = (line.startPoint.y*scale) + scale + ((scale-spacing)/2);
+			int endX = (line.endPoint.x*scale) + scale + ((scale-spacing)/2);
+			int endY = (line.endPoint.y*scale) + scale + ((scale-spacing)/2);
+			/*
+			if(variance < scale/4){
+				startX += variance;
+				startY += variance;
+				variance += 1;
+			}else
+			{
+				variance = 0;
+			}
+			*/
+			g.drawLine(startX, startY, endX, endY);
+		}
+	}
+	public void addLine(Line line){
+		lines.add(line);
 	}
 }

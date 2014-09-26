@@ -12,13 +12,14 @@ public class Main {
 	 * @param args
 	 */
 	public static void main(String[] args) {
+		/*
 		try {
 			VCPGraph graph = new VCPGraph("/home/vcpGraph.txt");
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+		*/
 		
 		try {
 			Board board = new Board("/home/board.txt");
@@ -30,6 +31,7 @@ public class Main {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		
 		
 		
 	}

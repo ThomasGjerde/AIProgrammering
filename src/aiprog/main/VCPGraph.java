@@ -1,14 +1,19 @@
 package aiprog.main;
 
+import java.awt.Color;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
+import aiprog.gui.GraphGraphics;
 import aiprog.model.ColorNode;
 import aiprog.model.Node;
 import aiprog.model.Point;
+import aiprog.model.StateNode;
 import aiprog.utility.IOUtils;
 
 public class VCPGraph {
@@ -21,7 +26,21 @@ public class VCPGraph {
 		setNums(parseLine(input.get(0)));
 		generateNodes(input);
 		generateEdges(input);
+		GraphGraphics gg = new GraphGraphics((int)(Math.ceil(Math.sqrt(numNodes))), (int)(Math.ceil(Math.sqrt(numNodes))));
+		StateNode initStateNode = generateInitialStateNode();
+		gg.setGraph(initStateNode);
 		
+	}
+	private StateNode generateInitialStateNode(){
+		ArrayList<ColorNode> colorNodes = new ArrayList<ColorNode>();
+		Iterator it = nodeMap.entrySet().iterator();
+		while(it.hasNext()){
+			Map.Entry<Integer,ColorNode> pairs = (Map.Entry<Integer,ColorNode>)it.next();
+			colorNodes.add(pairs.getValue());
+		}
+
+		StateNode sn = new StateNode(new Point(0,0),colorNodes);
+		return sn;
 	}
 	private void generateNodes(ArrayList<String> input){
 		for(int i = 1; i < numNodes+1; i++){
@@ -30,6 +49,8 @@ public class VCPGraph {
 				cn.id = tempList.get(0).intValue();
 				cn.pos.setDoubleX(tempList.get(1));
 				cn.pos.setDoubleY(tempList.get(2));
+				cn.addDomain();
+				cn.setColor(Color.BLUE);
 				//nodes.add(cn);
 				nodeMap.put(cn.id, cn);
 				/*
@@ -47,15 +68,6 @@ public class VCPGraph {
 			int endEdge = edges.get(1).intValue();
 			nodeMap.get(startEdge).addChild(nodeMap.get(endEdge));
 			nodeMap.get(endEdge).addChild(nodeMap.get(startEdge));
-		}
-		Iterator it = nodeMap.entrySet().iterator();
-		while(it.hasNext()){
-			Map.Entry<Integer,ColorNode> pairs = (Map.Entry<Integer,ColorNode>)it.next();
-			ColorNode node = pairs.getValue();
-			for(Node cn : node.getChildren()){
-				System.out.println("Parent: " + node.id + " Child: " + ((ColorNode)cn).id);
-			}
-			
 		}
 	}
 	private void setNums(ArrayList<Double> input){
