@@ -13,6 +13,7 @@ public class StateNode extends Node{
 		victoryState = checkVictory(this.nodes);
 	}
 	
+	//dette må skrives om, vekk med constraints
 	public boolean checkVictory(ArrayList<ColorNode> completeList){
 		boolean check = true;
 		for(int i=0; i<completeList.size(); i++){

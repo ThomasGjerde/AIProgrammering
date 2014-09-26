@@ -88,6 +88,16 @@ public class ColorNode extends Node {
 		for(int i=0;i<domain.size();i++){
 			if(color == domain.get(i)){
 				nodeColor = color;
+				
+				//Er ikke sikker på om det her går....
+				// dette må sjekkes etterhvert
+				
+				ToDoRevise sending = new ToDoRevise();
+				for(int j=0; j<this.getChildren().size(); j++){
+					ColorNode midChild = (ColorNode) this.getChildren().get(i);
+					midChild.affected = true;
+					sending.addToQueue((ColorNode) this.getChildren().get(j));
+				}
 				return true;
 			}
 		}
