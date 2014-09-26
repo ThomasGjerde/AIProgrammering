@@ -32,6 +32,14 @@ public class StateNode extends Node{
 		return victoryState;
 	}
 	
+	
+	//Øker domenet i alle nodene med 1 farge
+	public void increaseNodeDomain(){
+		for(int i=0; i<getNodeList().size(); i++){
+			getNodeList().get(i).addDomain();
+		}
+	}
+	
 	public void setParent(StateNode parentNode){
 		this.stateParent = parentNode;
 	}
