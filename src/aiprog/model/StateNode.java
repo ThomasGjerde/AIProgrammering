@@ -3,8 +3,9 @@ package aiprog.model;
 import java.util.ArrayList;
 
 public class StateNode extends Node{
-	public ArrayList<ColorNode> nodes;
+	private ArrayList<ColorNode> nodes;
 	public boolean victoryState;
+	public StateNode stateParent;
 	
 	public StateNode(Point position, ArrayList<ColorNode> nodeList){
 		super(position);
@@ -28,5 +29,21 @@ public class StateNode extends Node{
 	
 	public boolean isVictory(){
 		return victoryState;
+	}
+	
+	public void setParent(StateNode parentNode){
+		this.stateParent = parentNode;
+	}
+	
+	public ArrayList<ColorNode> getNodeList(){
+		return nodes;
+	}
+	
+	public void setNodeList(ArrayList<ColorNode> newList){
+		nodes = newList;
+	}
+	
+	public void addToNodeList(ColorNode newNode){
+		nodes.add(newNode);
 	}
 }
