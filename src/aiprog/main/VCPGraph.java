@@ -37,8 +37,16 @@ public class VCPGraph {
 		while(it.hasNext()){
 			Map.Entry<Integer,ColorNode> pairs = (Map.Entry<Integer,ColorNode>)it.next();
 			colorNodes.add(pairs.getValue());
+			
 		}
-
+		//Sort by cartesian coordinates
+		/*
+		Collections.sort(colorNodes, new Comparator<ColorNode>(){
+		     public int compare(ColorNode o1, ColorNode o2){
+		    	 return (int)(o1.pos.getDoubleX() - o2.pos.getDoubleX()) - (int)(o1.pos.getDoubleY() - o2.pos.getDoubleY()) ;
+		     }
+		});
+		*/
 		StateNode sn = new StateNode(new Point(0,0),colorNodes);
 		return sn;
 	}
@@ -50,7 +58,13 @@ public class VCPGraph {
 				cn.pos.setDoubleX(tempList.get(1));
 				cn.pos.setDoubleY(tempList.get(2));
 				cn.addDomain();
-				cn.setColor(Color.BLUE);
+				cn.addDomain();
+				cn.addDomain();
+				if(i % 2 == 0){
+					cn.setColor(Color.BLUE);
+				}else{
+					cn.setColor(Color.DARK_GRAY);
+				}
 				//nodes.add(cn);
 				nodeMap.put(cn.id, cn);
 				/*

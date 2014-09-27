@@ -3,6 +3,7 @@ package aiprog.gui;
 import java.util.ArrayList;
 
 import aiprog.model.ColorNode;
+import aiprog.model.GridText;
 import aiprog.model.Line;
 import aiprog.model.Point;
 import aiprog.model.StateNode;
@@ -14,8 +15,8 @@ public class GraphGraphics extends Graphics{
 		super(sizeX, sizeY);
 		this.sizeX = sizeX;
 		this.sizeY = sizeY;
-		grid.setScale(40);
-		grid.setSpacing(20);
+		grid.setScale(80);
+		grid.setSpacing(40);
 		// TODO Auto-generated constructor stub
 	}
 	public void setGraph(StateNode node){
@@ -27,6 +28,7 @@ public class GraphGraphics extends Graphics{
 				grid.setCellColorWithoutRepaint(currentX, currentY, nodeList.get(i).getColor());
 				nodeList.get(i).pos.x = currentX;
 				nodeList.get(i).pos.y = currentY;
+				grid.addText(new GridText(nodeList.get(i).pos,Integer.toString(nodeList.get(i).id)));
 				if(currentX == sizeX - 1){
 					currentY++;
 					currentX = 0;
@@ -39,20 +41,6 @@ public class GraphGraphics extends Graphics{
 			}
 		}
 		grid.repaint();
-	}
-	//Do something better than this
-	private Point getCurrentPoint(int id){
-		int currentX = 0;
-		int currentY = 0;
-		for(int i = 0; i < id; i++){
-			if(currentX == sizeX - 1){
-				currentY++;
-				currentX = 0;
-			}else{
-				currentX++;
-			}
-		}
-		return new Point(currentX,currentY);
 	}
 
 }

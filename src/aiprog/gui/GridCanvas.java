@@ -1,15 +1,18 @@
 package aiprog.gui;
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics;
-import java.awt.Point;
 import java.util.ArrayList;
 
+import aiprog.model.GridText;
 import aiprog.model.Line;
+import aiprog.model.Point;
 
 public class GridCanvas extends Canvas
 {
 	Color[][] cells;
 	ArrayList<Line> lines = new ArrayList<Line>();
+	ArrayList<GridText> texts = new ArrayList<GridText>();
 	public GridCanvas(int sizeX, int sizeY) {
 		super();
 		cells = new Color[sizeX][sizeY];
@@ -45,30 +48,37 @@ public class GridCanvas extends Canvas
 			}
 		}
 		drawLines(g);
+		drawTexts(g);
 		
 	}
 	private void drawLines(Graphics g){
-		int variance = 0;
+		g.setColor(Color.BLACK);
 		for(int i = 0; i < lines.size(); i++){
 			Line line = lines.get(i);
-			int startX = (line.startPoint.x*scale) + scale + ((scale-spacing)/2);
-			int startY = (line.startPoint.y*scale) + scale + ((scale-spacing)/2);
-			int endX = (line.endPoint.x*scale) + scale + ((scale-spacing)/2);
-			int endY = (line.endPoint.y*scale) + scale + ((scale-spacing)/2);
-			/*
-			if(variance < scale/4){
-				startX += variance;
-				startY += variance;
-				variance += 1;
-			}else
-			{
-				variance = 0;
-			}
-			*/
-			g.drawLine(startX, startY, endX, endY);
+			Point startPos = calcCenterPosition(line.startPoint);
+			Point endPos = calcCenterPosition(line.endPoint);
+			g.drawLine(startPos.x, startPos.y, endPos.x, endPos.y);
+		}
+	}
+	private Point calcCenterPosition(Point pos){
+		int X = (pos.x*scale) + scale + ((scale-spacing)/2);
+		int Y = (pos.y*scale) + scale + ((scale-spacing)/2);
+		return new Point(X,Y);
+	}
+	private void drawTexts(Graphics g){
+		for(int i = 0; i < texts.size(); i++){
+			GridText gt = texts.get(i);
+			Point pos = calcCenterPosition(gt.position);
+			g.setColor(Color.BLACK);
+			g.setFont(new Font("TimesRoman",Font.PLAIN,(scale-spacing)/2));
+			g.drawString(gt.text, pos.x - ((scale-spacing)/4), pos.y + ((scale-spacing)/4));
 		}
 	}
 	public void addLine(Line line){
 		lines.add(line);
 	}
+	public void addText(GridText gt){
+		texts.add(gt);
+	}
+	
 }
