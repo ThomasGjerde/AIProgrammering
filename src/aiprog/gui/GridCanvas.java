@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import aiprog.model.GridText;
 import aiprog.model.Line;
 import aiprog.model.Point;
+import aiprog.utility.GraphicsHelper;
 
 @SuppressWarnings("serial")
 public class GridCanvas extends Canvas
@@ -53,6 +54,7 @@ public class GridCanvas extends Canvas
 	private void drawLines(Graphics g){
 		g.setColor(Color.BLACK);
 		for(int i = 0; i < lines.size(); i++){
+			//g.setColor(GraphicsHelper.getRandomColor()); Random colored line
 			Line line = lines.get(i);
 			Point startPos = calcCenterPosition(line.startPoint);
 			Point endPos = calcCenterPosition(line.endPoint);
