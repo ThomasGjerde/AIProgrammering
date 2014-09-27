@@ -70,7 +70,7 @@ public class VCPGraph {
 	}
 	private void generateEdges(ArrayList<String> input){
 		
-		for(int i = (numNodes+2); i < numNodes + 2 + numEdges - 1; i++){
+		for(int i = (numNodes+1); i < numNodes + 2 + numEdges - 1; i++){
 			ArrayList<Double> edges = parseLine(input.get(i));
 			int startEdge = edges.get(0).intValue();
 			int endEdge = edges.get(1).intValue();

@@ -15,7 +15,7 @@ public class StateNode extends Node{
 		//victoryState = checkVictory();
 	}
 	
-	//dette må skrives om, vekk med constraints
+	//dette mï¿½ skrives om, vekk med constraints
 	/*
 	public boolean checkVictory(ArrayList<ColorNode> completeList){
 		boolean check = true;
@@ -39,7 +39,7 @@ public class StateNode extends Node{
 				return false;
 			}
 			for(int j=0; j<midNode.getChildren().size(); j++){
-				ColorNode midChild = (ColorNode)midNode.getChildren().get(i);
+				ColorNode midChild = (ColorNode)midNode.getChildren().get(j);
 				if(midChild.getColor() == null){
 					this.victoryState = false;
 					return false;
@@ -58,7 +58,7 @@ public class StateNode extends Node{
 	}
 	
 	
-	//Øker domenet i alle nodene med 1 farge
+	//ï¿½ker domenet i alle nodene med 1 farge
 	public void increaseNodeDomain(){
 		for(int i=0; i<getNodeList().size(); i++){
 			getNodeList().get(i).addDomain();
