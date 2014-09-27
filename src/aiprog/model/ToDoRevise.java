@@ -68,6 +68,7 @@ public class ToDoRevise {
 	
 	public boolean victoryCheck(){
 		if(currentState.checkVictory()){
+			//System.out.println("3 true");
 			return true;
 		}else{
 			return false;
@@ -98,11 +99,13 @@ public class ToDoRevise {
 					if(midNode.getColor() == midChild.getColor()){
 						cons = false;
 						currentState.consistency = false;
+						//System.out.println("1 " + cons);
 						return cons;
 					}
 				}
 			}
 		}
+		//System.out.println("2 " + cons);
 		return cons;
 	}
 	
@@ -115,20 +118,27 @@ public class ToDoRevise {
 			assignedNode = currentState.getNodeList().get(0);
 			
 		}else{
-		for(int i=0; i<currentState.getNodeList().size(); i++){
-			ColorNode midNode = currentState.getNodeList().get(i); 
-			if(midNode.getDomain() != null && midNode.getDomain().size() > 0){
-			
-				if(assignedNode == null){
+			//System.out.println("Else");
+			for(int i=0; i<currentState.getNodeList().size(); i++){
+				ColorNode midNode = currentState.getNodeList().get(i); 
+				if(midNode.getDomain() != null && midNode.getDomain().size() > 0 && midNode.getColor() == null){
 					assignedNode = midNode;
-				}else if(assignedNode.getDomain().size() > midNode.getDomain().size() && assignedNode != currentState.stateParent.assumption){
-					assignedNode = midNode;
+					break;
+					/*
+					if(assignedNode == null){
+						assignedNode = midNode;
+						//System.out.println(""+ midNode.getDomain().size());
+					}else if(assignedNode.getDomain().size() > midNode.getDomain().size() && assignedNode != currentState.stateParent.assumption){
+						assignedNode = midNode;
+						System.out.println("2");
+					}
+					*/
 				}
 			}
 		}
-		}
 		assignedNode.setColor(assignedNode.getDomain().get(0));
 		currentState.assumption = assignedNode; //Setter antagelsen
+		System.out.println("X " + assignedNode.pos.x + " Y " + assignedNode.pos.y);
 		reduction(assignedNode);
 	}
 	
