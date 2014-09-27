@@ -11,21 +11,25 @@ import aiprog.gui.GraphGraphics;
 import aiprog.model.ColorNode;
 import aiprog.model.Point;
 import aiprog.model.StateNode;
+import aiprog.model.ToDoRevise;
 import aiprog.utility.IOUtils;
 
 public class VCPGraph {
 	int numNodes = 0;
 	int numEdges = 0;
+	int k;
 	//ArrayList<ColorNode> nodes = new ArrayList<ColorNode>();
 	Map<Integer,ColorNode> nodeMap = new HashMap<Integer, ColorNode>();
-	public VCPGraph(String path) throws IOException{
+	public VCPGraph(String path, int k) throws IOException{
+		this.k = k;
 		ArrayList<String> input = IOUtils.getInputFromFile(path);
 		setNums(parseLine(input.get(0)));
 		generateNodes(input);
 		generateEdges(input);
 		GraphGraphics gg = new GraphGraphics((int)(Math.ceil(Math.sqrt(numNodes))), (int)(Math.ceil(Math.sqrt(numNodes))));
 		StateNode initStateNode = generateInitialStateNode();
-		gg.setGraph(initStateNode);
+		ToDoRevise tdr = new ToDoRevise(initStateNode);
+		//gg.setGraph(initStateNode);
 	}
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	private StateNode generateInitialStateNode(){
@@ -45,8 +49,11 @@ public class VCPGraph {
 				cn.id = tempList.get(0).intValue();
 				cn.pos.setDoubleX(tempList.get(1));
 				cn.pos.setDoubleY(tempList.get(2));
-				
+				for(int j = 0; j < k; j++){
+					cn.addDomain();
+				}
 				//<remove before production testing>
+				/*
 				cn.addDomain();
 				cn.addDomain();
 				cn.addDomain();
@@ -55,6 +62,7 @@ public class VCPGraph {
 				}else{
 					cn.setColor(Color.DARK_GRAY);
 				}
+				*/
 				//</remove before production testing>
 				
 				nodeMap.put(cn.id, cn);

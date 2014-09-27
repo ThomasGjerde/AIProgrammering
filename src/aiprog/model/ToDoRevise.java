@@ -7,13 +7,14 @@ import java.util.ArrayList;
 
 
 
-//Det meste i denne klassen er gjort på mer håp en forventning!
-//Dvs her er det mange ting som forehåpentligvis går, basert på at andre ting forhåpentligvis går.... lotto hele greia
+//Det meste i denne klassen er gjort pï¿½ mer hï¿½p en forventning!
+//Dvs her er det mange ting som forehï¿½pentligvis gï¿½r, basert pï¿½ at andre ting forhï¿½pentligvis gï¿½r.... lotto hele greia
 public class ToDoRevise {
 	StateNode currentState;
 	
 	public ToDoRevise(StateNode state){
 		currentState = state;
+		check();
 	}
 	
 	public void check(){
@@ -63,15 +64,15 @@ public class ToDoRevise {
 	/*
 	public void createState(StateNode parentState){
 		//skal lage en ny state
-		//dvs, denne skal kopiere currentState, og lage et nytt todorevise, og kalle assign på denne nye staten
+		//dvs, denne skal kopiere currentState, og lage et nytt todorevise, og kalle assign pï¿½ denne nye staten
 		//denne nye staten skal ha currentstate som parent.
-		//consistency skal være true
+		//consistency skal vï¿½re true
 	}
 	
 	public void backTrack(){
-		//denne skal gå til parent staten, og gjøre en annen antagelse enn forige gang
-		//dvs, den skal lage en ny todorevise på parenten som parameter, og kalle assign
-		//consistency på den staten som er feil skal være false
+		//denne skal gï¿½ til parent staten, og gjï¿½re en annen antagelse enn forige gang
+		//dvs, den skal lage en ny todorevise pï¿½ parenten som parameter, og kalle assign
+		//consistency pï¿½ den staten som er feil skal vï¿½re false
 	}
 	*/
 	
@@ -80,7 +81,7 @@ public class ToDoRevise {
 		for(int i=0; i<currentState.getNodeList().size(); i++){
 			ColorNode midNode = currentState.getNodeList().get(i);
 			for(int j=0; j<midNode.getChildren().size(); j++){
-				ColorNode midChild = (ColorNode)midNode.getChildren().get(i);
+				ColorNode midChild = (ColorNode)midNode.getChildren().get(j);
 				if(midChild.getColor() != null && midNode.getColor() != null){
 					if(midNode.getColor() == midChild.getColor()){
 						cons = false;
@@ -96,18 +97,24 @@ public class ToDoRevise {
 	
 	
 	public void assign(){
+
 		ColorNode assignedNode = null;
+		if(currentState.stateParent == null){
+			assignedNode = currentState.getNodeList().get(0);
+			
+		}else{
 		for(int i=0; i<currentState.getNodeList().size(); i++){
 			ColorNode midNode = currentState.getNodeList().get(i); 
 			if(midNode.getDomain() != null && midNode.getDomain().size() > 0){
-				if(assignedNode == null && assignedNode != currentState.stateParent.assumption){
+			
+				if(assignedNode == null){
 					assignedNode = midNode;
 				}else if(assignedNode.getDomain().size() > midNode.getDomain().size() && assignedNode != currentState.stateParent.assumption){
 					assignedNode = midNode;
 				}
 			}
 		}
-		
+		}
 		assignedNode.setColor(assignedNode.getDomain().get(0));
 		currentState.assumption = assignedNode; //Setter antagelsen
 		reduction(assignedNode);

@@ -12,7 +12,7 @@ public class Main {
 	public static void main(String[] args) {
 		
 		try {
-			VCPGraph graph = new VCPGraph("/home/vcpGraph.txt");
+			VCPGraph graph = new VCPGraph("/home/vcpGraph.txt",4);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
