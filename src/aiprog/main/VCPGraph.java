@@ -29,24 +29,14 @@ public class VCPGraph {
 		GraphGraphics gg = new GraphGraphics((int)(Math.ceil(Math.sqrt(numNodes))), (int)(Math.ceil(Math.sqrt(numNodes))));
 		StateNode initStateNode = generateInitialStateNode();
 		gg.setGraph(initStateNode);
-		
 	}
 	private StateNode generateInitialStateNode(){
 		ArrayList<ColorNode> colorNodes = new ArrayList<ColorNode>();
 		Iterator it = nodeMap.entrySet().iterator();
 		while(it.hasNext()){
 			Map.Entry<Integer,ColorNode> pairs = (Map.Entry<Integer,ColorNode>)it.next();
-			colorNodes.add(pairs.getValue());
-			
+			colorNodes.add(pairs.getValue());	
 		}
-		//Sort by cartesian coordinates
-		/*
-		Collections.sort(colorNodes, new Comparator<ColorNode>(){
-		     public int compare(ColorNode o1, ColorNode o2){
-		    	 return (int)(o1.pos.getDoubleX() - o2.pos.getDoubleX()) - (int)(o1.pos.getDoubleY() - o2.pos.getDoubleY()) ;
-		     }
-		});
-		*/
 		StateNode sn = new StateNode(new Point(0,0),colorNodes);
 		return sn;
 	}
@@ -57,6 +47,8 @@ public class VCPGraph {
 				cn.id = tempList.get(0).intValue();
 				cn.pos.setDoubleX(tempList.get(1));
 				cn.pos.setDoubleY(tempList.get(2));
+				
+				//<remove before production testing>
 				cn.addDomain();
 				cn.addDomain();
 				cn.addDomain();
@@ -65,13 +57,9 @@ public class VCPGraph {
 				}else{
 					cn.setColor(Color.DARK_GRAY);
 				}
-				//nodes.add(cn);
+				//</remove before production testing>
+				
 				nodeMap.put(cn.id, cn);
-				/*
-				System.out.println("ID: " + cn.id);
-				System.out.println("PosX: " + cn.pos.getDoubleX());
-				System.out.println("PosY: " + cn.pos.getDoubleY());
-				*/
 		}
 	}
 	private void generateEdges(ArrayList<String> input){
