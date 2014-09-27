@@ -5,15 +5,18 @@ import java.util.ArrayList;
 public class StateNode extends Node{
 	private ArrayList<ColorNode> nodes;
 	public boolean victoryState;
+	public boolean consistency;
 	public StateNode stateParent;
+	public ColorNode assumption;
 	
 	public StateNode(Point position, ArrayList<ColorNode> nodeList){
 		super(position);
 		this.nodes = nodeList;
-		victoryState = checkVictory(this.nodes);
+		//victoryState = checkVictory();
 	}
 	
 	//dette må skrives om, vekk med constraints
+	/*
 	public boolean checkVictory(ArrayList<ColorNode> completeList){
 		boolean check = true;
 		for(int i=0; i<completeList.size(); i++){
@@ -27,7 +30,29 @@ public class StateNode extends Node{
 		}
 		return check;
 	}
-	
+	*/
+	public boolean checkVictory(){
+		for(int i=0; i<this.getNodeList().size(); i++){
+			ColorNode midNode = this.getNodeList().get(i);
+			if(midNode.getColor() == null){
+				this.victoryState = false;
+				return false;
+			}
+			for(int j=0; j<midNode.getChildren().size(); j++){
+				ColorNode midChild = (ColorNode)midNode.getChildren().get(i);
+				if(midChild.getColor() == null){
+					this.victoryState = false;
+					return false;
+				}
+				if(midChild.getColor() == midNode.getColor()){
+					this.victoryState = false;
+					return false;
+				}
+			}
+		}
+		this.victoryState = true;
+		return true;
+	}
 	public boolean isVictory(){
 		return victoryState;
 	}
