@@ -5,6 +5,7 @@ import java.awt.Graphics;
 
 import javax.swing.JPanel;
 
+@SuppressWarnings("serial")
 public abstract class Canvas extends JPanel{
 	protected int scale = 30;
 	protected int spacing = 0;

@@ -1,9 +1,6 @@
 package aiprog.main;
 
 import java.io.IOException;
-import aiprog.model.Board;
-import aiprog.navigation.GridBestFirstSearch;
-import aiprog.navigation.GridDepthFirstSearch;
 
 
 public class Main {
@@ -11,6 +8,7 @@ public class Main {
 	/**
 	 * @param args
 	 */
+	@SuppressWarnings("unused")
 	public static void main(String[] args) {
 		
 		try {

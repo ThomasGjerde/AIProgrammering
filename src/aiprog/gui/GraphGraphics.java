@@ -6,22 +6,16 @@ import java.util.ArrayList;
 import aiprog.model.ColorNode;
 import aiprog.model.GridText;
 import aiprog.model.Line;
-import aiprog.model.Point;
 import aiprog.model.StateNode;
 
 public class GraphGraphics extends Graphics{
-	private int sizeX;
-	private int sizeY;
 	private ColorNode[][] cnArray;
 	public GraphGraphics(int sizeX, int sizeY) {
 		super(sizeX, sizeY);
-		this.sizeX = sizeX;
-		this.sizeY = sizeY;
 		cnArray = new ColorNode[sizeX][sizeY];
 		
 		grid.setScale((100/(sizeX/2)) + 20);
 		grid.setSpacing(grid.scale/2);
-		// TODO Auto-generated constructor stub
 	}
 	private void fillcnArray(StateNode node){
 		int currentX = 0;
@@ -29,7 +23,7 @@ public class GraphGraphics extends Graphics{
 		ArrayList<ColorNode> nodeList = node.getNodeList();
 		for(int i = 0; i < nodeList.size(); i++){
 			cnArray[currentX][currentY] = nodeList.get(i);
-			if(currentX == sizeX - 1){
+			if(currentX == cnArray[0].length - 1){
 				currentY++;
 				currentX = 0;
 			}else{

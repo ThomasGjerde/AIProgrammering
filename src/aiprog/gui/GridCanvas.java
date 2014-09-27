@@ -8,6 +8,7 @@ import aiprog.model.GridText;
 import aiprog.model.Line;
 import aiprog.model.Point;
 
+@SuppressWarnings("serial")
 public class GridCanvas extends Canvas
 {
 	Color[][] cells;
@@ -25,7 +26,6 @@ public class GridCanvas extends Canvas
 						cells[i][j] = null;
 					}
 				}
-
 			}
 		}
 	}
@@ -49,7 +49,6 @@ public class GridCanvas extends Canvas
 		}
 		drawLines(g);
 		drawTexts(g);
-		
 	}
 	private void drawLines(Graphics g){
 		g.setColor(Color.BLACK);

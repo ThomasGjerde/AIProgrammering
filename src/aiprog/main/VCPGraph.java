@@ -3,15 +3,12 @@ package aiprog.main;
 import java.awt.Color;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
 import aiprog.gui.GraphGraphics;
 import aiprog.model.ColorNode;
-import aiprog.model.Node;
 import aiprog.model.Point;
 import aiprog.model.StateNode;
 import aiprog.utility.IOUtils;
@@ -30,6 +27,7 @@ public class VCPGraph {
 		StateNode initStateNode = generateInitialStateNode();
 		gg.setGraph(initStateNode);
 	}
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	private StateNode generateInitialStateNode(){
 		ArrayList<ColorNode> colorNodes = new ArrayList<ColorNode>();
 		Iterator it = nodeMap.entrySet().iterator();
