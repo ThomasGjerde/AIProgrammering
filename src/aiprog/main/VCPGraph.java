@@ -26,7 +26,7 @@ public class VCPGraph {
 		setNums(parseLine(input.get(0)));
 		generateNodes(input);
 		generateEdges(input);
-		GraphGraphics gg = new GraphGraphics((int)(Math.ceil(Math.sqrt(numNodes))), (int)(Math.ceil(Math.sqrt(numNodes))));
+		//GraphGraphics gg = new GraphGraphics((int)(Math.ceil(Math.sqrt(numNodes))), (int)(Math.ceil(Math.sqrt(numNodes))));
 		StateNode initStateNode = generateInitialStateNode();
 		ToDoRevise tdr = new ToDoRevise(initStateNode);
 		//gg.setGraph(initStateNode);

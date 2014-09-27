@@ -3,6 +3,8 @@ package aiprog.model;
 import java.awt.Color;
 import java.util.ArrayList;
 
+import aiprog.gui.GraphGraphics;
+
 
 
 
@@ -11,13 +13,23 @@ import java.util.ArrayList;
 //Dvs her er det mange ting som foreh�pentligvis g�r, basert p� at andre ting forh�pentligvis g�r.... lotto hele greia
 public class ToDoRevise {
 	StateNode currentState;
+	GraphGraphics gg;
 	
 	public ToDoRevise(StateNode state){
 		currentState = state;
+		gg = new GraphGraphics((int)(Math.ceil(Math.sqrt(40))), (int)(Math.ceil(Math.sqrt(40))));
+
 		check();
 	}
 	
 	public void check(){
+		try {
+			Thread.sleep(100);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		gg.setGraph(currentState);
 		for(int i=0; i<currentState.getNodeList().size(); i++){
 			ColorNode midNode = currentState.getNodeList().get(i);
 			if(midNode.getDomain() != null){
