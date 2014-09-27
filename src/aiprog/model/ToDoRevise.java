@@ -25,7 +25,7 @@ public class ToDoRevise {
 	
 	public void check(){
 		try {
-			Thread.sleep(600);
+			Thread.sleep(400);
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -57,22 +57,49 @@ public class ToDoRevise {
 			StateNode newState = new StateNode(newPoint, currentState.getNodeList());
 			newState.setParent(currentState);
 			currentState = newState;
+			System.out.println("1" + " X: " + currentState.pos.x + " Y " + currentState.pos.y);
 			assign();
 			//lag ny state, med currentState som parent
 			//assign();
 		}else if(victoryCheck()){
 			
 		}else{
+			/*
 			Point newPoint = new Point(currentState.stateParent.pos.x+1, currentState.stateParent.pos.y);
 			StateNode newState = new StateNode(newPoint, currentState.stateParent.getNodeList());
 			newState.setParent(currentState.stateParent);
 			currentState = newState;
+			System.out.println("2" + " X: " + currentState.pos.x + " Y " + currentState.pos.y);
+			*/
+			backTracking();
 			assign();
 			//legg til et felt i state, som heter noe ala consistency
 			//sett dette til false
 			//false er da deadend, ingen vits og fortsette med antagelser i den retningen.
 			//en eller annen form for backtracking
 		}
+	}
+	
+	public void backTracking(){
+		boolean nonConsistent = false;
+		StateNode midState = currentState;
+		while(nonConsistent == false){
+			if(midState.consistency == false){
+				midState = midState.stateParent;
+				System.out.println("check");
+			}
+			if(midState.consistency == true){
+				nonConsistent = true;
+			}
+			//nonConsistent = midState.consistency;
+		}
+		Point newPoint = new Point(midState.pos.x+1, midState.pos.y);
+		StateNode newState = new StateNode(newPoint, midState.getNodeList());
+		newState.setParent(midState);
+		currentState = newState;
+		System.out.println("2" + " X: " + currentState.pos.x + " Y " + currentState.pos.y);
+		assign();
+		
 	}
 	
 	public boolean victoryCheck(){
@@ -100,6 +127,7 @@ public class ToDoRevise {
 	
 	public boolean consistency(){
 		boolean cons = true;
+		/*
 		for(int i=0; i<currentState.getNodeList().size(); i++){
 			ColorNode midNode = currentState.getNodeList().get(i);
 			for(int j=0; j<midNode.getChildren().size(); j++){
@@ -114,7 +142,18 @@ public class ToDoRevise {
 				}
 			}
 		}
+		*/
+		for(int i=0; i<currentState.getNodeList().size(); i++){
+			ColorNode midNode = currentState.getNodeList().get(i);
+			if(midNode.getColor() == null && midNode.getDomain().isEmpty()){
+				cons = false;
+				currentState.consistency = false;
+				System.out.println("heiigjen");
+				return cons;
+			}
+		}
 		//System.out.println("2 " + cons);
+		currentState.consistency = cons;
 		return cons;
 	}
 	
