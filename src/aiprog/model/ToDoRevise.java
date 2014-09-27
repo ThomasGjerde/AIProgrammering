@@ -14,17 +14,18 @@ import aiprog.gui.GraphGraphics;
 public class ToDoRevise {
 	StateNode currentState;
 	GraphGraphics gg;
+	int counter;
 	
 	public ToDoRevise(StateNode state){
 		currentState = state;
 		gg = new GraphGraphics((int)(Math.ceil(Math.sqrt(40))), (int)(Math.ceil(Math.sqrt(40))));
-
+		counter = 0;
 		check();
 	}
 	
 	public void check(){
 		try {
-			Thread.sleep(100);
+			Thread.sleep(600);
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -37,6 +38,14 @@ public class ToDoRevise {
 					if(midNode.getColor() == null){
 						if(midNode.getDomain().size() == 1){
 							midNode.setColor(midNode.getDomain().get(0));
+							reduction(midNode);
+							//dette er en endring
+							/*
+							for(int j=0; j < midNode.getChildren().size(); j++){
+								ColorNode midChild1 = (ColorNode)midNode.getChildren().get(j);
+								
+							}
+							*/
 						}
 					}
 				}
@@ -138,7 +147,7 @@ public class ToDoRevise {
 		}
 		assignedNode.setColor(assignedNode.getDomain().get(0));
 		currentState.assumption = assignedNode; //Setter antagelsen
-		System.out.println("X " + assignedNode.pos.x + " Y " + assignedNode.pos.y);
+		//System.out.println("X " + assignedNode.pos.x + " Y " + assignedNode.pos.y);
 		reduction(assignedNode);
 	}
 	
