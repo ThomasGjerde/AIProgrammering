@@ -47,6 +47,7 @@ public class ToDoRevise {
 			StateNode newState = generateStateNode(currentState, false);
 
 			newState.setParent(currentState);
+			currentState.addChild(newState);
 			currentState = newState;
 			currentState.applyChanges();
 			assign();
@@ -98,6 +99,7 @@ public class ToDoRevise {
 		StateNode newState = generateStateNode(midState, true);
 		newState.applyChanges();
 		newState.setParent(midState);
+		currentState.addChild(newState);
 		currentState = newState;
 		currentState.applyChanges();
 		currentState.consistency = true;
@@ -187,17 +189,22 @@ public class ToDoRevise {
 						}
 					}*/
 					ArrayList<ColorNode> midArray = new ArrayList<ColorNode>();
-					for(int j=0; j<currentState.getChildren().size(); j++){
-						StateNode midChild = (StateNode)currentState.getChildren().get(j);
-						midArray.add(midChild.assumption);
-						
+					System.out.println("Size: " + currentState.getChildren().size());
+					for(int j=0; j<currentState.getStateParent().getChildren().size(); j++){
+						StateNode midChild = (StateNode)currentState.getStateParent().getChildren().get(j);
+						if(midChild.assumption != null){
+							midArray.add(midChild.assumption);
+							System.out.println(midChild.assumption);
+						}
+
 					}
 					
-					boolean stupidCheck = false;
+					boolean stupidCheck = true;
 					for(int k=0; k<midArray.size(); k++){
 						if(midArray.get(k).pos.x != midNode.pos.x && midArray.get(k).pos.y != midNode.pos.y){
 							stupidCheck = true;
 						}else{
+							System.out.println("Flase");
 							stupidCheck = false;
 						}
 					}
