@@ -8,19 +8,19 @@ public class StateNode extends Node{
 	public boolean consistency;
 	public StateNode stateParent;
 	public ColorNode assumption;
-	public ArrayList<ColorNode> assumptionList;
+	//public ArrayList<ColorNode> assumptionList;
 	
 	public StateNode(Point position, ArrayList<ColorNode> nodeList){
 		super(position);
 		this.nodes = nodeList;
-		assumptionList = new ArrayList<ColorNode>();
+		//assumptionList = new ArrayList<ColorNode>();
 		//victoryState = checkVictory();
 	}
 	
 	public void setAssumption(ColorNode assNode){
 		assumption = assNode;
 	}
-	
+	/*
 	public ArrayList<ColorNode> getAssumptionList(){
 		return assumptionList;
 	}
@@ -28,7 +28,12 @@ public class StateNode extends Node{
 	public void addToAssumptionList(ColorNode addNode){
 		assumptionList.add(addNode);
 	}
+	*/
 	
+	public boolean getConsistency(){
+		return consistency;
+	}
+	/*
 	public void removeFromAssumptionList(ColorNode removeNode){
 		for(int i=0; i<assumptionList.size(); i++){
 			if(assumptionList.get(i) == removeNode){
@@ -37,6 +42,7 @@ public class StateNode extends Node{
 			}
 		}
 	}
+	*/
 	
 	public ColorNode getAssumption(){
 		return assumption;
@@ -102,6 +108,10 @@ public class StateNode extends Node{
 	
 	public void setParent(StateNode parentNode){
 		this.stateParent = parentNode;
+	}
+	
+	public StateNode getStateParent(){
+		return this.stateParent;
 	}
 	
 	public ArrayList<ColorNode> getNodeList(){
