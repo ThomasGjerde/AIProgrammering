@@ -49,6 +49,7 @@ public class VCPGraph {
 			newNode.id = oldNode.id;
 			newNode.nodeColor = oldNode.nodeColor;
 			newNode.domain = new ArrayList<Color>(oldNode.domain);
+			changesList.add(newNode);
 		}
 		sn.changes = changesList;
 		return sn;
