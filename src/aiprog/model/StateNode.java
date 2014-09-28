@@ -6,7 +6,7 @@ public class StateNode extends Node{
 	private ArrayList<ColorNode> nodes;
 	public ArrayList<ColorNode> changes;
 	public boolean victoryState;
-	public boolean consistency;
+	public boolean consistency = true;
 	public StateNode stateParent;
 	public ColorNode assumption;
 	//public ArrayList<ColorNode> assumptionList;

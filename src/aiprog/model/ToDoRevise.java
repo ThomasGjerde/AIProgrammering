@@ -53,6 +53,7 @@ public class ToDoRevise {
 		}else if(victoryCheck()){
 			
 		}else{
+			System.out.println("Else backtrack");
 			backTracking();
 		}
 	}
@@ -104,12 +105,11 @@ public class ToDoRevise {
 	}
 	
 	public void backTracking(){
-		System.out.println(rootNode.changes.size());
 		for(int i = 0; i < rootNode.changes.size(); i++){
 			if(rootNode.changes.get(i).nodeColor == null){
-				System.out.println(rootNode.changes.get(i).id + ": null");
+				//System.out.println(rootNode.changes.get(i).id + ": null");
 			}else{
-				System.out.println(rootNode.changes.get(i).id + ": " + rootNode.changes.get(i).nodeColor);	
+				//System.out.println(rootNode.changes.get(i).id + ": " + rootNode.changes.get(i).nodeColor);	
 			}
 			
 		}
@@ -148,17 +148,22 @@ public class ToDoRevise {
 	}
 	
 	public boolean consistency(){
+		return true;
+		/*
 		boolean cons = true;
 		for(int i=0; i<currentState.getNodeList().size(); i++){
 			ColorNode midNode = currentState.getNodeList().get(i);
 			if(midNode.getColor() == null && midNode.getDomain().isEmpty()){
 				cons = false;
 				currentState.consistency = false;
+				System.out.println("Inconsistent");
 				return cons;
 			}
 		}
 		currentState.consistency = cons;
+		
 		return cons;
+		*/
 	}
 	
 	
@@ -189,6 +194,9 @@ public class ToDoRevise {
 			}
 		}
 		if(!victoryCheck() && (assignedNode == null || assignedNode.getDomain() == null || assignedNode.getDomain().isEmpty())){
+			if(assignedNode == null){
+				System.out.println("Assigned node == null");
+			}
 			currentState.consistency = false;
 			backTracking();
 		}else{
