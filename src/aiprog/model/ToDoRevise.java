@@ -186,10 +186,23 @@ public class ToDoRevise {
 							
 						}
 					}*/
+					ArrayList<ColorNode> midArray = new ArrayList<ColorNode>();
+					for(int j=0; j<currentState.getChildren().size(); j++){
+						StateNode midChild = (StateNode)currentState.getChildren().get(j);
+						midArray.add(midChild.assumption);
+						
+					}
+					if(!midArray.contains(midNode)){
+						assignedNode = midNode;
+						currentState.assumption = assignedNode;
+						break;
+					}
 					
+					/*
 					assignedNode = midNode;
 					currentState.assumption = assignedNode;
 					break;
+					*/
 				}
 			}
 		}
