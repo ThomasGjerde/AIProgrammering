@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 public class StateNode extends Node{
 	private ArrayList<ColorNode> nodes;
+	public ArrayList<ColorNode> changes;
 	public boolean victoryState;
 	public boolean consistency;
 	public StateNode stateParent;
@@ -16,7 +17,27 @@ public class StateNode extends Node{
 		//assumptionList = new ArrayList<ColorNode>();
 		//victoryState = checkVictory();
 	}
-	
+	public void applyChanges(){
+		//Can be optimized later
+		if(nodes == null){
+			System.out.println("NO nodes");
+			return;
+		}
+		if(changes == null){
+			System.out.println("NO changes");
+			return;
+		}
+		for(int i = 0; i < changes.size(); i++){
+			for(int j = 0; j < nodes.size(); j++){
+				ColorNode node = nodes.get(j);
+				ColorNode change = changes.get(i);
+				if(node.id == change.id){
+					node.domain = change.domain;
+					node.nodeColor = change.nodeColor;
+				}
+			}
+		}
+	}
 	public void setAssumption(ColorNode assNode){
 		assumption = assNode;
 	}

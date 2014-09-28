@@ -30,13 +30,7 @@ public class VCPGraph {
 		generateEdges(input);
 		//GraphGraphics gg = new GraphGraphics((int)(Math.ceil(Math.sqrt(numNodes))), (int)(Math.ceil(Math.sqrt(numNodes))));
 		StateNode initStateNode = generateInitialStateNode();
-		try {
-			BeanShellTest bst = new BeanShellTest(initStateNode);
-		} catch (EvalError e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		//ToDoRevise tdr = new ToDoRevise(initStateNode);
+		ToDoRevise tdr = new ToDoRevise(initStateNode);
 		//gg.setGraph(initStateNode);
 	}
 	@SuppressWarnings({ "rawtypes", "unchecked" })
@@ -48,6 +42,15 @@ public class VCPGraph {
 			colorNodes.add(pairs.getValue());	
 		}
 		StateNode sn = new StateNode(new Point(0,0),colorNodes);
+		ArrayList<ColorNode> changesList = new ArrayList<ColorNode>();
+		for(int i = 0; i < sn.getNodeList().size(); i++){
+			ColorNode oldNode = sn.getNodeList().get(i);
+			ColorNode newNode = new ColorNode(new Point());
+			newNode.id = oldNode.id;
+			newNode.nodeColor = oldNode.nodeColor;
+			newNode.domain = new ArrayList<Color>(oldNode.domain);
+		}
+		sn.changes = changesList;
 		return sn;
 	}
 	private void generateNodes(ArrayList<String> input){
