@@ -8,11 +8,46 @@ public class StateNode extends Node{
 	public boolean consistency;
 	public StateNode stateParent;
 	public ColorNode assumption;
+	public ArrayList<ColorNode> assumptionList;
 	
 	public StateNode(Point position, ArrayList<ColorNode> nodeList){
 		super(position);
 		this.nodes = nodeList;
+		assumptionList = new ArrayList<ColorNode>();
 		//victoryState = checkVictory();
+	}
+	
+	public void setAssumption(ColorNode assNode){
+		assumption = assNode;
+	}
+	
+	public ArrayList<ColorNode> getAssumptionList(){
+		return assumptionList;
+	}
+	
+	public void addToAssumptionList(ColorNode addNode){
+		assumptionList.add(addNode);
+	}
+	
+	public void removeFromAssumptionList(ColorNode removeNode){
+		for(int i=0; i<assumptionList.size(); i++){
+			if(assumptionList.get(i) == removeNode){
+				assumptionList.remove(removeNode);
+				break;
+			}
+		}
+	}
+	
+	public ColorNode getAssumption(){
+		return assumption;
+	}
+	
+	public boolean checkAssumption(){
+		if(assumption != null){
+			return true;
+		}else{
+			return false;
+		}
 	}
 	
 	//dette m� skrives om, vekk med constraints
