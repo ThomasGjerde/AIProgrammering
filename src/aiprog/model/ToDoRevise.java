@@ -22,7 +22,7 @@ public class ToDoRevise {
 	public void check(){
 		
 		try {
-			Thread.sleep(500);
+			Thread.sleep(100);
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -192,11 +192,27 @@ public class ToDoRevise {
 						midArray.add(midChild.assumption);
 						
 					}
+					
+					boolean stupidCheck = false;
+					for(int k=0; k<midArray.size(); k++){
+						if(midArray.get(k).pos.x != midNode.pos.x && midArray.get(k).pos.y != midNode.pos.y){
+							stupidCheck = true;
+						}else{
+							stupidCheck = false;
+						}
+					}
+					if(stupidCheck){
+						assignedNode = midNode;
+						currentState.assumption = assignedNode;
+					}
+					/*
 					if(!midArray.contains(midNode)){
 						assignedNode = midNode;
 						currentState.assumption = assignedNode;
-						break;
-					}
+						//break;
+					}else{
+						backTracking();
+					}*/
 					
 					/*
 					assignedNode = midNode;
