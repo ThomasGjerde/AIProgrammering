@@ -7,6 +7,8 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
+import bsh.EvalError;
+
 import aiprog.gui.GraphGraphics;
 import aiprog.model.ColorNode;
 import aiprog.model.Point;
@@ -28,7 +30,13 @@ public class VCPGraph {
 		generateEdges(input);
 		//GraphGraphics gg = new GraphGraphics((int)(Math.ceil(Math.sqrt(numNodes))), (int)(Math.ceil(Math.sqrt(numNodes))));
 		StateNode initStateNode = generateInitialStateNode();
-		ToDoRevise tdr = new ToDoRevise(initStateNode);
+		try {
+			BeanShellTest bst = new BeanShellTest(initStateNode);
+		} catch (EvalError e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		//ToDoRevise tdr = new ToDoRevise(initStateNode);
 		//gg.setGraph(initStateNode);
 	}
 	@SuppressWarnings({ "rawtypes", "unchecked" })
