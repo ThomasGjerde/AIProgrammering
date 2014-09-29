@@ -21,6 +21,25 @@ public class GACNode extends Node {
 		// TODO Auto-generated method stub
 		return null;
 	}
+	public void applyChanges(){
+		//Can be optimized later
+		if(cspList == null){
+			return;
+		}
+		if(changes == null){
+			return;
+		}
+		for(int i = 0; i < changes.size(); i++){
+			for(int j = 0; j < cspList.size(); j++){
+				VCPNode node = (VCPNode)cspList.get(j);
+				VCPNode change = (VCPNode)changes.get(i);
+				if(node.id == change.id){
+					node.domain = change.domain;
+					node.setColor(change.getColor());
+				}
+			}
+		}
+	}
 	public void setChanges(ArrayList<CSPNode> changes){
 		this.changes = new ArrayList<CSPNode>(changes);
 	}

@@ -1,9 +1,12 @@
 package aiprog.model;
 
+import java.util.ArrayList;
+
 public class VCP extends CSP{
 
-	public VCP(Node startNode) {
-		super(startNode);
+	public VCP(Node initialNode) {
+		super(initialNode);
+		
 		// TODO Auto-generated constructor stub
 	}
 

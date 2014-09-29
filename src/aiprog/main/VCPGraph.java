@@ -21,10 +21,17 @@ public class VCPGraph {
 	int numNodes = 0;
 	int numEdges = 0;
 	int k;
+	ArrayList<String> constraintVars = new ArrayList<String>();
+	String constraintExpression;
 	//ArrayList<ColorNode> nodes = new ArrayList<ColorNode>();
 	Map<Integer,VCPNode> nodeMap = new HashMap<Integer, VCPNode>();
 	public VCPGraph(String path, int k) throws IOException{
 		this.k = k;
+		//Constraints
+		constraintVars.add("a");
+		constraintVars.add("b");
+		constraintExpression = "a.getColor().toString() != b.getColor().toString()";
+		
 		ArrayList<String> input = IOUtils.getInputFromFile(path);
 		setNums(parseLine(input.get(0)));
 		generateNodes(input);
@@ -47,11 +54,12 @@ public class VCPGraph {
 		//ArrayList<VCPNode> changesList = new ArrayList<VCPNode>();
 		for(int i = 0; i < gacNode.getCSPList().size(); i++){
 			VCPNode oldNode = (VCPNode)gacNode.getCSPList().get(i);
-			VCPNode newNode = new VCPNode(new Point(),k);
+			VCPNode newNode = new VCPNode(new Point(),constraintVars,constraintExpression,k);
 			newNode.setId(oldNode.getId());
 			newNode.setColor(oldNode.getColor());
 			newNode.setDomain(new ArrayList<Integer>(oldNode.getDomain()));
 			//changesList.add(newNode);
+			//System.out.println(newNode.validateConstraint(oldNode));
 			gacNode.addChange((CSPNode)newNode);
 		}
 		//gacNode.setChanges((ArrayList<CSPNode>)changesList);
@@ -60,7 +68,7 @@ public class VCPGraph {
 	private void generateNodes(ArrayList<String> input){
 		for(int i = 1; i < numNodes+1; i++){
 			ArrayList<Double> tempList = parseLine(input.get(i));
-			VCPNode vcpNode = new VCPNode(new Point(),k);
+			VCPNode vcpNode = new VCPNode(new Point(),constraintVars,constraintExpression,k);
 				vcpNode.setId(tempList.get(0).intValue());
 				vcpNode.pos.setDoubleX(tempList.get(1));
 				vcpNode.pos.setDoubleY(tempList.get(2));

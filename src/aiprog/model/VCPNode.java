@@ -3,10 +3,13 @@ package aiprog.model;
 import java.awt.Color;
 import java.util.ArrayList;
 
+import bsh.EvalError;
+import bsh.Interpreter;
+
 public class VCPNode extends CSPNode{
 	
-	public VCPNode(Point position, int k) {
-		super(position);
+	public VCPNode(Point position, ArrayList<String> constraintVars, String constraintExpression, int k) {
+		super(position, constraintVars, constraintExpression);
 		standardColors(k);
 	}
 
@@ -51,5 +54,4 @@ public class VCPNode extends CSPNode{
 		
 		
 	}
-
 }
