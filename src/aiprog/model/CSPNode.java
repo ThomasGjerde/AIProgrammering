@@ -10,7 +10,7 @@ public abstract class CSPNode extends Node{
 	protected ArrayList<Integer> domain = new ArrayList<Integer>();
 	protected ArrayList<String> constraintVars;
 	protected String constraintExpression;
-	protected int nodeValue;
+	protected int nodeValue = -1;
 	public CSPNode(Point position, ArrayList<String> constraintVars, String constraintExpression) {
 		super(position);
 		this.constraintVars = constraintVars;

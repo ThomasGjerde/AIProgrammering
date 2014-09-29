@@ -15,8 +15,12 @@ public class VCP extends CSP{
 
 	@Override
 	protected boolean checkVictory() {
-		// TODO Auto-generated method stub
-		return false;
+		for(int i = 0; i < ((GACNode)currentNode).cspList.size(); i++){
+			if(((GACNode)currentNode).cspList.get(i).getNodeValue() == 0){
+				return false;
+			}
+		}
+		return true;
 	}
 
 	@Override

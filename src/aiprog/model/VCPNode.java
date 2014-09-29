@@ -20,7 +20,7 @@ public class VCPNode extends CSPNode{
 	}
 	
 	public Color getColor(){
-		if(nodeValue == 0){
+		if(nodeValue == -1){
 			return null;
 		}
 		Color color = new Color(nodeValue);
@@ -29,7 +29,7 @@ public class VCPNode extends CSPNode{
 	
 	public void setColor(Color color){
 		if(color == null){
-			nodeValue = 0;
+			nodeValue = -1;
 		}else{
 		nodeValue = color.getRGB();
 		}
