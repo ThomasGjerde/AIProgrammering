@@ -2,6 +2,9 @@ package aiprog.main;
 
 import java.io.IOException;
 
+import aiprog.model.Board;
+import aiprog.navigation.GridDepthFirstSearch;
+
 
 public class Main {
 
@@ -11,13 +14,14 @@ public class Main {
 	@SuppressWarnings("unused")
 	public static void main(String[] args) {
 		
+		/*
 		try {
 			VCPGraph graph = new VCPGraph("/home/vcpGraph.txt",4);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+		*/
 		/*
 		try {
 			Board board = new Board("/home/board.txt");

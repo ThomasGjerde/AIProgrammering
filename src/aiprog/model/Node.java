@@ -2,7 +2,7 @@ package aiprog.model;
 
 import java.util.ArrayList;
 
-public class Node {
+public abstract class Node {
 	public ArrayList<Node> children;
 	public Node parent;
 	public Status status;
@@ -29,16 +29,7 @@ public class Node {
 	public void setStatus(Status newStatus){
 		status = newStatus;
 	}
-	public ArrayList<Node> getUnoccupiedChildren(){
-		ArrayList<Node> returnArray = new ArrayList<Node>();
-		for(int i = 0; i < children.size(); i++){
-			Node tempNode = children.get(i);
-			if(tempNode.status == Status.Unvisited || tempNode.status == Status.Visiting){
-				returnArray.add(tempNode);
-			}
-		}
-		return returnArray;
-	}
+	public abstract ArrayList<Node> getUnoccupiedChildren();
 	
 	public enum Status {
 		Unvisited,
