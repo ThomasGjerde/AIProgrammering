@@ -20,11 +20,9 @@ public class StateNode extends Node{
 	public void applyChanges(){
 		//Can be optimized later
 		if(nodes == null){
-			System.out.println("NO nodes");
 			return;
 		}
 		if(changes == null){
-			System.out.println("NO changes");
 			return;
 		}
 		for(int i = 0; i < changes.size(); i++){
