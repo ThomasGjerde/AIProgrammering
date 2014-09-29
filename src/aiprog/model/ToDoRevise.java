@@ -58,13 +58,17 @@ public class ToDoRevise {
 				}
 			}
 		}
+		
+		ArrayList<Integer> idList = new ArrayList<Integer>();
+		for(int l = 0; l < childList.size(); l++){
+			idList.add(childList.get(l).id);
+		}
+		
 		ColorNode tempNode = null;
 		for(int j=0; j<currentState.getNodeList().size(); j++){
 			tempNode = currentState.getNodeList().get(j);
-			ArrayList<Integer> idList = new ArrayList<Integer>();
-			for(int l = 0; l < childList.size(); l++){
-				idList.add(childList.get(l).id);
-			}
+			
+			
 			if(tempNode.getColor() == null && !tempNode.getDomain().isEmpty() && (!idList.contains(new Integer(tempNode.id)))){
 				return true;
 			}
@@ -109,13 +113,7 @@ public class ToDoRevise {
 	}
 	
 	public void backTracking(){
-		System.out.println("Backtracking");
-		for(int i = 0; i < rootNode.changes.size(); i++){
-			if(rootNode.changes.get(i).nodeColor == null){
-			}else{	
-			}
-			
-		}
+		
 		boolean backTrack = false;
 		while(!backTrack){
 			gg.setGraph(currentState);
@@ -152,7 +150,6 @@ public class ToDoRevise {
 		for(int i=0; i<currentState.getNodeList().size(); i++){
 			ColorNode midNode = currentState.getNodeList().get(i);
 			if(midNode.getColor() == null && midNode.getDomain().isEmpty()){
-				System.out.println("Return false");
 				return false;
 			}
 		}
@@ -170,25 +167,22 @@ public class ToDoRevise {
 			for(int i=0; i<currentState.getStateParent().getChildren().size(); i++){
 				StateNode midState = (StateNode)currentState.getStateParent().getChildren().get(i);
 				if(midState.assumption != null){
-				
-				childList.add(midState.assumption);
+					childList.add(midState.assumption);
 				}
 			}
 		}
 		ColorNode tempNode = null;
 
+		ArrayList<Integer> idList = new ArrayList<Integer>();
+		for(int l = 0; l < childList.size(); l++){
+			idList.add(childList.get(l).id);
+		}
+		
 		for(int j=0; j<currentState.getNodeList().size(); j++){
 			tempNode = currentState.getNodeList().get(j);
 			
-			//Remember remember the fifth of fix this shit
-			ArrayList<Integer> idList = new ArrayList<Integer>();
-			for(int l = 0; l < childList.size(); l++){
-				idList.add(childList.get(l).id);
-			}
-			for(int k=0; k<childList.size(); k++){
-				if(tempNode.getColor() == null && !tempNode.getDomain().isEmpty() && (!idList.contains(new Integer(tempNode.id)))){
-					assignedNode = tempNode;
-				}
+			if(tempNode.getColor() == null && !tempNode.getDomain().isEmpty() && (!idList.contains(new Integer(tempNode.id)))){
+				assignedNode = tempNode;
 			}
 
 			if(childList.isEmpty() && tempNode.getColor() == null && !tempNode.getDomain().isEmpty()){
