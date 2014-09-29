@@ -59,11 +59,39 @@ public class ToDoRevise {
 		}
 	}
 	
-	public boolean possibleAssumption(ColorNode old){
-		for(int i=0; i<currentState.getNodeList().size(); i++){
-			ColorNode midNode = currentState.getNodeList().get(i); 
-			if(midNode.getDomain() != null && midNode.getDomain().size() > 0 && midNode.getColor() == null && midNode != old){
-				return true;
+	public boolean possibleAssumption(){
+		StateNode currentState = this.currentState.getStateParent();
+		ArrayList<ColorNode> childList = new ArrayList<ColorNode>();
+		if(currentState.getStateParent().assumption == null){
+			
+		}else{
+			for(int i=0; i<currentState.getStateParent().getChildren().size(); i++){
+				StateNode midState = (StateNode)currentState.getStateParent().getChildren().get(i);
+				if(midState.assumption != null){
+				
+				childList.add(midState.assumption);
+				System.out.println("AssumtionList: " + midState.assumption.id);
+				}
+			}
+		}
+		System.out.println("ChildList: " + childList.size());
+		System.out.println("currentState.x " + currentState.pos.x + " currentState.y" + currentState.pos.y);
+		ColorNode tempNode = null;
+		//g�r igjennom alle nodene
+		for(int j=0; j<currentState.getNodeList().size(); j++){
+			tempNode = currentState.getNodeList().get(j);
+			//g�r igjennom alle barna for hver iterasjon
+			
+			//Remember remember the fifth of fix this shit
+			ArrayList<Integer> idList = new ArrayList<Integer>();
+			for(int l = 0; l < childList.size(); l++){
+				idList.add(childList.get(l).id);
+			}
+			for(int k=0; k<childList.size(); k++){
+				if(tempNode.getColor() == null && !tempNode.getDomain().isEmpty() && (!idList.contains(new Integer(tempNode.id)))){
+					System.out.println("Adds: " + tempNode.id);
+					return true;
+				}
 			}
 		}
 		return false;
@@ -129,7 +157,7 @@ public class ToDoRevise {
 			if(currentState.getAssumption() == null){
 				
 			}
-			if(possibleAssumption(currentState.getAssumption()) && currentState.consistency == true){
+			if(possibleAssumption() && currentState.consistency == true){
 				backTrack = true;
 				startBranch();
 				break;
