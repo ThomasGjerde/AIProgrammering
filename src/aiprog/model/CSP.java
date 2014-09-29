@@ -27,24 +27,15 @@ public abstract class CSP extends AStarGAC{
 		//abcdefghijklmnop
 		//reduction
 		for(int k=0; k<tempCSPList.size(); k++){
-			//VCPNode tempVCPNode = (VCPNode)tempCSPList.get(k);
-		}
-		
-		//
-		/*
-		public void reduction(ColorNode node){
-			for(int i=0; i<node.getChildren().size(); i++){
-				ColorNode midChild = (ColorNode)node.getChildren().get(i);
-				if(node.getColor() != null){
-					if(midChild.getDomain().contains(node.getColor())){
-						midChild.reduseDomain(node.getColor());
+			VCPNode tempVCPNode = (VCPNode)tempCSPList.get(k);
+			if(tempVCPNode.getColor() != null){
+				for(int l=0; l<tempVCPNode.getChildren().size(); l++){
+					VCPNode tempVCPChild = (VCPNode) tempVCPNode.getChildren().get(l);
+					if (tempVCPChild.domain.contains(tempVCPNode.getColor().getRGB())){
+						tempVCPChild.reduceDomain(tempVCPNode.getColor().getRGB());
 					}
 				}
 			}
-			check();
 		}
-		*/
 	}
-	
-
 }
