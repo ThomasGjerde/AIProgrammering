@@ -22,7 +22,7 @@ public class ToDoRevise {
 	public void check(){
 		
 		try {
-			Thread.sleep(100);
+			Thread.sleep(500);
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -54,7 +54,6 @@ public class ToDoRevise {
 		}else if(victoryCheck()){
 			
 		}else{
-			//System.out.println("Else backtrack");
 			backTracking();
 		}
 	}
@@ -78,17 +77,14 @@ public class ToDoRevise {
 			ArrayList<Integer> idList = new ArrayList<Integer>();
 			for(int l = 0; l < childList.size(); l++){
 				idList.add(childList.get(l).id);
-				System.out.println("IDLIST: " + childList.get(l).id);
 			}
 			if(tempNode.getColor() == null && !tempNode.getDomain().isEmpty() && (!idList.contains(new Integer(tempNode.id)))){
-				System.out.println("Possible ass: " + tempNode.id);
 				return true;
 			}
 		}
 		return false;
 	}
 	private StateNode generateStateNode(StateNode currentNode, boolean backTracked){
-		System.out.println("Generating new child node, previous size: " + currentNode.getChildren().size());
 		StateNode newNode = new StateNode(new Point(), currentNode.getNodeList());
 		if(backTracked){
 			newNode.pos.x = currentNode.pos.x + 1;
@@ -127,17 +123,15 @@ public class ToDoRevise {
 	}
 	
 	public void backTracking(){
+		System.out.println("Backtracking");
 		for(int i = 0; i < rootNode.changes.size(); i++){
 			if(rootNode.changes.get(i).nodeColor == null){
-				//System.out.println(rootNode.changes.get(i).id + ": null");
-			}else{
-				//System.out.println(rootNode.changes.get(i).id + ": " + rootNode.changes.get(i).nodeColor);	
+			}else{	
 			}
 			
 		}
 		boolean backTrack = false;
 		while(!backTrack){
-			//System.out.println("Backtrack");
 			gg.setGraph(currentState);
 			try {
 				Thread.sleep(10);
@@ -148,15 +142,13 @@ public class ToDoRevise {
 			if(currentState.getAssumption() == null){
 				
 			}
-			if(possibleAssumption() && currentState.consistency == true){
+			if(possibleAssumption()){
 				backTrack = true;
 				startBranch();
 				break;
 			}else{
-				currentState.consistency = false;
-				//System.out.println("Pos" + currentState.pos.x + "," + currentState.pos.y);
 				currentState = currentState.getStateParent();
-				System.out.println("Backtrack ass:" + currentState.assumption.id + " Parent children:" + currentState.getStateParent().getChildren().size());
+				
 				currentState.applyChanges();
 			}
 		}
@@ -171,6 +163,14 @@ public class ToDoRevise {
 	}
 	
 	public boolean consistency(){
+		for(int i=0; i<currentState.getNodeList().size(); i++){
+			ColorNode midNode = currentState.getNodeList().get(i);
+			if(midNode.getColor() == null && midNode.getDomain().isEmpty()){
+				System.out.println("Return false");
+				return false;
+				
+			}
+		}
 		return true;
 		/*
 		boolean cons = true;
@@ -179,7 +179,6 @@ public class ToDoRevise {
 			if(midNode.getColor() == null && midNode.getDomain().isEmpty()){
 				cons = false;
 				currentState.consistency = false;
-				System.out.println("Inconsistent");
 				return cons;
 			}
 		}
@@ -192,12 +191,9 @@ public class ToDoRevise {
 	//rewrite av assign
 	//trengte og ordne tankene litt + og rydde opp
 	public void assign(){
-		System.out.println("Assign");
 		ColorNode assignedNode = null;
 		ArrayList<ColorNode> childList = new ArrayList<ColorNode>();
-		//System.out.println(currentState.getStateParent());
 		//for loop for og legge til alle assumption nodene til barna, hvertbarn skal ha 1 om branchinga funker riktig
-		//System.out.println("currentState children" + currentState.getStateParent().getChildren().size());
 		if(currentState.getStateParent().assumption == null){
 			
 		}else{
@@ -206,12 +202,9 @@ public class ToDoRevise {
 				if(midState.assumption != null){
 				
 				childList.add(midState.assumption);
-				System.out.println("AssumtionList: " + midState.assumption.id);
 				}
 			}
 		}
-		System.out.println("ChildList: " + childList.size());
-		System.out.println("currentState.x " + currentState.pos.x + " currentState.y" + currentState.pos.y);
 		ColorNode tempNode = null;
 		//g�r igjennom alle nodene
 		for(int j=0; j<currentState.getNodeList().size(); j++){
@@ -225,7 +218,6 @@ public class ToDoRevise {
 			}
 			for(int k=0; k<childList.size(); k++){
 				if(tempNode.getColor() == null && !tempNode.getDomain().isEmpty() && (!idList.contains(new Integer(tempNode.id)))){
-					System.out.println("Adds: " + tempNode.id);
 					assignedNode = tempNode;
 				}
 			}
@@ -241,7 +233,6 @@ public class ToDoRevise {
 		if(assignedNode != null){
 			assignedNode.setColor(assignedNode.getDomain().get(0));
 			currentState.assumption = assignedNode;
-			System.out.println("Assuming: " + currentState.assumption.id);
 			reduction(assignedNode);
 		}else{
 			backTracking();
@@ -269,12 +260,10 @@ public class ToDoRevise {
 						}
 					}*/
 					ArrayList<ColorNode> midArray = new ArrayList<ColorNode>();
-					//System.out.println("Size: " + currentState.getChildren().size());
 					for(int j=0; j<currentState.getStateParent().getChildren().size(); j++){
 						StateNode midChild = (StateNode)currentState.getStateParent().getChildren().get(j);
 						if(midChild.assumption != null){
 							midArray.add(midChild.assumption);
-							//System.out.println(midChild.assumption);
 						}
 
 					}
@@ -284,7 +273,6 @@ public class ToDoRevise {
 						if(midArray.get(k).pos.x != midNode.pos.x && midArray.get(k).pos.y != midNode.pos.y){
 							stupidCheck = true;
 						}else{
-							//System.out.println("Flase");
 							stupidCheck = false;
 						}
 					}
@@ -311,9 +299,7 @@ public class ToDoRevise {
 		}
 		if(!victoryCheck() && (assignedNode == null || assignedNode.getDomain() == null || assignedNode.getDomain().isEmpty())){
 			if(assignedNode == null){
-				//System.out.println("Assigned node == null");
 			}
-			currentState.consistency = false;
 			backTracking();
 		}else{
 			assignedNode.setColor(assignedNode.getDomain().get(0));
