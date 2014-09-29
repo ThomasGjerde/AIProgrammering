@@ -69,6 +69,7 @@ public class ToDoRevise {
 		return false;
 	}
 	private StateNode generateStateNode(StateNode currentNode, boolean backTracked){
+		System.out.println("Generating new child node, previous size: " + currentNode.getChildren().size());
 		StateNode newNode = new StateNode(new Point(), currentNode.getNodeList());
 		if(backTracked){
 			newNode.pos.x = currentNode.pos.x + 1;
@@ -99,7 +100,7 @@ public class ToDoRevise {
 		StateNode newState = generateStateNode(midState, true);
 		newState.applyChanges();
 		newState.setParent(midState);
-		currentState.addChild(newState);
+		currentState.getStateParent().addChild(newState);
 		currentState = newState;
 		currentState.applyChanges();
 		currentState.consistency = true;
@@ -136,6 +137,7 @@ public class ToDoRevise {
 				currentState.consistency = false;
 				//System.out.println("Pos" + currentState.pos.x + "," + currentState.pos.y);
 				currentState = currentState.getStateParent();
+				System.out.println("Backtrack ass:" + currentState.assumption.id + " Parent children:" + currentState.getStateParent().getChildren().size());
 				currentState.applyChanges();
 			}
 		}
@@ -171,44 +173,49 @@ public class ToDoRevise {
 	//rewrite av assign
 	//trengte og ordne tankene litt + og rydde opp
 	public void assign(){
+		System.out.println("Assign");
 		ColorNode assignedNode = null;
 		ArrayList<ColorNode> childList = new ArrayList<ColorNode>();
-		
+		//System.out.println(currentState.getStateParent());
 		//for loop for og legge til alle assumption nodene til barna, hvertbarn skal ha 1 om branchinga funker riktig
 		//System.out.println("currentState children" + currentState.getStateParent().getChildren().size());
-		if(currentState.getStateParent() == null){
+		if(currentState.getStateParent().assumption == null){
 			
 		}else{
 			for(int i=0; i<currentState.getStateParent().getChildren().size(); i++){
 				StateNode midState = (StateNode)currentState.getStateParent().getChildren().get(i);
+				if(midState.assumption != null){
+				
 				childList.add(midState.assumption);
-				//System.out.println("midState " + midState.assumption.toString());
+				System.out.println("midState " + midState.assumption.id);
+				}
 			}
 		}
-		
+		System.out.println("ChildList: " + childList.size());
 		System.out.println("currentState.x " + currentState.pos.x + " currentState.y" + currentState.pos.y);
 		ColorNode tempNode = null;
-		//går igjennom alle nodene
+		//gï¿½r igjennom alle nodene
 		for(int j=0; j<currentState.getNodeList().size(); j++){
 			tempNode = currentState.getNodeList().get(j);
-			//går igjennom alle barna for hver iterasjon
+			//gï¿½r igjennom alle barna for hver iterasjon
 			for(int k=0; k<childList.size(); k++){
 				if(tempNode.getColor() == null && !tempNode.getDomain().isEmpty() && (childList.get(k).pos.x != tempNode.pos.x && childList.get(k).pos.y != tempNode.pos.y)){
 					assignedNode = tempNode;
 				}
 			}
-			//hvis childlist er tom sjekk, dette skal egentlig kun skje når det kun er 1 statenode, eller når vi er nederst i en branch
+			//hvis childlist er tom sjekk, dette skal egentlig kun skje nï¿½r det kun er 1 statenode, eller nï¿½r vi er nederst i en branch
 			if(childList.isEmpty() && tempNode.getColor() == null && !tempNode.getDomain().isEmpty()){
 				assignedNode = tempNode;
 			}
 		}
 		
 		//childList.size er alltid 0
-		//det bare må være feilen, pga dette så blir det alldri branching, og infinite loop
+		//det bare mï¿½ vï¿½re feilen, pga dette sï¿½ blir det alldri branching, og infinite loop
 		
 		if(assignedNode != null){
 			assignedNode.setColor(assignedNode.getDomain().get(0));
 			currentState.assumption = assignedNode;
+			System.out.println("Assuming: " + currentState.assumption.id);
 			reduction(assignedNode);
 		}else{
 			backTracking();
@@ -218,8 +225,8 @@ public class ToDoRevise {
 	public void assign2(){
 
 		ColorNode assignedNode = null;
-		//Dette er ikke bra, hvis vi backtracker hit (til rotnoden), så vil assignedNode altid bli den samme
-		//så hvis den første antagelsen tilfeldigvis ikke er riktig kan dette hindre at vi finner en løsning
+		//Dette er ikke bra, hvis vi backtracker hit (til rotnoden), sï¿½ vil assignedNode altid bli den samme
+		//sï¿½ hvis den fï¿½rste antagelsen tilfeldigvis ikke er riktig kan dette hindre at vi finner en lï¿½sning
 		if(currentState.stateParent == null){
 			assignedNode = currentState.getNodeList().get(0);
 			currentState.setAssumption(assignedNode);
