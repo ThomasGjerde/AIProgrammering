@@ -174,22 +174,26 @@ public class ToDoRevise {
 		ColorNode assignedNode = null;
 		ArrayList<ColorNode> childList = new ArrayList<ColorNode>();
 		
-		
+		//for loop for og legge til alle assumption nodene til barna, hvertbarn skal ha 1 om branchinga funker riktig
+		System.out.println("currentState children" + currentState.getChildren().size());
 		for(int i=0; i<currentState.getChildren().size(); i++){
-			childList.add((ColorNode) currentState.getChildren().get(i));
+			StateNode midState = (StateNode)currentState.getChildren().get(i);
+			childList.add(midState.assumption);
+			System.out.println("midState " + midState.assumption.toString());
 		}
-		System.out.println("childList.size " + childList.size());
+		
 		System.out.println("currentState.x " + currentState.pos.x + " currentState.y" + currentState.pos.y);
 		ColorNode tempNode = null;
-		
+		//går igjennom alle nodene
 		for(int j=0; j<currentState.getNodeList().size(); j++){
 			tempNode = currentState.getNodeList().get(j);
-			
+			//går igjennom alle barna for hver iterasjon
 			for(int k=0; k<childList.size(); k++){
 				if(tempNode.getColor() == null && !tempNode.getDomain().isEmpty() && (childList.get(k).pos.x != tempNode.pos.x && childList.get(k).pos.y != tempNode.pos.y)){
 					assignedNode = tempNode;
 				}
 			}
+			//hvis childlist er tom sjekk, dette skal egentlig kun skje når det kun er 1 statenode, eller når vi er nederst i en branch
 			if(childList.isEmpty() && tempNode.getColor() == null && !tempNode.getDomain().isEmpty()){
 				assignedNode = tempNode;
 			}
