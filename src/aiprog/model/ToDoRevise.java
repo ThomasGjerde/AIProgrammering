@@ -175,11 +175,15 @@ public class ToDoRevise {
 		ArrayList<ColorNode> childList = new ArrayList<ColorNode>();
 		
 		//for loop for og legge til alle assumption nodene til barna, hvertbarn skal ha 1 om branchinga funker riktig
-		System.out.println("currentState children" + currentState.getChildren().size());
-		for(int i=0; i<currentState.getChildren().size(); i++){
-			StateNode midState = (StateNode)currentState.getChildren().get(i);
-			childList.add(midState.assumption);
-			System.out.println("midState " + midState.assumption.toString());
+		//System.out.println("currentState children" + currentState.getStateParent().getChildren().size());
+		if(currentState.getStateParent() == null){
+			
+		}else{
+			for(int i=0; i<currentState.getStateParent().getChildren().size(); i++){
+				StateNode midState = (StateNode)currentState.getStateParent().getChildren().get(i);
+				childList.add(midState.assumption);
+				//System.out.println("midState " + midState.assumption.toString());
+			}
 		}
 		
 		System.out.println("currentState.x " + currentState.pos.x + " currentState.y" + currentState.pos.y);
