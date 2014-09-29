@@ -22,28 +22,15 @@ public class ToDoRevise {
 	public void check(){
 		
 		try {
-			Thread.sleep(500);
+			Thread.sleep(50);
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		gg.setGraph(currentState);
-		for(int i=0; i<currentState.getNodeList().size(); i++){
-			ColorNode midNode = currentState.getNodeList().get(i);
-			if(midNode.getDomain() != null){
-				if(midNode.getDomain().size() != 0){
-					if(midNode.getColor() == null){
-						if(midNode.getDomain().size() == 1){
-							midNode.setColor(midNode.getDomain().get(0));
-							reduction(midNode);
-						}
-					}
-				}
-			}
-		}
+		
 		if(consistency() && !victoryCheck()){
-			//Point newPoint = new Point(currentState.pos.x, currentState.pos.y+1);
-			//StateNode newState = new StateNode(newPoint, currentState.getNodeList());
+			
 			StateNode newState = generateStateNode(currentState, false);
 
 			newState.setParent(currentState);
@@ -110,8 +97,7 @@ public class ToDoRevise {
 		if(currentState.getStateParent() == null){
 			midState = currentState;
 		}
-		//Point newPoint = new Point(midState.pos.x+1, midState.pos.y);
-		//StateNode newState = new StateNode(newPoint, midState.getNodeList());
+		
 		StateNode newState = generateStateNode(midState, true);
 		newState.applyChanges();
 		newState.setParent(midState);
@@ -168,32 +154,16 @@ public class ToDoRevise {
 			if(midNode.getColor() == null && midNode.getDomain().isEmpty()){
 				System.out.println("Return false");
 				return false;
-				
 			}
 		}
 		return true;
-		/*
-		boolean cons = true;
-		for(int i=0; i<currentState.getNodeList().size(); i++){
-			ColorNode midNode = currentState.getNodeList().get(i);
-			if(midNode.getColor() == null && midNode.getDomain().isEmpty()){
-				cons = false;
-				currentState.consistency = false;
-				return cons;
-			}
-		}
-		currentState.consistency = cons;
 		
-		return cons;
-		*/
 	}
 	
-	//rewrite av assign
-	//trengte og ordne tankene litt + og rydde opp
 	public void assign(){
 		ColorNode assignedNode = null;
 		ArrayList<ColorNode> childList = new ArrayList<ColorNode>();
-		//for loop for og legge til alle assumption nodene til barna, hvertbarn skal ha 1 om branchinga funker riktig
+
 		if(currentState.getStateParent().assumption == null){
 			
 		}else{
@@ -206,10 +176,9 @@ public class ToDoRevise {
 			}
 		}
 		ColorNode tempNode = null;
-		//g�r igjennom alle nodene
+
 		for(int j=0; j<currentState.getNodeList().size(); j++){
 			tempNode = currentState.getNodeList().get(j);
-			//g�r igjennom alle barna for hver iterasjon
 			
 			//Remember remember the fifth of fix this shit
 			ArrayList<Integer> idList = new ArrayList<Integer>();
@@ -221,14 +190,11 @@ public class ToDoRevise {
 					assignedNode = tempNode;
 				}
 			}
-			//hvis childlist er tom sjekk, dette skal egentlig kun skje n�r det kun er 1 statenode, eller n�r vi er nederst i en branch
+
 			if(childList.isEmpty() && tempNode.getColor() == null && !tempNode.getDomain().isEmpty()){
 				assignedNode = tempNode;
 			}
 		}
-		
-		//childList.size er alltid 0
-		//det bare m� v�re feilen, pga dette s� blir det alldri branching, og infinite loop
 		
 		if(assignedNode != null){
 			assignedNode.setColor(assignedNode.getDomain().get(0));
@@ -238,76 +204,6 @@ public class ToDoRevise {
 			backTracking();
 		}
 	}
-	
-	public void assign2(){
-
-		ColorNode assignedNode = null;
-		//Dette er ikke bra, hvis vi backtracker hit (til rotnoden), s� vil assignedNode altid bli den samme
-		//s� hvis den f�rste antagelsen tilfeldigvis ikke er riktig kan dette hindre at vi finner en l�sning
-		if(currentState.stateParent == null){
-			assignedNode = currentState.getNodeList().get(0);
-			currentState.setAssumption(assignedNode);
-		
-		}else{
-			for(int i=0; i<currentState.getNodeList().size(); i++){
-				ColorNode midNode = currentState.getNodeList().get(i); 
-				if(midNode.getDomain() != null && midNode.getDomain().size() > 0 && midNode.getColor() == null && midNode != currentState.getStateParent().getAssumption()){
-					/*
-					for(int j=0; j<currentState.getChildren().size(); j++){
-						StateNode midState = (StateNode)currentState.getChildren().get(j);
-						if(midState.getAssumption() != midNode){
-							
-						}
-					}*/
-					ArrayList<ColorNode> midArray = new ArrayList<ColorNode>();
-					for(int j=0; j<currentState.getStateParent().getChildren().size(); j++){
-						StateNode midChild = (StateNode)currentState.getStateParent().getChildren().get(j);
-						if(midChild.assumption != null){
-							midArray.add(midChild.assumption);
-						}
-
-					}
-					
-					boolean stupidCheck = true;
-					for(int k=0; k<midArray.size(); k++){
-						if(midArray.get(k).pos.x != midNode.pos.x && midArray.get(k).pos.y != midNode.pos.y){
-							stupidCheck = true;
-						}else{
-							stupidCheck = false;
-						}
-					}
-					if(stupidCheck){
-						assignedNode = midNode;
-						currentState.assumption = assignedNode;
-					}
-					/*
-					if(!midArray.contains(midNode)){
-						assignedNode = midNode;
-						currentState.assumption = assignedNode;
-						//break;
-					}else{
-						backTracking();
-					}*/
-					
-					/*
-					assignedNode = midNode;
-					currentState.assumption = assignedNode;
-					break;
-					*/
-				}
-			}
-		}
-		if(!victoryCheck() && (assignedNode == null || assignedNode.getDomain() == null || assignedNode.getDomain().isEmpty())){
-			if(assignedNode == null){
-			}
-			backTracking();
-		}else{
-			assignedNode.setColor(assignedNode.getDomain().get(0));
-			currentState.assumption = assignedNode;
-			reduction(assignedNode);
-		}
-	}
-	
 	
 	public void reduction(ColorNode node){
 		for(int i=0; i<node.getChildren().size(); i++){
