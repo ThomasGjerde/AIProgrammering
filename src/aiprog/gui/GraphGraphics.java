@@ -3,16 +3,16 @@ package aiprog.gui;
 import java.awt.Color;
 import java.util.ArrayList;
 
-import aiprog.model.ColorNode;
+import aiprog.model.OldColorNode;
 import aiprog.model.GridText;
 import aiprog.model.Line;
 import aiprog.model.StateNode;
 
 public class GraphGraphics extends Graphics{
-	private ColorNode[][] cnArray;
+	private OldColorNode[][] cnArray;
 	public GraphGraphics(int sizeX, int sizeY) {
 		super(sizeX, sizeY);
-		cnArray = new ColorNode[sizeX][sizeY];
+		cnArray = new OldColorNode[sizeX][sizeY];
 		
 		grid.setScale((100/(sizeX/2)) + 20);
 		grid.setSpacing(grid.scale/2);
@@ -20,7 +20,7 @@ public class GraphGraphics extends Graphics{
 	private void fillcnArray(StateNode node){
 		int currentX = 0;
 		int currentY = 0;
-		ArrayList<ColorNode> nodeList = node.getNodeList();
+		ArrayList<OldColorNode> nodeList = node.getNodeList();
 		for(int i = 0; i < nodeList.size(); i++){
 			cnArray[currentX][currentY] = nodeList.get(i);
 			if(currentX == cnArray[0].length - 1){
@@ -37,7 +37,7 @@ public class GraphGraphics extends Graphics{
 		sortByRow();
 		for(int i = 0; i < cnArray.length; i++){
 			for(int j = 0; j < cnArray[0].length; j++){
-				ColorNode tempNode = cnArray[i][j];
+				OldColorNode tempNode = cnArray[i][j];
 				if(tempNode != null){
 					if(tempNode.getColor() != null){
 						grid.setCellColorWithoutRepaint(i, j, tempNode.getColor());
@@ -58,7 +58,7 @@ public class GraphGraphics extends Graphics{
 	}
 	private void sortByColumn(){
 		boolean flag = true;
-		ColorNode temp;
+		OldColorNode temp;
 		for(int i = 0; i < cnArray.length; i++){
 			flag = true;
 			while (flag)
@@ -80,7 +80,7 @@ public class GraphGraphics extends Graphics{
 	}
 	private void sortByRow(){
 		boolean flag = true;
-		ColorNode temp;
+		OldColorNode temp;
 		for(int i = 0; i < cnArray[0].length; i++){
 			flag = true;
 			while (flag){

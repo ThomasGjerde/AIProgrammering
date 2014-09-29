@@ -45,7 +45,7 @@ public class ToDoRevise {
 	
 	public boolean possibleAssumption(){
 		StateNode currentState = this.currentState;
-		ArrayList<ColorNode> childList = new ArrayList<ColorNode>();
+		ArrayList<OldColorNode> childList = new ArrayList<OldColorNode>();
 		if(currentState.getStateParent().assumption == null){
 			
 		}else{
@@ -62,7 +62,7 @@ public class ToDoRevise {
 			idList.add(childList.get(l).id);
 		}
 		
-		ColorNode tempNode = null;
+		OldColorNode tempNode = null;
 		for(int j=0; j<currentState.getNodeList().size(); j++){
 			tempNode = currentState.getNodeList().get(j);
 			
@@ -82,10 +82,10 @@ public class ToDoRevise {
 			newNode.pos.x = currentNode.pos.x;
 			newNode.pos.y = currentNode.pos.y + 1;
 		}
-		ArrayList<ColorNode> changesList = new ArrayList<ColorNode>();
+		ArrayList<OldColorNode> changesList = new ArrayList<OldColorNode>();
 		for(int i = 0; i < currentNode.getNodeList().size(); i++){
-			ColorNode oldCN = currentNode.getNodeList().get(i);
-			ColorNode newCN = new ColorNode(oldCN.pos);
+			OldColorNode oldCN = currentNode.getNodeList().get(i);
+			OldColorNode newCN = new OldColorNode(oldCN.pos);
 			newCN.id = oldCN.id;
 			newCN.domain = new ArrayList<Color>(oldCN.domain);
 			newCN.nodeColor = oldCN.nodeColor;
@@ -146,7 +146,7 @@ public class ToDoRevise {
 	
 	public boolean consistency(){
 		for(int i=0; i<currentState.getNodeList().size(); i++){
-			ColorNode midNode = currentState.getNodeList().get(i);
+			OldColorNode midNode = currentState.getNodeList().get(i);
 			if(midNode.getColor() == null && midNode.getDomain().isEmpty()){
 				return false;
 			}
@@ -156,8 +156,8 @@ public class ToDoRevise {
 	}
 	
 	public void assign(){
-		ColorNode assignedNode = null;
-		ArrayList<ColorNode> childList = new ArrayList<ColorNode>();
+		OldColorNode assignedNode = null;
+		ArrayList<OldColorNode> childList = new ArrayList<OldColorNode>();
 
 		if(currentState.getStateParent().assumption == null){
 			
@@ -169,7 +169,7 @@ public class ToDoRevise {
 				}
 			}
 		}
-		ColorNode tempNode = null;
+		OldColorNode tempNode = null;
 
 		ArrayList<Integer> idList = new ArrayList<Integer>();
 		for(int l = 0; l < childList.size(); l++){
@@ -197,9 +197,9 @@ public class ToDoRevise {
 		}
 	}
 	
-	public void reduction(ColorNode node){
+	public void reduction(OldColorNode node){
 		for(int i=0; i<node.getChildren().size(); i++){
-			ColorNode midChild = (ColorNode)node.getChildren().get(i);
+			OldColorNode midChild = (OldColorNode)node.getChildren().get(i);
 			if(node.getColor() != null){
 				if(midChild.getDomain().contains(node.getColor())){
 					midChild.reduseDomain(node.getColor());

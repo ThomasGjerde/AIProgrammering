@@ -1,9 +1,9 @@
 package aiprog.model;
 
 public class Constraint {
-	public ColorNode x;
-	public ColorNode y;
-	public Constraint(ColorNode xNode, ColorNode yNode){
+	public OldColorNode x;
+	public OldColorNode y;
+	public Constraint(OldColorNode xNode, OldColorNode yNode){
 		this.x = xNode;
 		this.y = yNode;
 	}
@@ -16,10 +16,10 @@ public class Constraint {
 		}
 		return false;
 	}
-	public ColorNode getConstraintX(){
+	public OldColorNode getConstraintX(){
 		return x;
 	}
-	public ColorNode getConstraintY(){
+	public OldColorNode getConstraintY(){
 		return y;
 	}
 }

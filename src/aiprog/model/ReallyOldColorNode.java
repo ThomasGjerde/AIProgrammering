@@ -3,7 +3,7 @@ package aiprog.model;
 import java.awt.Color;
 import java.util.ArrayList;
 
-public class ColorNode extends Node {
+public class ReallyOldColorNode extends Node {
 	public ArrayList<Color> standardColors;
 	public ArrayList<Color> domain;
 	public ArrayList<Constraint> constraints;
@@ -11,7 +11,7 @@ public class ColorNode extends Node {
 	public int id = -1;
 	public boolean affected;
 	
-	public ColorNode(Point position){
+	public ReallyOldColorNode(Point position){
 		super(position);
 		standardColors = new ArrayList<Color>();
 		fillStandardColors();
@@ -52,7 +52,7 @@ public class ColorNode extends Node {
 	
 	public boolean checkConstrain(){
 		for(int i=0; i<this.getChildren().size(); i++){
-			ColorNode midChild = (ColorNode) this.getChildren().get(i);
+			OldColorNode midChild = (OldColorNode) this.getChildren().get(i);
 			if(this.getColor() != null && midChild.getColor() != null){
 				if(this.getColor() != midChild.getColor()){
 					return true;
@@ -105,7 +105,7 @@ public class ColorNode extends Node {
 	
 	public void fillConstraints(){
 		for(int i=0; i<super.getChildren().size(); i++){
-			constraints.add(new Constraint(this, (ColorNode) super.getChildren().get(i)));
+			constraints.add(new Constraint(this, (OldColorNode) super.getChildren().get(i)));
 		}
 	}
 

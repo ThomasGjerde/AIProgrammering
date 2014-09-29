@@ -3,6 +3,7 @@ package aiprog.model;
 import java.util.ArrayList;
 
 public abstract class CSPNode extends Node{
+	protected int id;
 	protected ArrayList<Integer> domain;
 	protected int nodeValue;
 	public CSPNode(Point position) {
@@ -19,5 +20,11 @@ public abstract class CSPNode extends Node{
 	}
 	public void setNodeValue(int nodeValue){
 		this.nodeValue = nodeValue;
+	}
+	public void setId(int id){
+		this.id = id;
+	}
+	public int getId(){
+		return this.id;
 	}
 }

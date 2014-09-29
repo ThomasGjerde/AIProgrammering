@@ -2,16 +2,16 @@ package aiprog.model;
 
 import java.util.ArrayList;
 
-public class StateNode extends Node{
-	private ArrayList<ColorNode> nodes;
-	public ArrayList<ColorNode> changes;
+public class OldStateNode extends Node{
+	private ArrayList<OldColorNode> nodes;
+	public ArrayList<OldColorNode> changes;
 	public boolean victoryState;
 	public boolean consistency = true;
 	public StateNode stateParent;
-	public ColorNode assumption;
+	public OldColorNode assumption;
 	//public ArrayList<ColorNode> assumptionList;
 	
-	public StateNode(Point position, ArrayList<ColorNode> nodeList){
+	public OldStateNode(Point position, ArrayList<OldColorNode> nodeList){
 		super(position);
 		this.nodes = nodeList;
 		//assumptionList = new ArrayList<ColorNode>();
@@ -27,8 +27,8 @@ public class StateNode extends Node{
 		}
 		for(int i = 0; i < changes.size(); i++){
 			for(int j = 0; j < nodes.size(); j++){
-				ColorNode node = nodes.get(j);
-				ColorNode change = changes.get(i);
+				OldColorNode node = nodes.get(j);
+				OldColorNode change = changes.get(i);
 				if(node.id == change.id){
 					node.domain = change.domain;
 					node.nodeColor = change.nodeColor;
@@ -36,7 +36,7 @@ public class StateNode extends Node{
 			}
 		}
 	}
-	public void setAssumption(ColorNode assNode){
+	public void setAssumption(OldColorNode assNode){
 		assumption = assNode;
 	}
 	/*
@@ -63,7 +63,7 @@ public class StateNode extends Node{
 	}
 	*/
 	
-	public ColorNode getAssumption(){
+	public OldColorNode getAssumption(){
 		return assumption;
 	}
 	
@@ -93,13 +93,13 @@ public class StateNode extends Node{
 	*/
 	public boolean checkVictory(){
 		for(int i=0; i<this.getNodeList().size(); i++){
-			ColorNode midNode = this.getNodeList().get(i);
+			OldColorNode midNode = this.getNodeList().get(i);
 			if(midNode.getColor() == null){
 				this.victoryState = false;
 				return false;
 			}
 			for(int j=0; j<midNode.getChildren().size(); j++){
-				ColorNode midChild = (ColorNode)midNode.getChildren().get(j);
+				OldColorNode midChild = (OldColorNode)midNode.getChildren().get(j);
 				if(midChild.getColor() == null){
 					this.victoryState = false;
 					return false;
@@ -133,15 +133,15 @@ public class StateNode extends Node{
 		return this.stateParent;
 	}
 	
-	public ArrayList<ColorNode> getNodeList(){
+	public ArrayList<OldColorNode> getNodeList(){
 		return nodes;
 	}
 	
-	public void setNodeList(ArrayList<ColorNode> newList){
+	public void setNodeList(ArrayList<OldColorNode> newList){
 		nodes = newList;
 	}
 	
-	public void addToNodeList(ColorNode newNode){
+	public void addToNodeList(OldColorNode newNode){
 		nodes.add(newNode);
 	}
 	@Override

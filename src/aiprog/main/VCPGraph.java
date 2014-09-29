@@ -10,10 +10,10 @@ import java.util.Map;
 import bsh.EvalError;
 
 import aiprog.gui.GraphGraphics;
-import aiprog.model.ColorNode;
+import aiprog.model.GACNode;
 import aiprog.model.Point;
-import aiprog.model.StateNode;
 import aiprog.model.ToDoRevise;
+import aiprog.model.VCPNode;
 import aiprog.utility.IOUtils;
 
 public class VCPGraph {
@@ -21,7 +21,7 @@ public class VCPGraph {
 	int numEdges = 0;
 	int k;
 	//ArrayList<ColorNode> nodes = new ArrayList<ColorNode>();
-	Map<Integer,ColorNode> nodeMap = new HashMap<Integer, ColorNode>();
+	Map<Integer,VCPNode> nodeMap = new HashMap<Integer, VCPNode>();
 	public VCPGraph(String path, int k) throws IOException{
 		this.k = k;
 		ArrayList<String> input = IOUtils.getInputFromFile(path);
@@ -29,26 +29,26 @@ public class VCPGraph {
 		generateNodes(input);
 		generateEdges(input);
 		//GraphGraphics gg = new GraphGraphics((int)(Math.ceil(Math.sqrt(numNodes))), (int)(Math.ceil(Math.sqrt(numNodes))));
-		StateNode initStateNode = generateInitialStateNode();
-		ToDoRevise tdr = new ToDoRevise(initStateNode);
+		//StateNode initStateNode = generateInitialStateNode();
+		//ToDoRevise tdr = new ToDoRevise(initStateNode);
 		//gg.setGraph(initStateNode);
 	}
 	@SuppressWarnings({ "rawtypes", "unchecked" })
-	private StateNode generateInitialStateNode(){
-		ArrayList<ColorNode> colorNodes = new ArrayList<ColorNode>();
+	private GACNode generateInitialStateNode(){
+		ArrayList<VCPNode> vcpNodes = new ArrayList<VCPNode>();
 		Iterator it = nodeMap.entrySet().iterator();
 		while(it.hasNext()){
-			Map.Entry<Integer,ColorNode> pairs = (Map.Entry<Integer,ColorNode>)it.next();
-			colorNodes.add(pairs.getValue());	
+			Map.Entry<Integer,VCPNode> pairs = (Map.Entry<Integer,VCPNode>)it.next();
+			vcpNodes.add(pairs.getValue());	
 		}
-		StateNode sn = new StateNode(new Point(0,0),colorNodes);
-		ArrayList<ColorNode> changesList = new ArrayList<ColorNode>();
-		for(int i = 0; i < sn.getNodeList().size(); i++){
-			ColorNode oldNode = sn.getNodeList().get(i);
-			ColorNode newNode = new ColorNode(new Point());
-			newNode.id = oldNode.id;
-			newNode.nodeColor = oldNode.nodeColor;
-			newNode.domain = new ArrayList<Color>(oldNode.domain);
+		GACNode gacNode = new GACNode(new Point(0,0));
+		ArrayList<VCPNode> changesList = new ArrayList<VCPNode>();
+		for(int i = 0; i < gacNode.getCSPList().size(); i++){
+			VCPNode oldNode = (VCPNode)gacNode.getCSPList().get(i);
+			VCPNode newNode = new VCPNode(new Point(),k);
+			newNode.setId(oldNode.getId());
+			newNode.setColor(oldNode.getColor());
+			newNode.setDomain(new ArrayList<Integer>(oldNode.getDomain()));
 			changesList.add(newNode);
 		}
 		sn.changes = changesList;
@@ -57,7 +57,7 @@ public class VCPGraph {
 	private void generateNodes(ArrayList<String> input){
 		for(int i = 1; i < numNodes+1; i++){
 			ArrayList<Double> tempList = parseLine(input.get(i));
-			ColorNode cn = new ColorNode(new Point());
+			OldColorNode cn = new OldColorNode(new Point());
 				cn.id = tempList.get(0).intValue();
 				cn.pos.setDoubleX(tempList.get(1));
 				cn.pos.setDoubleY(tempList.get(2));
