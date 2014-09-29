@@ -85,7 +85,7 @@ public class ColorNode extends Node {
 	}
 	
 	
-	//HOHEY HER MÅ TING FIKSES! BECAUSE THIS SHIT IS GONNA FUCK US UP YO
+	//HOHEY HER Mï¿½ TING FIKSES! BECAUSE THIS SHIT IS GONNA FUCK US UP YO
 	public boolean setColor(Color color){
 		for(int i=0;i<domain.size();i++){
 			if(color == domain.get(i)){
@@ -107,5 +107,11 @@ public class ColorNode extends Node {
 		for(int i=0; i<super.getChildren().size(); i++){
 			constraints.add(new Constraint(this, (ColorNode) super.getChildren().get(i)));
 		}
+	}
+
+	@Override
+	public ArrayList<Node> getUnoccupiedChildren() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

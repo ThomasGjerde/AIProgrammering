@@ -88,7 +88,7 @@ public class Board {
 		boardArray = new Node[size.x][size.y];
 		for(int i = 0; i < size.x; i++){
 			for(int j = 0; j < size.y; j++){
-				boardArray[i][j] = new Node(new Point(i,j));
+				boardArray[i][j] = new NavNode(new Point(i,j));
 			}
 		}
 	}

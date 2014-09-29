@@ -15,5 +15,10 @@ public class GACNode extends Node {
 	public ArrayList<CSPNode> getCSPList(){
 		return this.cspList;
 	}
+	@Override
+	public ArrayList<Node> getUnoccupiedChildren() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
 }

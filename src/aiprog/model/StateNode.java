@@ -144,4 +144,9 @@ public class StateNode extends Node{
 	public void addToNodeList(ColorNode newNode){
 		nodes.add(newNode);
 	}
+	@Override
+	public ArrayList<Node> getUnoccupiedChildren() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }
