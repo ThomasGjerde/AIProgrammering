@@ -20,7 +20,6 @@ public class ToDoRevise {
 	}
 	
 	public void check(){
-		
 		try {
 			Thread.sleep(50);
 		} catch (InterruptedException e) {
@@ -32,7 +31,6 @@ public class ToDoRevise {
 		if(consistency() && !victoryCheck()){
 			
 			StateNode newState = generateStateNode(currentState, false);
-
 			newState.setParent(currentState);
 			currentState.addChild(newState);
 			currentState = newState;
