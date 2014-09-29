@@ -3,26 +3,27 @@ package aiprog.gui;
 import java.awt.Color;
 import java.util.ArrayList;
 
-import aiprog.model.OldColorNode;
+import aiprog.model.CSPNode;
+import aiprog.model.GACNode;
 import aiprog.model.GridText;
 import aiprog.model.Line;
-import aiprog.model.StateNode;
+import aiprog.model.VCPNode;
 
 public class GraphGraphics extends Graphics{
-	private OldColorNode[][] cnArray;
+	private VCPNode[][] cnArray;
 	public GraphGraphics(int sizeX, int sizeY) {
 		super(sizeX, sizeY);
-		cnArray = new OldColorNode[sizeX][sizeY];
+		cnArray = new VCPNode[sizeX][sizeY];
 		
 		grid.setScale((100/(sizeX/2)) + 20);
 		grid.setSpacing(grid.scale/2);
 	}
-	private void fillcnArray(StateNode node){
+	private void fillcnArray(GACNode node){
 		int currentX = 0;
 		int currentY = 0;
-		ArrayList<OldColorNode> nodeList = node.getNodeList();
+		ArrayList<CSPNode> nodeList = node.getCSPList();
 		for(int i = 0; i < nodeList.size(); i++){
-			cnArray[currentX][currentY] = nodeList.get(i);
+			cnArray[currentX][currentY] = (VCPNode)nodeList.get(i);
 			if(currentX == cnArray[0].length - 1){
 				currentY++;
 				currentX = 0;
@@ -31,13 +32,13 @@ public class GraphGraphics extends Graphics{
 			}
 		}
 	}
-	public void setGraph(StateNode node){
+	public void setGraph(GACNode node){
 		fillcnArray(node);
 		sortByColumn();
 		sortByRow();
 		for(int i = 0; i < cnArray.length; i++){
 			for(int j = 0; j < cnArray[0].length; j++){
-				OldColorNode tempNode = cnArray[i][j];
+				VCPNode tempNode = cnArray[i][j];
 				if(tempNode != null){
 					if(tempNode.getColor() != null){
 						grid.setCellColorWithoutRepaint(i, j, tempNode.getColor());
@@ -46,7 +47,7 @@ public class GraphGraphics extends Graphics{
 					}
 					tempNode.pos.x = i;
 					tempNode.pos.y = j;
-					grid.addText(new GridText(tempNode.pos,Integer.toString(tempNode.id)));
+					grid.addText(new GridText(tempNode.pos,Integer.toString(tempNode.getId())));
 					for(int k = 0; k < tempNode.children.size(); k++){
 						grid.addLine(new Line(tempNode.pos,tempNode.children.get(k).pos));
 					}
@@ -58,7 +59,7 @@ public class GraphGraphics extends Graphics{
 	}
 	private void sortByColumn(){
 		boolean flag = true;
-		OldColorNode temp;
+		VCPNode temp;
 		for(int i = 0; i < cnArray.length; i++){
 			flag = true;
 			while (flag)
@@ -80,7 +81,7 @@ public class GraphGraphics extends Graphics{
 	}
 	private void sortByRow(){
 		boolean flag = true;
-		OldColorNode temp;
+		VCPNode temp;
 		for(int i = 0; i < cnArray[0].length; i++){
 			flag = true;
 			while (flag){

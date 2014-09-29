@@ -17,12 +17,19 @@ public class VCPNode extends CSPNode{
 	}
 	
 	public Color getColor(){
+		if(nodeValue == 0){
+			return null;
+		}
 		Color color = new Color(nodeValue);
 		return color;
 	}
 	
 	public void setColor(Color color){
+		if(color == null){
+			nodeValue = 0;
+		}else{
 		nodeValue = color.getRGB();
+		}
 	}
 	
 	public void standardColors(int k){

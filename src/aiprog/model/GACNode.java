@@ -3,7 +3,7 @@ package aiprog.model;
 import java.util.ArrayList;
 
 public class GACNode extends Node {
-	protected ArrayList<CSPNode> changes;
+	protected ArrayList<CSPNode> changes = new ArrayList<CSPNode>();
 	protected ArrayList<CSPNode> cspList;
 	public GACNode(Point position) {
 		super(position);
@@ -26,6 +26,9 @@ public class GACNode extends Node {
 	}
 	public ArrayList<CSPNode> getChanges(){
 		return this.changes;
+	}
+	public void addChange(CSPNode change){
+		changes.add(change);
 	}
 
 }

@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 public abstract class CSPNode extends Node{
 	protected int id;
-	protected ArrayList<Integer> domain;
+	protected ArrayList<Integer> domain = new ArrayList<Integer>();
 	protected int nodeValue;
 	public CSPNode(Point position) {
 		super(position);
@@ -30,4 +30,5 @@ public abstract class CSPNode extends Node{
 	public int getId(){
 		return this.id;
 	}
+	
 }
