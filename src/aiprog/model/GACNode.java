@@ -2,6 +2,8 @@ package aiprog.model;
 
 import java.util.ArrayList;
 
+import bsh.EvalError;
+
 public class GACNode extends Node {
 	protected ArrayList<CSPNode> changes = new ArrayList<CSPNode>();
 	protected ArrayList<CSPNode> cspList;
@@ -48,6 +50,16 @@ public class GACNode extends Node {
 	}
 	public void addChange(CSPNode change){
 		changes.add(change);
+	}
+	public boolean checkConsistency() throws EvalError{
+		for(int i = 0; i < cspList.size(); i++){
+			for(int j = 0; j < cspList.get(i).children.size(); j++){
+				if(cspList.get(i).validateConstraint((CSPNode)cspList.get(i).children.get(j)) == false){
+					return false;
+				}
+			}
+		}
+		return true;
 	}
 
 }
