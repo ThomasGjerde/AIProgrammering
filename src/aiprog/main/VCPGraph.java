@@ -14,6 +14,7 @@ import aiprog.model.CSPNode;
 import aiprog.model.GACNode;
 import aiprog.model.Point;
 import aiprog.model.ToDoRevise;
+import aiprog.model.VCP;
 import aiprog.model.VCPNode;
 import aiprog.utility.IOUtils;
 
@@ -36,10 +37,9 @@ public class VCPGraph {
 		setNums(parseLine(input.get(0)));
 		generateNodes(input);
 		generateEdges(input);
-		GraphGraphics gg = new GraphGraphics((int)(Math.ceil(Math.sqrt(numNodes))), (int)(Math.ceil(Math.sqrt(numNodes))));
 		GACNode initStateNode = generateInitialStateNode();
+		VCP vcp = new VCP(initStateNode);
 		//ToDoRevise tdr = new ToDoRevise(initStateNode);
-		gg.setGraph(initStateNode);
 	}
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	private GACNode generateInitialStateNode(){

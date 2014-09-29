@@ -8,11 +8,6 @@ public abstract class CSP extends AStarGAC{
 		super(startNode);
 	}
 	@Override
-	protected void updateGui() {
-		// TODO Auto-generated method stub
-		
-	}
-	@Override
 	protected void setHeuristic(Node node) {
 		ArrayList<CSPNode> tempCSPList = ((GACNode)node).getCSPList();
 		int heuristic = 0;
