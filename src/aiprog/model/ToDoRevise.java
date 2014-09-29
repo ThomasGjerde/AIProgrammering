@@ -54,7 +54,7 @@ public class ToDoRevise {
 		}else if(victoryCheck()){
 			
 		}else{
-			System.out.println("Else backtrack");
+			//System.out.println("Else backtrack");
 			backTracking();
 		}
 	}
@@ -117,7 +117,7 @@ public class ToDoRevise {
 		}
 		boolean backTrack = false;
 		while(!backTrack){
-			System.out.println("Backtrack");
+			//System.out.println("Backtrack");
 			gg.setGraph(currentState);
 			try {
 				Thread.sleep(500);
@@ -134,7 +134,7 @@ public class ToDoRevise {
 				break;
 			}else{
 				currentState.consistency = false;
-				System.out.println("Pos" + currentState.pos.x + "," + currentState.pos.y);
+				//System.out.println("Pos" + currentState.pos.x + "," + currentState.pos.y);
 				currentState = currentState.getStateParent();
 				currentState.applyChanges();
 			}
@@ -168,11 +168,50 @@ public class ToDoRevise {
 		*/
 	}
 	
-	
-	
+	//rewrite av assign
+	//trengte og ordne tankene litt + og rydde opp
 	public void assign(){
+		ColorNode assignedNode = null;
+		ArrayList<ColorNode> childList = new ArrayList<ColorNode>();
+		
+		
+		for(int i=0; i<currentState.getChildren().size(); i++){
+			childList.add((ColorNode) currentState.getChildren().get(i));
+		}
+		System.out.println("childList.size " + childList.size());
+		System.out.println("currentState.x " + currentState.pos.x + " currentState.y" + currentState.pos.y);
+		ColorNode tempNode = null;
+		
+		for(int j=0; j<currentState.getNodeList().size(); j++){
+			tempNode = currentState.getNodeList().get(j);
+			
+			for(int k=0; k<childList.size(); k++){
+				if(tempNode.getColor() == null && !tempNode.getDomain().isEmpty() && (childList.get(k).pos.x != tempNode.pos.x && childList.get(k).pos.y != tempNode.pos.y)){
+					assignedNode = tempNode;
+				}
+			}
+			if(childList.isEmpty() && tempNode.getColor() == null && !tempNode.getDomain().isEmpty()){
+				assignedNode = tempNode;
+			}
+		}
+		
+		//childList.size er alltid 0
+		//det bare må være feilen, pga dette så blir det alldri branching, og infinite loop
+		
+		if(assignedNode != null){
+			assignedNode.setColor(assignedNode.getDomain().get(0));
+			currentState.assumption = assignedNode;
+			reduction(assignedNode);
+		}else{
+			backTracking();
+		}
+	}
+	
+	public void assign2(){
 
 		ColorNode assignedNode = null;
+		//Dette er ikke bra, hvis vi backtracker hit (til rotnoden), så vil assignedNode altid bli den samme
+		//så hvis den første antagelsen tilfeldigvis ikke er riktig kan dette hindre at vi finner en løsning
 		if(currentState.stateParent == null){
 			assignedNode = currentState.getNodeList().get(0);
 			currentState.setAssumption(assignedNode);
@@ -189,12 +228,12 @@ public class ToDoRevise {
 						}
 					}*/
 					ArrayList<ColorNode> midArray = new ArrayList<ColorNode>();
-					System.out.println("Size: " + currentState.getChildren().size());
+					//System.out.println("Size: " + currentState.getChildren().size());
 					for(int j=0; j<currentState.getStateParent().getChildren().size(); j++){
 						StateNode midChild = (StateNode)currentState.getStateParent().getChildren().get(j);
 						if(midChild.assumption != null){
 							midArray.add(midChild.assumption);
-							System.out.println(midChild.assumption);
+							//System.out.println(midChild.assumption);
 						}
 
 					}
@@ -204,7 +243,7 @@ public class ToDoRevise {
 						if(midArray.get(k).pos.x != midNode.pos.x && midArray.get(k).pos.y != midNode.pos.y){
 							stupidCheck = true;
 						}else{
-							System.out.println("Flase");
+							//System.out.println("Flase");
 							stupidCheck = false;
 						}
 					}
@@ -231,7 +270,7 @@ public class ToDoRevise {
 		}
 		if(!victoryCheck() && (assignedNode == null || assignedNode.getDomain() == null || assignedNode.getDomain().isEmpty())){
 			if(assignedNode == null){
-				System.out.println("Assigned node == null");
+				//System.out.println("Assigned node == null");
 			}
 			currentState.consistency = false;
 			backTracking();
@@ -241,6 +280,7 @@ public class ToDoRevise {
 			reduction(assignedNode);
 		}
 	}
+	
 	
 	public void reduction(ColorNode node){
 		for(int i=0; i<node.getChildren().size(); i++){
