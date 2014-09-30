@@ -31,7 +31,7 @@ public class VCPGraph {
 		//Constraints
 		constraintVars.add("a");
 		constraintVars.add("b");
-		constraintExpression = "a.getNodeValue() != a.getNodeValue()";
+		constraintExpression = "a.getNodeValue() != b.getNodeValue()";
 		
 		ArrayList<String> input = IOUtils.getInputFromFile(path);
 		setNums(parseLine(input.get(0)));
