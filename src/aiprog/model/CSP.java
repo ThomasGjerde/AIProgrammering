@@ -19,15 +19,27 @@ public abstract class CSP extends AStarGAC{
 		ArrayList<CSPNode> tempCSPList = ((GACNode)node).getCSPList();
 		
 		for(int i=0; i<tempCSPList.size(); i++){
-			heuristic += tempCSPList.get(i).getDomain().size();
+			heuristic += tempCSPList.get(i).domain.size();
 		}
 		node.heuristic = heuristic;
+		System.out.println("Heuristic: " + node.heuristic);
 	}
 	
 	private void reduction(Node node){
 		ArrayList<CSPNode> cSPList = ((GACNode)node).getCSPList();
-		ArrayList<VCPNode> moreReduse = new ArrayList<VCPNode>();
+		//ArrayList<VCPNode> moreReduse = new ArrayList<VCPNode>();
 		
+		for(int i=0; i<cSPList.size(); i++){
+			for(int j=0; j<cSPList.size(); j++){
+				VCPNode tempVCPNode = (VCPNode)cSPList.get(j);
+				if(tempVCPNode.domain.size() == 1){
+					tempVCPNode.setNodeValue(tempVCPNode.domain.get(0));
+					//tempVCPNode.domain.clear();
+				}
+			}
+		}
+		
+		/*
 		for(int i=0; i<cSPList.size(); i++){
 			VCPNode tempVCPNode = (VCPNode)cSPList.get(i);
 			if(tempVCPNode.getNodeValue() != -1){
@@ -43,15 +55,15 @@ public abstract class CSP extends AStarGAC{
 			}
 		}
 		if(!moreReduse.isEmpty()){
-			reductionCycle(moreReduse.get(0));
-			if(moreReduse.size() > 1){
+			//reductionCycle(moreReduse.get(0));
+			//if(moreReduse.size() > 1){
 				for(int k=0; k<moreReduse.size(); k++){
 					reductionCycle(moreReduse.get(k));
 				}
-			}
-		}
+			//}
+		}*/
 	}
-	
+	/*
 	private void reductionCycle(VCPNode node){
 		node.setNodeValue(node.domain.get(0));
 		for(int i=0; i<node.getChildren().size(); i++){
@@ -63,5 +75,5 @@ public abstract class CSP extends AStarGAC{
 				reductionCycle(tempVCPChild);
 			}
 		}
-	}
+	}*/
 }
