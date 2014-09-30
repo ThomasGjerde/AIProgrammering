@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import bsh.EvalError;
 import bsh.Interpreter;
 
-public abstract class CSPNode extends Node{
+public class CSPNode extends Node{
 	protected int id;
 	protected ArrayList<Integer> domain = new ArrayList<Integer>();
 	protected ArrayList<String> constraintVars;
@@ -15,6 +15,9 @@ public abstract class CSPNode extends Node{
 		super();
 		this.constraintVars = constraintVars;
 		this.constraintExpression = constraintExpression;
+	}
+	public CSPNode(){
+		super();
 	}
 	public boolean validateConstraint(CSPNode node) throws EvalError{
 		Interpreter i = new Interpreter();  // Construct an interpreter

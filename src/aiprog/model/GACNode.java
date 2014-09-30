@@ -1,5 +1,6 @@
 package aiprog.model;
 
+import java.awt.Color;
 import java.util.ArrayList;
 
 import aiprog.model.Node.Status;
@@ -41,7 +42,27 @@ public class GACNode extends Node {
 	}
 	
 	private GACNode generateNewState(CSPNode node){
-		return null;
+		GACNode newState = new GACNode();
+		newState.setCSPList(this.getCSPList());
+		ArrayList<CSPNode> changesList = new ArrayList<CSPNode>();
+		//Prevent reference passing
+		for(int i = 0; i < this.getCSPList().size(); i++){
+			CSPNode oldNode = this.getCSPList().get(i);
+			CSPNode newNode = new CSPNode();
+			newNode.id = oldNode.id;
+			newNode.setDomain(new ArrayList<Integer>(oldNode.getDomain()));
+			newNode.setNodeValue(oldNode.getNodeValue());
+			changesList.add(newNode);
+		}
+		//Add assumtion
+		CSPNode assumtionNode = new CSPNode();
+		assumtionNode.setId(node.getId());
+		assumtionNode.setDomain(new ArrayList<Integer>(node.getDomain()));
+		assumtionNode.setNodeValue(node.getNodeValue());
+		changesList.add(assumtionNode);
+		
+		newState.setChanges(changesList);
+		return newState;
 	}
 	public void applyChanges(){
 		//Can be optimized later
