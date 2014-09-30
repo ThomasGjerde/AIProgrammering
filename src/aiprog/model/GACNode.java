@@ -26,7 +26,12 @@ public class GACNode extends Node {
 		ArrayList<CSPNode> availNodes = new ArrayList<CSPNode>();
 		for(int i=0; i<this.getCSPList().size(); i++){
 			if(this.getCSPList().get(i).getNodeValue() == -1){
-				availNodes.add(this.getCSPList().get(i));
+				CSPNode tempNode = new CSPNode();
+				CSPNode oldNode = this.getCSPList().get(i);
+				tempNode.id = oldNode.id;
+				tempNode.setNodeValue(oldNode.getNodeValue());
+				tempNode.setDomain(new ArrayList<Integer>(oldNode.getDomain()));
+				availNodes.add(tempNode);
 			}
 		}
 		if(!availNodes.isEmpty()){
@@ -34,11 +39,22 @@ public class GACNode extends Node {
 				for(int k=0; k<availNodes.get(j).domain.size(); k++){
 					CSPNode sendNode = availNodes.get(j);
 					sendNode.setNodeValue(availNodes.get(j).domain.get(k));
-					this.addChild(generateNewState(sendNode));
+					GACNode newNode = generateNewState(sendNode);
+					this.addChild(newNode);
+					//System.out.println(newNode.changes.size());
 					//sendNode.setNodeValue(-1);
 				}
 			}
 		}
+		/*
+		for(int i = 0; i < this.children.size(); i++){
+			GACNode gacNode = (GACNode)this.children.get(i);
+			gacNode.applyChanges();
+			for(int j = 0; j < gacNode.getCSPList().size(); j++){
+				//System.out.println("GAC: " + i + " GACVALUE: " + gacNode.getCSPList().get(j).getNodeValue());
+			}
+		}
+		*/
 	}
 	
 	private GACNode generateNewState(CSPNode node){
@@ -55,12 +71,22 @@ public class GACNode extends Node {
 			changesList.add(newNode);
 		}
 		//Add assumtion
+		for(int i = 0; i < changesList.size(); i++){
+
+			CSPNode tempNode = changesList.get(i);
+			if(tempNode.id == node.id){
+				tempNode.setDomain(new ArrayList<Integer>(node.getDomain()));
+				tempNode.setNodeValue(node.getNodeValue());
+			}
+		}
+		/*
 		CSPNode assumtionNode = new CSPNode();
 		assumtionNode.setId(node.getId());
 		assumtionNode.setDomain(new ArrayList<Integer>(node.getDomain()));
 		assumtionNode.setNodeValue(node.getNodeValue());
 		changesList.add(assumtionNode);
-		
+		newState.setChanges(changesList);
+		*/
 		newState.setChanges(changesList);
 		return newState;
 	}

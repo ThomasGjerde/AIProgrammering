@@ -9,6 +9,7 @@ public abstract class CSP extends AStarGAC{
 	}
 	@Override
 	protected void setHeuristic(Node node) {
+		((GACNode)node).applyChanges();
 		reduction(node);
 		calcHeuristic(node);
 	}
