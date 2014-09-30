@@ -12,12 +12,6 @@ public class VCPNode extends CSPNode{
 		super(position, constraintVars, constraintExpression);
 		standardColors(k);
 	}
-
-	@Override
-	public ArrayList<Node> getUnoccupiedChildren() {
-		// TODO Auto-generated method stub
-		return null;
-	}
 	
 	public Color getColor(){
 		if(nodeValue == -1){

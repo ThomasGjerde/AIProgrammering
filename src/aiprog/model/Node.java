@@ -29,7 +29,16 @@ public abstract class Node {
 	public void setStatus(Status newStatus){
 		status = newStatus;
 	}
-	public abstract ArrayList<Node> getUnoccupiedChildren();
+	public ArrayList<Node> getUnoccupiedChildren(){
+		ArrayList<Node> returnArray = new ArrayList<Node>();
+		for(int i = 0; i < children.size(); i++){
+			Node tempNode = children.get(i);
+			if(tempNode.status == Status.Unvisited || tempNode.status == Status.Visiting){
+				returnArray.add(tempNode);
+			}
+		}
+		return returnArray;
+	}
 	
 	public enum Status {
 		Unvisited,

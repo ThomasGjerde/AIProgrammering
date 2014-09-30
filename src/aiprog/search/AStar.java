@@ -29,13 +29,13 @@ public abstract class AStar {
 					addToOpenList(tempNode);
 				}
 			}
-			
 			openList.remove(currentNode);
 			closedList.add(currentNode);
 			currentNode.setStatus(Status.Visited);
 			currentNode = getBestOpenList();
 			currentNode.setStatus(Status.Visiting);
 			steps++;
+			processCurrentNode();
 			updateGui();
 			victory = checkVictory();
 			if(victory){
@@ -46,6 +46,7 @@ public abstract class AStar {
 		}
 	}
 	protected abstract boolean checkVictory();
+	protected abstract void processCurrentNode();
 	protected void calculatePathLenght(){
 		if(currentNode != null){
 			Node tempNode = currentNode;

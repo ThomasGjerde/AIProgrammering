@@ -41,4 +41,9 @@ public class GridBreadthFirstSearch extends BreadthFirstSearch{
 		graphics.setBoard(board);
 	}
 
+	@Override
+	protected void processCurrentNode() {
+		
+	}
+
 }

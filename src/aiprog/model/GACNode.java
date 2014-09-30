@@ -2,6 +2,7 @@ package aiprog.model;
 
 import java.util.ArrayList;
 
+import aiprog.model.Node.Status;
 import bsh.EvalError;
 
 public class GACNode extends Node {
@@ -17,11 +18,6 @@ public class GACNode extends Node {
 	}
 	public ArrayList<CSPNode> getCSPList(){
 		return this.cspList;
-	}
-	@Override
-	public ArrayList<Node> getUnoccupiedChildren() {
-		// TODO Auto-generated method stub
-		return null;
 	}
 	public void applyChanges(){
 		//Can be optimized later

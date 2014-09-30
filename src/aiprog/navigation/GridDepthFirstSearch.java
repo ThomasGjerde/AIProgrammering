@@ -41,4 +41,9 @@ public class GridDepthFirstSearch extends DepthFirstSearch{
 		}
 		graphics.setBoard(board);
 	}
+
+	@Override
+	protected void processCurrentNode() {
+		
+	}
 }

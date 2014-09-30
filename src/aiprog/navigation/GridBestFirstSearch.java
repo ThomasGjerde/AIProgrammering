@@ -41,4 +41,9 @@ public class GridBestFirstSearch extends BestFirstSearch{
 		graphics.setBoard(board);
 	}
 
+	@Override
+	protected void processCurrentNode() {
+		
+	}
+
 }
