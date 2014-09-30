@@ -11,5 +11,10 @@ public abstract class AStarGAC extends AStar{
 		
 		// TODO Auto-generated constructor stub
 	}
+	@Override
+	protected void processCurrentNode() {
+		// TODO Auto-generated method stub
+		
+	}
 
 }
