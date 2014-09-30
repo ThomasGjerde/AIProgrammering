@@ -49,12 +49,12 @@ public class VCPGraph {
 			Map.Entry<Integer,VCPNode> pairs = (Map.Entry<Integer,VCPNode>)it.next();
 			vcpNodes.add((CSPNode)pairs.getValue());	
 		}
-		GACNode gacNode = new GACNode(new Point(0,0));
+		GACNode gacNode = new GACNode();
 		gacNode.setCSPList(vcpNodes);
 		//ArrayList<VCPNode> changesList = new ArrayList<VCPNode>();
 		for(int i = 0; i < gacNode.getCSPList().size(); i++){
 			VCPNode oldNode = (VCPNode)gacNode.getCSPList().get(i);
-			VCPNode newNode = new VCPNode(new Point(),constraintVars,constraintExpression,k);
+			VCPNode newNode = new VCPNode(constraintVars,constraintExpression,k);
 			newNode.setId(oldNode.getId());
 			newNode.setColor(oldNode.getColor());
 			newNode.setDomain(new ArrayList<Integer>(oldNode.getDomain()));
@@ -68,10 +68,10 @@ public class VCPGraph {
 	private void generateNodes(ArrayList<String> input){
 		for(int i = 1; i < numNodes+1; i++){
 			ArrayList<Double> tempList = parseLine(input.get(i));
-			VCPNode vcpNode = new VCPNode(new Point(),constraintVars,constraintExpression,k);
+			VCPNode vcpNode = new VCPNode(constraintVars,constraintExpression,k);
 				vcpNode.setId(tempList.get(0).intValue());
-				vcpNode.pos.setDoubleX(tempList.get(1));
-				vcpNode.pos.setDoubleY(tempList.get(2));
+				vcpNode.getPos().setX(tempList.get(1));
+				vcpNode.getPos().setY(tempList.get(2));
 				/*
 				for(int j = 0; j < k; j++){
 					cn.addDomain();

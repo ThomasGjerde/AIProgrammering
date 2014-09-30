@@ -7,12 +7,18 @@ import bsh.EvalError;
 import bsh.Interpreter;
 
 public class VCPNode extends CSPNode{
-	
-	public VCPNode(Point position, ArrayList<String> constraintVars, String constraintExpression, int k) {
-		super(position, constraintVars, constraintExpression);
+	DoublePoint pos = new DoublePoint();
+	public VCPNode(ArrayList<String> constraintVars, String constraintExpression, int k) {
+		super(constraintVars, constraintExpression);
 		standardColors(k);
 	}
-	
+	public void setPos(DoublePoint pos){
+		this.pos.setX(pos.getX());
+		this.pos.setY(pos.getY());
+	}
+	public DoublePoint getPos(){
+		return pos;
+	}
 	public Color getColor(){
 		if(nodeValue == -1){
 			return null;

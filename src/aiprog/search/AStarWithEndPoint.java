@@ -1,5 +1,6 @@
 package aiprog.search;
 
+import aiprog.model.NavNode;
 import aiprog.model.Node;
 import aiprog.model.Point;
 
@@ -13,7 +14,7 @@ public abstract class AStarWithEndPoint extends AStar{
 
 	@Override
 	protected boolean checkVictory() {
-		if(currentNode.pos.x == endPoint.x && currentNode.pos.y == endPoint.y){
+		if(((NavNode)currentNode).pos.x == endPoint.x && ((NavNode)currentNode).pos.y == endPoint.y){
 			return true;
 		}else{
 			return false;
