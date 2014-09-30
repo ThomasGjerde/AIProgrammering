@@ -19,6 +19,18 @@ public class GACNode extends Node {
 	public ArrayList<CSPNode> getCSPList(){
 		return this.cspList;
 	}
+	
+	public void generateChildren(){
+		for(int i=0; i<this.getCSPList().size(); i++){
+			if(this.getCSPList().get(i).getNodeValue() == -1){
+				this.addChild(generateNewState(this.getCSPList().get(i)));
+			}
+		}
+	}
+	
+	private GACNode generateNewState(CSPNode node){
+		return null;
+	}
 	public void applyChanges(){
 		//Can be optimized later
 		if(cspList == null){
