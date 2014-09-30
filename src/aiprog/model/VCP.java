@@ -10,6 +10,7 @@ public class VCP extends CSP{
 		super(initialNode);
 		 graphics = new GraphGraphics((int)(Math.ceil(Math.sqrt(initialNode.getCSPList().size()))), (int)(Math.ceil(Math.sqrt(initialNode.getCSPList().size()))));
 		 graphics.setGraph((GACNode)currentNode);
+		 this.search();
 		// TODO Auto-generated constructor stub
 	}
 
