@@ -6,16 +6,14 @@ public abstract class Node {
 	public ArrayList<Node> children;
 	public Node parent;
 	public Status status;
-	public Point pos = new Point();
 	public int heuristic;
 	public int cost;
 	
-	public Node(Point position){
+	public Node(){
 		status = Status.Unvisited;
 		children = new ArrayList<Node>();
 		heuristic = 0;
 		cost = 1;
-		this.pos = position;
 	}
 	
 	public void addChild(Node node){

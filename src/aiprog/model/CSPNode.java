@@ -11,8 +11,8 @@ public abstract class CSPNode extends Node{
 	protected ArrayList<String> constraintVars;
 	protected String constraintExpression;
 	protected int nodeValue = -1;
-	public CSPNode(Point position, ArrayList<String> constraintVars, String constraintExpression) {
-		super(position);
+	public CSPNode(ArrayList<String> constraintVars, String constraintExpression) {
+		super();
 		this.constraintVars = constraintVars;
 		this.constraintExpression = constraintExpression;
 	}

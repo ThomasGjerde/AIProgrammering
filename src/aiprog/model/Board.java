@@ -10,7 +10,7 @@ public class Board {
 	public Point startPos = new Point();
 	public Point endPos = new Point();
 	public int steps = 0;
-	public Node[][] boardArray;
+	public NavNode[][] boardArray;
 	public boolean complete = false;
 	
 	public Board(String path) throws IOException{
@@ -33,7 +33,7 @@ public class Board {
 		}
 		return returnArray;
 	}
-	public boolean isEndNode(Node node){
+	public boolean isEndNode(NavNode node){
 		if(node.pos.x == endPos.x && node.pos.y == endPos.y){
 			return true;
 		}else{
@@ -59,7 +59,7 @@ public class Board {
 			}
 		}
 	}
-	private void setChildren(Node node){
+	private void setChildren(NavNode node){
 		if(node.pos.x > 0){
 			node.addChild(boardArray[node.pos.x -1][node.pos.y]);
 		}
@@ -85,7 +85,7 @@ public class Board {
 		}
 	}
 	private void generateBoard(){
-		boardArray = new Node[size.x][size.y];
+		boardArray = new NavNode[size.x][size.y];
 		for(int i = 0; i < size.x; i++){
 			for(int j = 0; j < size.y; j++){
 				boardArray[i][j] = new NavNode(new Point(i,j));

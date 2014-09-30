@@ -8,8 +8,8 @@ import bsh.EvalError;
 public class GACNode extends Node {
 	protected ArrayList<CSPNode> changes = new ArrayList<CSPNode>();
 	protected ArrayList<CSPNode> cspList;
-	public GACNode(Point position) {
-		super(position);
+	public GACNode() {
+		super();
 		cspList = new ArrayList<CSPNode>();
 		// TODO Auto-generated constructor stub
 	}

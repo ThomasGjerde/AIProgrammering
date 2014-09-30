@@ -14,7 +14,7 @@ public class GraphGraphics extends Graphics{
 	public GraphGraphics(int sizeX, int sizeY) {
 		super(sizeX, sizeY);
 		cnArray = new VCPNode[sizeX][sizeY];
-		
+
 		grid.setScale((100/(sizeX/2)) + 20);
 		grid.setSpacing(grid.scale/2);
 	}
@@ -45,14 +45,24 @@ public class GraphGraphics extends Graphics{
 					}else{
 						grid.setCellColorWithoutRepaint(i, j, Color.WHITE);
 					}
-					tempNode.pos.x = i;
-					tempNode.pos.y = j;
-					grid.addText(new GridText(tempNode.pos,Integer.toString(tempNode.getId())));
-					for(int k = 0; k < tempNode.children.size(); k++){
-						grid.addLine(new Line(tempNode.pos,tempNode.children.get(k).pos));
-					}
+					tempNode.getPos().setX(i);
+					tempNode.getPos().setY(j);
+					grid.addText(new GridText(tempNode.getPos().toPoint(),Integer.toString(tempNode.getId())));
+
 				}
 
+			}
+		}
+		for(int i = 0; i < cnArray.length; i++){
+			for(int j = 0; j < cnArray[0].length; j++){
+				VCPNode tempNode = cnArray[i][j];
+				if(tempNode != null){
+					for(int k = 0; k < tempNode.children.size(); k++){
+
+						System.out.println(((VCPNode)tempNode.children.get(k)).getPos().getX());
+						grid.addLine(new Line(tempNode.getPos(),((VCPNode)tempNode.children.get(k)).getPos()));
+					}
+				}
 			}
 		}
 		grid.repaint();
@@ -69,7 +79,7 @@ public class GraphGraphics extends Graphics{
 					if(cnArray[i][j+1] == null){
 						break;
 					}
-					if(cnArray[i][j].pos.getDoubleY() < cnArray[i][j+1].pos.getDoubleY()){
+					if(cnArray[i][j].getPos().getY() < cnArray[i][j+1].getPos().getY()){
 						temp = cnArray[i][j];
 						cnArray[i][j] = cnArray[i][j+1];
 						cnArray[i][j+1] = temp;
@@ -90,7 +100,7 @@ public class GraphGraphics extends Graphics{
 					if(cnArray[j + 1][i] == null){
 						break;
 					}
-					if(cnArray[j][i].pos.getDoubleX() < cnArray[j + 1][i].pos.getDoubleX()){
+					if(cnArray[j][i].getPos().getX() < cnArray[j + 1][i].getPos().getX()){
 						temp = cnArray[j][i];
 						cnArray[j][i] = cnArray[j + 1][i];
 						cnArray[j + 1][i] = temp;
