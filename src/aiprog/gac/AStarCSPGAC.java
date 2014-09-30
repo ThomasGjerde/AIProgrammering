@@ -9,9 +9,9 @@ import aiprog.model.GACNode;
 import aiprog.model.Node;
 import aiprog.search.AStar;
 
-public abstract class AStarCSP extends AStar{
+public abstract class AStarCSPGAC extends AStar{
 	
-	public AStarCSP(Node startNode) {
+	public AStarCSPGAC(Node startNode) {
 		super(startNode);
 		
 		// TODO Auto-generated constructor stub

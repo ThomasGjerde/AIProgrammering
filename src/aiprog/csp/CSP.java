@@ -2,14 +2,14 @@ package aiprog.csp;
 
 import java.util.ArrayList;
 
-import aiprog.gac.AStarCSP;
+import aiprog.gac.AStarCSPGAC;
 import aiprog.model.CSPNode;
 import aiprog.model.GACCSPNode;
 import aiprog.model.Node;
 import aiprog.model.VCPNode;
 
 
-public abstract class CSP extends AStarCSP{
+public abstract class CSP extends AStarCSPGAC{
 	public int numNodes = 0;
 	public CSP(Node startNode) {
 		super(startNode);
