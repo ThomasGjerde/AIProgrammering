@@ -21,9 +21,21 @@ public class GACNode extends Node {
 	}
 	
 	public void generateChildren(){
+		
+		ArrayList<CSPNode> availNodes = new ArrayList<CSPNode>();
 		for(int i=0; i<this.getCSPList().size(); i++){
 			if(this.getCSPList().get(i).getNodeValue() == -1){
-				this.addChild(generateNewState(this.getCSPList().get(i)));
+				availNodes.add(this.getCSPList().get(i));
+			}
+		}
+		if(!availNodes.isEmpty()){
+			for(int j=0; j<availNodes.size(); j++){
+				for(int k=0; k<availNodes.get(j).domain.size(); k++){
+					CSPNode sendNode = availNodes.get(j);
+					sendNode.setNodeValue(availNodes.get(j).domain.get(k));
+					generateNewState(sendNode);
+					//sendNode.setNodeValue(-1);
+				}
 			}
 		}
 	}
