@@ -14,7 +14,8 @@ public abstract class AStarGAC extends AStar{
 	@Override
 	protected void processCurrentNode() {
 		// TODO Auto-generated method stub
-		
+		GACNode newGacNode = (GACNode)currentNode;
+		newGacNode.generateChildren();
 	}
 
 }
