@@ -22,23 +22,58 @@ public abstract class CSP extends AStarGAC{
 			heuristic += tempCSPList.get(i).domain.size();
 		}
 		node.heuristic = heuristic;
-		System.out.println("Heuristic: " + node.heuristic);
+		//System.out.println("Heuristic: " + node.heuristic);
 	}
 	
 	private void reduction(Node node){
 		ArrayList<CSPNode> cSPList = ((GACNode)node).getCSPList();
-		ArrayList<VCPNode> moreReduse = new ArrayList<VCPNode>();
-		
+		//ArrayList<VCPNode> moreReduse = new ArrayList<VCPNode>();
 		for(int i=0; i<cSPList.size(); i++){
 			for(int j=0; j<cSPList.size(); j++){
-				VCPNode tempVCPNode = (VCPNode)cSPList.get(j);
-				if(tempVCPNode.domain.size() == 1){
-					tempVCPNode.setNodeValue(tempVCPNode.domain.get(0));
-					//tempVCPNode.domain.clear();
+				VCPNode prime = (VCPNode)cSPList.get(j);
+				for(int k=0; k<prime.getChildren().size(); k++){
+					VCPNode primeChild = (VCPNode)prime.getChildren().get(k);
+					if(prime.domain.contains(primeChild.getNodeValue())){
+						prime.reduceDomain(primeChild.getNodeValue());
+					}else if(primeChild.domain.contains(prime.getNodeValue())){
+						primeChild.reduceDomain(prime.getNodeValue());
+					}
+					if(prime.getNodeValue() == -1 && prime.domain.size() == 1){
+						prime.setNodeValue(prime.domain.get(0));
+					}
+					if(primeChild.getNodeValue() == -1 && primeChild.domain.size() == 1){
+						primeChild.setNodeValue(primeChild.domain.get(0));
+					}
 				}
 			}
 		}
 		
+		/*
+		for(int i=0; i<cSPList.size(); i++){
+			VCPNode prime = (VCPNode)cSPList.get(i);
+			for(int j=0; j<prime.getChildren().size(); j++){
+				VCPNode primeChild = (VCPNode)prime.getChildren().get(j);
+				if(prime.domain.contains(primeChild.getNodeValue())){
+					prime.reduceDomain(primeChild.getNodeValue());
+				}else if(primeChild.domain.contains(prime.getNodeValue())){
+					primeChild.reduceDomain(prime.getNodeValue());
+				}
+			}
+		}*/
+		
+		/*
+		for(int i=0; i<cSPList.size(); i++){
+			for(int k=0; k<cSPList.size(); k++){
+			VCPNode parentVCPNode = (VCPNode)cSPList.get(k);
+				for(int j=0; j<parentVCPNode.getChildren().size(); j++){
+					VCPNode childVCPNode = (VCPNode)cSPList.get(j);
+					if(childVCPNode.domain.contains(parentVCPNode.getNodeValue())){
+						childVCPNode.reduceDomain(parentVCPNode.getNodeValue());
+					}
+				}
+			}
+		}
+		*/
 		/*
 		for(int i=0; i<cSPList.size(); i++){
 			VCPNode tempVCPNode = (VCPNode)cSPList.get(i);
