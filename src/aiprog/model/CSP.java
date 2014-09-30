@@ -9,27 +9,57 @@ public abstract class CSP extends AStarGAC{
 	}
 	@Override
 	protected void setHeuristic(Node node) {
-		ArrayList<CSPNode> tempCSPList = ((GACNode)node).getCSPList();
+		reduction(node);
+		calcHeuristic(node);
+	}
+	
+	private void calcHeuristic(Node node){
 		int heuristic = 0;
-		for(int i=0; i<tempCSPList.size(); i++){
-			
-		}
+		ArrayList<CSPNode> tempCSPList = ((GACNode)node).getCSPList();
 		
-		//Legger sammen alle domenene
-		for(int j=0; j<tempCSPList.size(); j++){
-			heuristic += tempCSPList.get(j).getDomain().size();
+		for(int i=0; i<tempCSPList.size(); i++){
+			heuristic += tempCSPList.get(i).getDomain().size();
 		}
-		//abcdefghijklmnop
-		//reduction
-		for(int k=0; k<tempCSPList.size(); k++){
-			VCPNode tempVCPNode = (VCPNode)tempCSPList.get(k);
-			if(tempVCPNode.getColor() != null){
-				for(int l=0; l<tempVCPNode.getChildren().size(); l++){
-					VCPNode tempVCPChild = (VCPNode) tempVCPNode.getChildren().get(l);
-					if (tempVCPChild.domain.contains(tempVCPNode.getColor().getRGB())){
-						tempVCPChild.reduceDomain(tempVCPNode.getColor().getRGB());
+		node.heuristic = heuristic;
+	}
+	
+	private void reduction(Node node){
+		ArrayList<CSPNode> cSPList = ((GACNode)node).getCSPList();
+		ArrayList<VCPNode> moreReduse = new ArrayList<VCPNode>();
+		
+		for(int i=0; i<cSPList.size(); i++){
+			VCPNode tempVCPNode = (VCPNode)cSPList.get(i);
+			if(tempVCPNode.getNodeValue() != -1){
+				for(int j=0; j<tempVCPNode.getChildren().size(); j++){
+					VCPNode tempVCPChild = (VCPNode) tempVCPNode.getChildren().get(j);
+					if(tempVCPChild.domain.contains(tempVCPNode.getNodeValue())){
+						tempVCPChild.reduceDomain(tempVCPNode.getNodeValue());
+						if(tempVCPChild.domain.size() == 1){
+							moreReduse.add(tempVCPChild);
+						}
 					}
 				}
+			}
+		}
+		if(!moreReduse.isEmpty()){
+			reductionCycle(moreReduse.get(0));
+			if(moreReduse.size() > 1){
+				for(int k=0; k<moreReduse.size(); k++){
+					reductionCycle(moreReduse.get(k));
+				}
+			}
+		}
+	}
+	
+	private void reductionCycle(VCPNode node){
+		node.setNodeValue(node.domain.get(0));
+		for(int i=0; i<node.getChildren().size(); i++){
+			VCPNode tempVCPChild = (VCPNode)node.getChildren().get(i);
+			if(tempVCPChild.domain.contains(node.getNodeValue())){
+				tempVCPChild.reduceDomain(node.getNodeValue());
+			}
+			if(tempVCPChild.domain.size() == 1){
+				reductionCycle(tempVCPChild);
 			}
 		}
 	}
