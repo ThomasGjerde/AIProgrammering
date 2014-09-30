@@ -41,7 +41,7 @@ public class GraphGraphics extends Graphics{
 				VCPNode tempNode = cnArray[i][j];
 				if(tempNode != null){
 					if(tempNode.getColor() != null){
-						System.out.println(tempNode.getColor().getRGB());
+						//System.out.println(tempNode.getColor().getRGB());
 						grid.setCellColorWithoutRepaint(i, j, tempNode.getColor());
 					}else{
 						grid.setCellColorWithoutRepaint(i, j, Color.WHITE);

@@ -59,7 +59,6 @@ public class VCPGraph {
 			newNode.setColor(oldNode.getColor());
 			newNode.setDomain(new ArrayList<Integer>(oldNode.getDomain()));
 			//changesList.add(newNode);
-			//System.out.println(newNode.validateConstraint(oldNode));
 			gacNode.addChange((CSPNode)newNode);
 		}
 		//gacNode.setChanges((ArrayList<CSPNode>)changesList);

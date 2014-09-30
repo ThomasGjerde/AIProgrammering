@@ -11,7 +11,6 @@ public class BeanShellTest {
 		// Set variables
 		// Eval a statement and get the result
 		i.eval("bar = node.getNodeList().get(0).getColor().toString()");             
-		System.out.println(i.get("bar"));
 	}
 
 }

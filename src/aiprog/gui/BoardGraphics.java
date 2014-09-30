@@ -10,7 +10,7 @@ public class BoardGraphics extends Graphics{
 	Board board;
 	public BoardGraphics(Board board){
 		super(board.size.x,board.size.y);
-		System.out.println("Board: " + board.size.x + " BoardY: " +board.size.y);
+		//System.out.println("Board: " + board.size.x + " BoardY: " +board.size.y);
 		this.board = board;
 		
 	}

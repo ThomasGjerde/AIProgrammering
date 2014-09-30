@@ -41,7 +41,6 @@ public class GACNode extends Node {
 					sendNode.setNodeValue(availNodes.get(j).domain.get(k));
 					GACNode newNode = generateNewState(sendNode);
 					this.addChild(newNode);
-					//System.out.println(newNode.changes.size());
 					//sendNode.setNodeValue(-1);
 				}
 			}
@@ -51,7 +50,6 @@ public class GACNode extends Node {
 			GACNode gacNode = (GACNode)this.children.get(i);
 			gacNode.applyChanges();
 			for(int j = 0; j < gacNode.getCSPList().size(); j++){
-				//System.out.println("GAC: " + i + " GACVALUE: " + gacNode.getCSPList().get(j).getNodeValue());
 			}
 		}
 		*/

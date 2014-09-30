@@ -27,7 +27,7 @@ public abstract class CSP extends AStarGAC{
 	
 	private void reduction(Node node){
 		ArrayList<CSPNode> cSPList = ((GACNode)node).getCSPList();
-		//ArrayList<VCPNode> moreReduse = new ArrayList<VCPNode>();
+		ArrayList<VCPNode> moreReduse = new ArrayList<VCPNode>();
 		
 		for(int i=0; i<cSPList.size(); i++){
 			for(int j=0; j<cSPList.size(); j++){

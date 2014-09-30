@@ -27,7 +27,6 @@ public class CSPNode extends Node{
 		i.set(constraintVars.get(0), this);
 		i.set(constraintVars.get(1), node);
 		i.eval("ret = " + constraintExpression);
-		System.out.println(i.get("ret"));
 		return (boolean) i.get("ret");
 	}
 	public ArrayList<Integer> getDomain(){

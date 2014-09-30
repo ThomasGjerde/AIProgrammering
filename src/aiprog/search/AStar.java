@@ -29,7 +29,8 @@ public abstract class AStar {
 					addToOpenList(tempNode);
 				}
 			}
-			System.out.println("OPenLIst: " + openList.size());
+			//System.out.println("OPenLIst: " + openList.size());
+			//System.out.println("CLosedList " + closedList.size());
 			openList.remove(currentNode);
 			closedList.add(currentNode);
 			currentNode.setStatus(Status.Visited);
@@ -40,7 +41,6 @@ public abstract class AStar {
 			updateGui();
 			victory = checkVictory();
 			if(victory){
-				System.out.println("Victory");
 				calculatePathLenght();
 			}
 
