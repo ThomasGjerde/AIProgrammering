@@ -29,6 +29,7 @@ public abstract class AStar {
 					addToOpenList(tempNode);
 				}
 			}
+			System.out.println("OPenLIst: " + openList.size());
 			openList.remove(currentNode);
 			closedList.add(currentNode);
 			currentNode.setStatus(Status.Visited);

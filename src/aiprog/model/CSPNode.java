@@ -33,7 +33,7 @@ public class CSPNode extends Node{
 		this.domain = domain;
 	}
 	public void reduceDomain(int reduction){
-		domain.remove(reduction);
+		domain.remove(new Integer(reduction));
 	}
 	public int getNodeValue(){
 		return nodeValue;

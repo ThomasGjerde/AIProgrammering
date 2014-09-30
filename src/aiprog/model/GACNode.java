@@ -34,7 +34,7 @@ public class GACNode extends Node {
 				for(int k=0; k<availNodes.get(j).domain.size(); k++){
 					CSPNode sendNode = availNodes.get(j);
 					sendNode.setNodeValue(availNodes.get(j).domain.get(k));
-					generateNewState(sendNode);
+					this.addChild(generateNewState(sendNode));
 					//sendNode.setNodeValue(-1);
 				}
 			}
@@ -74,11 +74,11 @@ public class GACNode extends Node {
 		}
 		for(int i = 0; i < changes.size(); i++){
 			for(int j = 0; j < cspList.size(); j++){
-				VCPNode node = (VCPNode)cspList.get(j);
-				VCPNode change = (VCPNode)changes.get(i);
+				CSPNode node = cspList.get(j);
+				CSPNode change = changes.get(i);
 				if(node.id == change.id){
-					node.domain = change.domain;
-					node.setColor(change.getColor());
+					node.setDomain(change.getDomain());
+					node.setNodeValue(change.getNodeValue());
 				}
 			}
 		}
