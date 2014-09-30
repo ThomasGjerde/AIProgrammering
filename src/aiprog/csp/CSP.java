@@ -10,7 +10,7 @@ import aiprog.model.VCPNode;
 
 
 public abstract class CSP extends AStarCSP{
-
+	public int numNodes = 0;
 	public CSP(Node startNode) {
 		super(startNode);
 	}
@@ -19,6 +19,7 @@ public abstract class CSP extends AStarCSP{
 		((GACCSPNode)node).applyChanges();
 		reduction(node);
 		calcHeuristic(node);
+		numNodes++;
 		
 	}
 	

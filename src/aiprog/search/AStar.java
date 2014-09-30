@@ -10,8 +10,8 @@ public abstract class AStar {
 	protected ArrayList<Node> openList = new ArrayList<Node>();
 	protected ArrayList<Node> closedList = new ArrayList<Node>();
 	protected Node currentNode;
-	private int steps = 0;
-	private int pathLength = 0;
+	protected int steps = 0;
+	protected int pathLength = 0;
 	protected boolean victory = false;
 	public AStar(Node startNode){
 		this.currentNode = startNode;
@@ -50,6 +50,7 @@ public abstract class AStar {
 	protected abstract boolean checkVictory();
 	protected abstract void processCurrentNode();
 	protected void calculatePathLenght(){
+		pathLength = 0;
 		if(currentNode != null){
 			Node tempNode = currentNode;
 			while(tempNode != null){
