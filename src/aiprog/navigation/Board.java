@@ -1,7 +1,11 @@
-package aiprog.model;
+package aiprog.navigation;
 
 import java.io.*;
 import java.util.ArrayList;
+
+import aiprog.model.NavNode;
+import aiprog.model.Node;
+import aiprog.model.Point;
 import aiprog.model.Node.Status;
 import aiprog.utility.IOUtils;
 

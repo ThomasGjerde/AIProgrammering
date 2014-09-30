@@ -2,7 +2,7 @@ package aiprog.main;
 
 import java.io.IOException;
 
-import aiprog.model.Board;
+import aiprog.navigation.Board;
 import aiprog.navigation.GridDepthFirstSearch;
 
 
@@ -16,7 +16,7 @@ public class Main {
 		
 		
 		try {
-			VCPGraph graph = new VCPGraph("/home/vcpGraph.txt",4);
+			VCPGraph graph = new VCPGraph("/home/vcpGraph3.txt",4);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

@@ -1,22 +1,29 @@
-package aiprog.model;
+package aiprog.csp;
 
 import java.util.ArrayList;
 
-public abstract class CSP extends AStarGAC{
+import aiprog.gac.AStarCSP;
+import aiprog.model.CSPNode;
+import aiprog.model.GACCSPNode;
+import aiprog.model.Node;
+import aiprog.model.VCPNode;
+
+
+public abstract class CSP extends AStarCSP{
 
 	public CSP(Node startNode) {
 		super(startNode);
 	}
 	@Override
 	protected void setHeuristic(Node node) {
-		((GACNode)node).applyChanges();
+		((GACCSPNode)node).applyChanges();
 		reduction(node);
 		calcHeuristic(node);
 	}
 	
 	private void calcHeuristic(Node node){
 		int heuristic = 0;
-		ArrayList<CSPNode> tempCSPList = ((GACNode)node).getCSPList();
+		ArrayList<CSPNode> tempCSPList = ((GACCSPNode)node).getCSPList();
 		
 		for(int i=0; i<tempCSPList.size(); i++){
 			if(tempCSPList.get(i).getNodeValue() == -1){
@@ -28,7 +35,7 @@ public abstract class CSP extends AStarGAC{
 	}
 	
 	private void reduction(Node node){
-		ArrayList<CSPNode> cSPList = ((GACNode)node).getCSPList();
+		ArrayList<CSPNode> cSPList = ((GACCSPNode)node).getCSPList();
 		//ArrayList<VCPNode> moreReduse = new ArrayList<VCPNode>();
 		for(int i=0; i<cSPList.size(); i++){
 			for(int j=0; j<cSPList.size(); j++){

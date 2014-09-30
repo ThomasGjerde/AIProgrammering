@@ -7,7 +7,7 @@ import bsh.Interpreter;
 
 public class CSPNode extends Node{
 	protected int id;
-	protected ArrayList<Integer> domain = new ArrayList<Integer>();
+	public ArrayList<Integer> domain = new ArrayList<Integer>();
 	protected ArrayList<String> constraintVars;
 	protected String constraintExpression;
 	protected int nodeValue = -1;

@@ -4,14 +4,12 @@ import java.awt.Color;
 import java.util.ArrayList;
 
 import aiprog.model.CSPNode;
-import aiprog.model.GACNode;
-import aiprog.model.GridText;
-import aiprog.model.Line;
+import aiprog.model.GACCSPNode;
 import aiprog.model.VCPNode;
 
 public class GraphGraphics extends Graphics{
 	private VCPNode[][] cnArray;
-	public GraphGraphics(GACNode node, int sizeX, int sizeY) {
+	public GraphGraphics(GACCSPNode node, int sizeX, int sizeY) {
 		super(sizeX, sizeY);
 		cnArray = new VCPNode[sizeX][sizeY];
 
@@ -21,7 +19,7 @@ public class GraphGraphics extends Graphics{
 		sortByColumn();
 		sortByRow();
 	}
-	private void fillcnArray(GACNode node){
+	private void fillcnArray(GACCSPNode node){
 		int currentX = 0;
 		int currentY = 0;
 		ArrayList<CSPNode> nodeList = node.getCSPList();
@@ -35,7 +33,7 @@ public class GraphGraphics extends Graphics{
 			}
 		}
 	}
-	public void setGraph(GACNode node){
+	public void setGraph(GACCSPNode node){
 		for(int i = 0; i < cnArray.length; i++){
 			for(int j = 0; j < cnArray[0].length; j++){
 				VCPNode tempNode = cnArray[i][j];

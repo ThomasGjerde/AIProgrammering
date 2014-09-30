@@ -1,7 +1,6 @@
 package aiprog.navigation;
 
 import aiprog.gui.BoardGraphics;
-import aiprog.model.Board;
 import aiprog.model.Node;
 import aiprog.model.Point;
 import aiprog.model.Node.Status;

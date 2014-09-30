@@ -4,8 +4,6 @@ import java.awt.Font;
 import java.awt.Graphics;
 import java.util.ArrayList;
 
-import aiprog.model.GridText;
-import aiprog.model.Line;
 import aiprog.model.Point;
 import aiprog.utility.GraphicsHelper;
 

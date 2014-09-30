@@ -1,14 +1,17 @@
-package aiprog.model;
+package aiprog.gac;
 
 import java.util.ArrayList;
 
 import bsh.EvalError;
 
+import aiprog.model.GACCSPNode;
+import aiprog.model.GACNode;
+import aiprog.model.Node;
 import aiprog.search.AStar;
 
-public abstract class AStarGAC extends AStar{
+public abstract class AStarCSP extends AStar{
 	
-	public AStarGAC(Node startNode) {
+	public AStarCSP(Node startNode) {
 		super(startNode);
 		
 		// TODO Auto-generated constructor stub

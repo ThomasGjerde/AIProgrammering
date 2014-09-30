@@ -2,8 +2,8 @@ package aiprog.gui;
 
 import java.awt.Color;
 
-import aiprog.model.Board;
 import aiprog.model.Node;
+import aiprog.navigation.Board;
 
 public class BoardGraphics extends Graphics{
 

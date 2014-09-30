@@ -11,9 +11,8 @@ import bsh.EvalError;
 
 import aiprog.gui.GraphGraphics;
 import aiprog.model.CSPNode;
-import aiprog.model.GACNode;
+import aiprog.model.GACCSPNode;
 import aiprog.model.Point;
-import aiprog.model.ToDoRevise;
 import aiprog.model.VCP;
 import aiprog.model.VCPNode;
 import aiprog.utility.IOUtils;
@@ -37,19 +36,19 @@ public class VCPGraph {
 		setNums(parseLine(input.get(0)));
 		generateNodes(input);
 		generateEdges(input);
-		GACNode initStateNode = generateInitialStateNode();
+		GACCSPNode initStateNode = generateInitialStateNode();
 		VCP vcp = new VCP(initStateNode);
 		//ToDoRevise tdr = new ToDoRevise(initStateNode);
 	}
 	@SuppressWarnings({ "rawtypes", "unchecked" })
-	private GACNode generateInitialStateNode(){
+	private GACCSPNode generateInitialStateNode(){
 		ArrayList<CSPNode> vcpNodes = new ArrayList<CSPNode>();
 		Iterator it = nodeMap.entrySet().iterator();
 		while(it.hasNext()){
 			Map.Entry<Integer,VCPNode> pairs = (Map.Entry<Integer,VCPNode>)it.next();
 			vcpNodes.add((CSPNode)pairs.getValue());	
 		}
-		GACNode gacNode = new GACNode();
+		GACCSPNode gacNode = new GACCSPNode();
 		gacNode.setCSPList(vcpNodes);
 		//ArrayList<VCPNode> changesList = new ArrayList<VCPNode>();
 		for(int i = 0; i < gacNode.getCSPList().size(); i++){
