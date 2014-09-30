@@ -8,7 +8,7 @@ public class VCP extends CSP{
 	GraphGraphics graphics;
 	public VCP(GACNode initialNode) {
 		super(initialNode);
-		 graphics = new GraphGraphics((int)(Math.ceil(Math.sqrt(initialNode.getCSPList().size()))), (int)(Math.ceil(Math.sqrt(initialNode.getCSPList().size()))));
+		 graphics = new GraphGraphics(initialNode,(int)(Math.ceil(Math.sqrt(initialNode.getCSPList().size()))), (int)(Math.ceil(Math.sqrt(initialNode.getCSPList().size()))));
 		 graphics.setGraph((GACNode)currentNode);
 		 ((GACNode)currentNode).generateChildren();
 		 this.search();
@@ -18,7 +18,7 @@ public class VCP extends CSP{
 	@Override
 	protected boolean checkVictory() {
 		for(int i = 0; i < ((GACNode)currentNode).cspList.size(); i++){
-			if(((GACNode)currentNode).cspList.get(i).getNodeValue() == 0){
+			if(((GACNode)currentNode).cspList.get(i).getNodeValue() == -1){
 				return false;
 			}
 		}

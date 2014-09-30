@@ -11,12 +11,15 @@ import aiprog.model.VCPNode;
 
 public class GraphGraphics extends Graphics{
 	private VCPNode[][] cnArray;
-	public GraphGraphics(int sizeX, int sizeY) {
+	public GraphGraphics(GACNode node, int sizeX, int sizeY) {
 		super(sizeX, sizeY);
 		cnArray = new VCPNode[sizeX][sizeY];
 
 		grid.setScale((100/(sizeX/2)) + 20);
 		grid.setSpacing(grid.scale/2);
+		fillcnArray(node);
+		sortByColumn();
+		sortByRow();
 	}
 	private void fillcnArray(GACNode node){
 		int currentX = 0;
@@ -33,9 +36,6 @@ public class GraphGraphics extends Graphics{
 		}
 	}
 	public void setGraph(GACNode node){
-		fillcnArray(node);
-		sortByColumn();
-		sortByRow();
 		for(int i = 0; i < cnArray.length; i++){
 			for(int j = 0; j < cnArray[0].length; j++){
 				VCPNode tempNode = cnArray[i][j];
