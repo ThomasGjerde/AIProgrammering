@@ -19,7 +19,9 @@ public abstract class CSP extends AStarGAC{
 		ArrayList<CSPNode> tempCSPList = ((GACNode)node).getCSPList();
 		
 		for(int i=0; i<tempCSPList.size(); i++){
-			heuristic += tempCSPList.get(i).domain.size();
+			if(tempCSPList.get(i).getNodeValue() == -1){
+				heuristic += tempCSPList.get(i).domain.size();
+			}
 		}
 		node.heuristic = heuristic;
 		//System.out.println("Heuristic: " + node.heuristic);

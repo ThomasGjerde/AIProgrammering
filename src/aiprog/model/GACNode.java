@@ -34,6 +34,11 @@ public class GACNode extends Node {
 				availNodes.add(tempNode);
 			}
 		}
+		System.out.println("availNodes.size " + availNodes.size());
+		/*for(int j=0; j<availNodes.size(); j++){
+			System.out.println("availNodes" + availNodes.get(j).domain.size());
+		}*/
+		
 		if(!availNodes.isEmpty()){
 			for(int j=0; j<availNodes.size(); j++){
 				for(int k=0; k<availNodes.get(j).domain.size(); k++){
@@ -45,6 +50,7 @@ public class GACNode extends Node {
 				}
 			}
 		}
+		
 		/*
 		for(int i = 0; i < this.children.size(); i++){
 			GACNode gacNode = (GACNode)this.children.get(i);
