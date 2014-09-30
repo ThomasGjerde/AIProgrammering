@@ -41,6 +41,7 @@ public abstract class AStar {
 			updateGui();
 			victory = checkVictory();
 			if(victory){
+				System.out.println("victory");
 				calculatePathLenght();
 			}
 
