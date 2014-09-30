@@ -58,8 +58,6 @@ public class GraphGraphics extends Graphics{
 				VCPNode tempNode = cnArray[i][j];
 				if(tempNode != null){
 					for(int k = 0; k < tempNode.children.size(); k++){
-
-						System.out.println(((VCPNode)tempNode.children.get(k)).getPos().getX());
 						grid.addLine(new Line(tempNode.getPos(),((VCPNode)tempNode.children.get(k)).getPos()));
 					}
 				}
