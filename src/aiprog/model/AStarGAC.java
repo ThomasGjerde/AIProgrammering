@@ -2,6 +2,8 @@ package aiprog.model;
 
 import java.util.ArrayList;
 
+import bsh.EvalError;
+
 import aiprog.search.AStar;
 
 public abstract class AStarGAC extends AStar{
@@ -16,7 +18,15 @@ public abstract class AStarGAC extends AStar{
 		// TODO Auto-generated method stub
 		GACNode newGacNode = (GACNode)currentNode;
 		newGacNode.applyChanges();
-		newGacNode.generateChildren();
+		try {
+			if(newGacNode.checkConsistency()){
+				newGacNode.generateChildren();
+			}
+		} catch (EvalError e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 	}
 
 }

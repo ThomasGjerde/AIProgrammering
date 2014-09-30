@@ -20,10 +20,14 @@ public class CSPNode extends Node{
 		super();
 	}
 	public boolean validateConstraint(CSPNode node) throws EvalError{
+		if(this.getNodeValue() == -1 || node.getNodeValue() == -1){
+			return true;
+		}
 		Interpreter i = new Interpreter();  // Construct an interpreter
 		i.set(constraintVars.get(0), this);
 		i.set(constraintVars.get(1), node);
 		i.eval("ret = " + constraintExpression);
+		System.out.println(i.get("ret"));
 		return (boolean) i.get("ret");
 	}
 	public ArrayList<Integer> getDomain(){
