@@ -1,4 +1,4 @@
-package aiprog.model;
+package aiprog.vcp;
 
 import java.util.ArrayList;
 
@@ -6,6 +6,8 @@ import bsh.EvalError;
 
 import aiprog.csp.CSP;
 import aiprog.gui.GraphGraphics;
+import aiprog.model.CSPNode;
+import aiprog.model.GACCSPNode;
 
 public class VCP extends CSP{
 	GraphGraphics graphics;

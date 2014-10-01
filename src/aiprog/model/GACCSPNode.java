@@ -8,7 +8,7 @@ import bsh.EvalError;
 
 public class GACCSPNode extends GACNode{
 	protected ArrayList<CSPNode> changes = new ArrayList<CSPNode>();
-	protected ArrayList<CSPNode> cspList;
+	public ArrayList<CSPNode> cspList;
 	public GACCSPNode() {
 		super();
 		cspList = new ArrayList<CSPNode>();
@@ -81,6 +81,9 @@ public class GACCSPNode extends GACNode{
 			if(tempNode.id == node.id){
 				tempNode.setDomain(new ArrayList<Integer>(node.getDomain()));
 				tempNode.setNodeValue(node.getNodeValue());
+				ArrayList<Integer> singletonDomain = new ArrayList<Integer>();
+				singletonDomain.add(node.getNodeValue());
+				tempNode.setDomain(singletonDomain);
 			}
 		}
 		/*

@@ -13,9 +13,9 @@ import aiprog.gui.GraphGraphics;
 import aiprog.model.CSPNode;
 import aiprog.model.GACCSPNode;
 import aiprog.model.Point;
-import aiprog.model.VCP;
 import aiprog.model.VCPNode;
 import aiprog.utility.IOUtils;
+import aiprog.vcp.VCP;
 
 public class VCPGraph {
 	int numNodes = 0;
