@@ -12,7 +12,7 @@ public class IOUtils {
 		ArrayList<String> returnArray = new ArrayList<String>();
 		String line;
 	    while ((line = br.readLine()) != null) {
-	        returnArray.add(line.replace(") (", ",").replace("(", "").replace(")",""));
+	        returnArray.add(line.replace(") (", ",").replace(")(", ",").replace("(", "").replace(")",""));
 	    }
 	    br.close();
 	    return returnArray;

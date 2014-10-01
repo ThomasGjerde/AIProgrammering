@@ -1,4 +1,4 @@
-package aiprog.main;
+package aiprog.vcp;
 
 import java.awt.Color;
 import java.io.IOException;
@@ -15,7 +15,6 @@ import aiprog.model.GACCSPNode;
 import aiprog.model.Point;
 import aiprog.model.VCPNode;
 import aiprog.utility.IOUtils;
-import aiprog.vcp.VCP;
 
 public class VCPGraph {
 	int numNodes = 0;
