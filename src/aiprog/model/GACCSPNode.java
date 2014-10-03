@@ -9,6 +9,7 @@ import bsh.EvalError;
 public class GACCSPNode extends GACNode{
 	protected ArrayList<CSPNode> changes = new ArrayList<CSPNode>();
 	public ArrayList<CSPNode> cspList;
+	public CSPNode assumption;
 	public GACCSPNode() {
 		super();
 		cspList = new ArrayList<CSPNode>();
@@ -84,8 +85,10 @@ public class GACCSPNode extends GACNode{
 				ArrayList<Integer> singletonDomain = new ArrayList<Integer>();
 				singletonDomain.add(node.getNodeValue());
 				tempNode.setDomain(singletonDomain);
+				this.assumption = tempNode;
 			}
 		}
+		
 		/*
 		CSPNode assumtionNode = new CSPNode();
 		assumtionNode.setId(node.getId());

@@ -6,6 +6,7 @@ import aiprog.navigation.Board;
 import aiprog.navigation.GridBestFirstSearch;
 import aiprog.navigation.GridBreadthFirstSearch;
 import aiprog.navigation.GridDepthFirstSearch;
+import aiprog.vcp.VCPGraph;
 
 
 public class Main {
@@ -18,7 +19,8 @@ public class Main {
 		
 		
 		try {
-			VCPGraph graph = new VCPGraph("/home/vcpGraph.txt",4);
+			//VCPGraph graph = new VCPGraph("/home/vcpGraph.txt",4);
+			VCPGraph praph = new VCPGraph("C:\\Users\\Lefdal\\Desktop\\AIProg\\VC\\vc6.txt",4);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -38,7 +40,7 @@ public class Main {
 		*/
 		/*
 		try {
-			Board board = new Board("/home/board.txt");
+			Board board = new Board("C:\\Users\\Lefdal\\Desktop\\AIProg\\GRID\\board8.txt");
 			GridBestFirstSearch gbfs = new GridBestFirstSearch(board.boardArray[board.startPos.x][board.startPos.y], board.endPos, board);
 			gbfs.search();
 			System.out.println("Path: " + gbfs.getPathLength());
@@ -50,7 +52,7 @@ public class Main {
 		*/
 		/*
 		try {
-			Board board = new Board("/home/board.txt");
+			Board board = new Board("C:\\Users\\Lefdal\\Desktop\\AIProg\\GRID\\board3.txt");
 			GridDepthFirstSearch gbfs = new GridDepthFirstSearch(board.boardArray[board.startPos.x][board.startPos.y], board.endPos, board);
 			gbfs.search();
 			System.out.println("Path: " + gbfs.getPathLength());
@@ -60,6 +62,7 @@ public class Main {
 			e.printStackTrace();
 		}
 		*/
+		
 		
 		
 		

@@ -48,8 +48,41 @@ public abstract class CSP extends AStarCSPGAC{
 		
 	}*/
 	
-	
 	private void reduction(Node node){
+		GACCSPNode tempNode = (GACCSPNode)node;
+		CSPNode midNode = null;
+		for(int j=0; j<tempNode.getChanges().size(); j++){
+			for(int k=0; k<tempNode.getCSPList().size(); k++){
+				if(((CSPNode)tempNode.getChanges().get(j)).getId() == ((CSPNode)tempNode.getCSPList().get(k)).getId()){
+					midNode = tempNode.getCSPList().get(k);
+				}
+			}
+		}
+		
+		for(int i=0; i<midNode.getChildren().size(); i++){
+			if(((CSPNode)midNode.getChildren().get(i)).domain.contains(midNode.getNodeValue())){
+				((CSPNode)midNode.getChildren().get(i)).reduceDomain(midNode.getNodeValue());
+			}
+			if(((CSPNode)midNode.getChildren().get(i)).domain.size() == 1 && ((CSPNode)midNode.getChildren().get(i)).getNodeValue() == -1){
+				reductionCycle((CSPNode)midNode.getChildren().get(i));
+			}
+		}
+	}
+	
+	private void reductionCycle(CSPNode node){
+		node.setNodeValue(node.domain.get(0));
+		for(int i=0; i<node.getChildren().size(); i++){
+			if(((CSPNode)node.getChildren().get(i)).domain.contains(node.getNodeValue())){
+				((CSPNode)node.getChildren().get(i)).reduceDomain(node.getNodeValue());
+			}
+			if(((CSPNode)node.getChildren().get(i)).domain.size() == 1){
+				reductionCycle((CSPNode)node.getChildren().get(i));
+			}
+		}
+	}
+	
+	
+	private void reduction2(Node node){
 		ArrayList<CSPNode> cSPList = ((GACCSPNode)node).getCSPList();
 		//ArrayList<VCPNode> moreReduse = new ArrayList<VCPNode>();
 		for(int i=0; i<cSPList.size(); i++){
