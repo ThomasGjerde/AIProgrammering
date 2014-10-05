@@ -27,6 +27,17 @@ public class VCP extends CSP{
 				return false;
 			}
 		}
+		try
+		{
+			if(((GACCSPNode)currentNode).checkConsistency() == false){
+				return false;
+			}
+		} catch (EvalError e)
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 		calculatePathLenght();
 		System.out.println("Size of tree: " + numNodes);
 		System.out.println("Expanded nodes: " + steps);

@@ -19,7 +19,7 @@ public class Main {
 		
 		
 		try {
-			VCPGraph graph = new VCPGraph("input/vcpGraph.txt",4);
+			VCPGraph graph = new VCPGraph("input/graph-color-1.txt",4);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

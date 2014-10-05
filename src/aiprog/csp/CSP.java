@@ -58,7 +58,6 @@ public abstract class CSP extends AStarCSPGAC{
 				}
 			}
 		}
-		
 		for(int i=0; i<midNode.getChildren().size(); i++){
 			if(((CSPNode)midNode.getChildren().get(i)).domain.contains(midNode.getNodeValue())){
 				((CSPNode)midNode.getChildren().get(i)).reduceDomain(midNode.getNodeValue());
@@ -75,7 +74,7 @@ public abstract class CSP extends AStarCSPGAC{
 			if(((CSPNode)node.getChildren().get(i)).domain.contains(node.getNodeValue())){
 				((CSPNode)node.getChildren().get(i)).reduceDomain(node.getNodeValue());
 			}
-			if(((CSPNode)node.getChildren().get(i)).domain.size() == 1){
+			if(((CSPNode)node.getChildren().get(i)).domain.size() == 1 && ((CSPNode)node.getChildren().get(i)).getNodeValue() == -1){
 				reductionCycle((CSPNode)node.getChildren().get(i));
 			}
 		}
