@@ -29,12 +29,14 @@ public abstract class AStar {
 					addToOpenList(tempNode);
 				}
 			}
-			//System.out.println("OPenLIst: " + openList.size());
-			//System.out.println("CLosedList " + closedList.size());
 			openList.remove(currentNode);
 			closedList.add(currentNode);
 			currentNode.setStatus(Status.Visited);
 			currentNode = getBestOpenList();
+			if(currentNode == null){
+				System.out.println("No solution: Open list empty");
+				return;
+			}
 			currentNode.setStatus(Status.Visiting);
 			steps++;
 			processCurrentNode();

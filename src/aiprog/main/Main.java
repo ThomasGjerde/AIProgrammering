@@ -19,8 +19,7 @@ public class Main {
 		
 		
 		try {
-			//VCPGraph graph = new VCPGraph("/home/vcpGraph.txt",4);
-			VCPGraph praph = new VCPGraph("C:\\Users\\Lefdal\\Desktop\\AIProg\\VC\\vc6.txt",4);
+			VCPGraph graph = new VCPGraph("input/vcpGraph.txt",4);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
