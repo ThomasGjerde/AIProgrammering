@@ -11,7 +11,7 @@ import aiprog.utility.IOUtils;
 
 public class FFBoard {
 	int numEndpoints;
-	FFNode[][] boardArray;
+	public FFNode[][] boardArray;
 	public FFBoard(String path) throws IOException{
 		ArrayList<String> input = IOUtils.getInputFromFile(path);
 		ArrayList<Integer> paramLine = parseLine(input.get(0));
@@ -23,13 +23,15 @@ public class FFBoard {
 				boardArray[i][j] = new FFNode(new Point(i,j),numEndpoints);
 			}
 		}
-		ArrayList<Color> availColors = boardArray[0][0].getDomain();
+		
+		ArrayList<Color> availColors = new ArrayList<Color>(boardArray[0][0].getDomain());
+		System.out.println(availColors.size());
 		for(int i = 1; i < input.size(); i++){
 			ArrayList<Integer> lineArray = parseLine(input.get(i));
-			boardArray[lineArray.get(1)][lineArray.get(2)].setColor(availColors.get(0));
+			boardArray[lineArray.get(1)][lineArray.get(2)].setColor(availColors.get(lineArray.get(0)));
 			boardArray[lineArray.get(1)][lineArray.get(2)].setEndPointStatus(true);
 			
-			boardArray[lineArray.get(3)][lineArray.get(4)].setColor(availColors.get(0));
+			boardArray[lineArray.get(3)][lineArray.get(4)].setColor(availColors.get(lineArray.get(0)));
 			boardArray[lineArray.get(3)][lineArray.get(4)].setEndPointStatus(true);
 		}
 		setChildrenForAllNodes();

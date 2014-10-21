@@ -3,6 +3,7 @@ package aiprog.main;
 import java.io.IOException;
 
 import aiprog.flowfree.FFBoard;
+import aiprog.gui.FFGraphics;
 import aiprog.navigation.Board;
 import aiprog.navigation.GridBestFirstSearch;
 import aiprog.navigation.GridBreadthFirstSearch;
@@ -21,6 +22,7 @@ public class Main {
 		
 		try {
 			FFBoard board = new FFBoard("input/flowspec-0.txt");
+			FFGraphics ffgraph = new FFGraphics(board);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
