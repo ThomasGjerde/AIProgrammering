@@ -2,6 +2,7 @@ package aiprog.main;
 
 import java.io.IOException;
 
+import aiprog.flowfree.FFBoard;
 import aiprog.navigation.Board;
 import aiprog.navigation.GridBestFirstSearch;
 import aiprog.navigation.GridBreadthFirstSearch;
@@ -19,7 +20,7 @@ public class Main {
 		
 		
 		try {
-			VCPGraph graph = new VCPGraph("input/graph-color-1.txt",4);
+			FFBoard board = new FFBoard("input/flowspec-0.txt");
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

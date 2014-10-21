@@ -5,7 +5,7 @@ import java.util.ArrayList;
 
 public class FFNode extends NavNode {
 	
-	ArrayList<Color> domain;
+	ArrayList<Color> domain = new ArrayList<Color>();
 	Color nodeColor;
 	boolean endPoint;
 	
@@ -36,6 +36,10 @@ public class FFNode extends NavNode {
 		}else{
 			return false;
 		}
+	}
+	
+	public void setEndPointStatus(boolean status){
+		endPoint = status;
 	}
 	
 	public ArrayList<Color> getDomain(){
