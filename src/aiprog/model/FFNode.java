@@ -8,34 +8,42 @@ public class FFNode extends NavNode {
 	ArrayList<Color> domain = new ArrayList<Color>();
 	Color nodeColor;
 	boolean endPoint;
+	int heuristic;
 	
 	public FFNode (Point position, boolean end, Color color){
 		super(position);
 		endPoint = end;
 		setColor(color);
+		heuristic = 0;
 	}
 	
 	public FFNode (Point position, int k){
 		super(position);
 		standardColors(k);
+		heuristic = 0;
 	}
 	
 	public void setColor(Color color){
 		nodeColor = color;
 		domain.clear();
 		domain.add(color);
+		heuristic = 0;
 	}
 	
 	public Color getColor(){
 		return nodeColor;
 	}
 	
+	public void setHeuristic(){
+		
+	}
+	
+	public int getHeuristic(){
+		return heuristic;
+	}
+	
 	public boolean isEndPoint(){
-		if(endPoint){
-			return true;
-		}else{
-			return false;
-		}
+		return endPoint;
 	}
 	
 	public void setEndPointStatus(boolean status){
@@ -60,6 +68,12 @@ public class FFNode extends NavNode {
 			midColor = newDomain.get(i);
 			domain.add(midColor);
 		}
+	}
+	
+	public void calcHeuristic(){
+		//Utregning for heuristic for denne noden
+		//Dette er unikt for vær state, så vi kan evt nullstille heuristc/dvs ikke ta det med over når vi lager en ny state
+		//Har ikke funnet ut om det går og ta med openlist nedover, tviler egentlig på det... kanskje hvis vi har parents, kan være tricky
 	}
 	
 	public void standardColors(int k){

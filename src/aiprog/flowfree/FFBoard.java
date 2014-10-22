@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import aiprog.model.FFNode;
+import aiprog.model.FFStateNode;
 import aiprog.model.NavNode;
 import aiprog.model.Point;
 import aiprog.utility.IOUtils;
@@ -58,6 +59,18 @@ public class FFBoard {
 			node.addChild(boardArray[node.pos.x][node.pos.y - 1]);
 		}
 	}
+	
+	public FFStateNode createInitState(){
+		ArrayList<FFNode> nodeArray = new ArrayList<FFNode>();
+		for(int i=0; i<boardArray.length; i++){
+			for(int j=0; j<boardArray[0].length; j++){
+				nodeArray.add(boardArray[i][j]);
+			}
+		}
+		FFStateNode firstState = new FFStateNode(nodeArray);
+		return firstState;
+	}
+	
 	private ArrayList<Integer> parseLine(String line){
 		String[] splitArray = line.split(" ");
 		ArrayList<Integer> retArray = new ArrayList<Integer>();

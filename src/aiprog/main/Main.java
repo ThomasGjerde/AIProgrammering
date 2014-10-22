@@ -3,6 +3,7 @@ package aiprog.main;
 import java.io.IOException;
 
 import aiprog.flowfree.FFBoard;
+import aiprog.flowfree.FlowFree;
 import aiprog.gui.FFGraphics;
 import aiprog.navigation.Board;
 import aiprog.navigation.GridBestFirstSearch;
@@ -23,6 +24,10 @@ public class Main {
 		try {
 			FFBoard board = new FFBoard("input/flowspec-0.txt");
 			FFGraphics ffgraph = new FFGraphics(board);
+			//åja, så derfor må jeg arve fra node i statenodesa....
+			//Det er mye dritt i denne arverekka som vi ikke trenger i dette.
+			//Egentlig trenger vi kun aStar og csp delene tror jeg, og ca halvparten av Node
+			FlowFree ff = new FlowFree(board.createInitState());
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
