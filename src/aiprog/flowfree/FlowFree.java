@@ -81,11 +81,8 @@ public class FlowFree extends AStar {
 			if(edgeList.get(n).pos.x == edge || edgeList.get(n).pos.y == 0){
 				left.add(edgeList.get(n));
 			}
-			
 		}
-		System.out.println("right: " + right.size());
-		System.out.println("left " + left.size());
-		
+		//IT WORKS MOTTHHAAAFUCCKAAS
 		
 		//Fjerner alle singe farga noder på kantene
 		ArrayList<FFNode> edgePairs = new ArrayList<FFNode>();
