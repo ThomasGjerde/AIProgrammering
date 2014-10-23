@@ -116,6 +116,8 @@ public class FlowFree extends AStar {
 		}
 		System.out.println("edgeColorList aft " + edgeColorList.size());
 		System.out.println("edgePairs " + edgePairs.size());
+		//okey, så da har vi det her...
+		
 		
 		//System.out.println("topList size " + topList.size());
 		//System.out.println("leftList size " + leftList.size());
