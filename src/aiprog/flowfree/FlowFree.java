@@ -34,7 +34,6 @@ public class FlowFree extends AStar {
 	//Kan kanskje kjøre i starten på alle states, er ikke sikker
 	//Mulig det er mer effektivt og putte noe av dette inn i reduction()
 	private void initModifications(FFStateNode state){
-		//edge = (state.getNodes().size() / 4) -1;
 		//DER JA! FCKINGS SQRT!
 		edge = (int) Math.sqrt(state.getNodes().size()) - 1;
 		
@@ -48,7 +47,6 @@ public class FlowFree extends AStar {
 			if(((FFNode)state.getNodes().get(i)).getColor() != null){
 				colorList.add(((FFNode)state.getNodes().get(i))); //Alle med farge satt
 			}
-			//System.out.println("node check " + state.getNodes().get(i).pos.y);
 			if(suppInit((FFNode)state.getNodes().get(i))){
 				edgeList.add((FFNode)state.getNodes().get(i));
 				if(((FFNode)state.getNodes().get(i)).getColor() != null){
@@ -101,7 +99,30 @@ public class FlowFree extends AStar {
 			//og det er bare 11 noder i edgelist, wtf?
 			//System.out.println("nodepos x: " + edgeList.get(l).pos.y + " y: " + edgeList.get(l));
 		}
-		System.out.println("edgeListSize " + edgeList.size());
+		//Okey, det er 6 noder i alle listene, how to do this....
+		
+		//Fjerner alle singe farga noder på kantene
+		ArrayList<FFNode> edgePairs = new ArrayList<FFNode>();
+		while(!edgeColorList.isEmpty()){
+			FFNode checkNode = edgeColorList.get(0);
+			edgeColorList.remove(0);
+			for(int k=0; k<edgeColorList.size(); k++){
+				if(checkNode.getColor() == edgeColorList.get(k).getColor()){
+					edgePairs.add(checkNode);
+					edgePairs.add(edgeColorList.get(k));
+					edgeColorList.remove(k);
+				}
+			}
+		}
+		System.out.println("edgeColorList aft " + edgeColorList.size());
+		System.out.println("edgePairs " + edgePairs.size());
+		
+		//System.out.println("topList size " + topList.size());
+		//System.out.println("leftList size " + leftList.size());
+		//System.out.println("bottomList size " + bottomList.size());
+		//System.out.println("rightList size " + rightList.size());
+		//System.out.println("colorEdgeList size " + edgeColorList.size());
+		//System.out.println("edgeListSize " + edgeList.size());
 		//System.out.println("topList " + topList.size());
 		//System.out.println("leftList " + leftList.size());
 		//System.out.println("rightList " + rightList.size());
