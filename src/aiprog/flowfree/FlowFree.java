@@ -12,7 +12,7 @@ import aiprog.search.AStar;
 //Bare sånn at vi slipper bittelitt casting:)
 //Også er det litt mer oversiktlig med shit i samme klasse
 public class FlowFree extends AStar {
-
+	//Check
 	int edge;
 	int counter;
 	FFStateNode currentState;
