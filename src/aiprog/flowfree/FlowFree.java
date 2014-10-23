@@ -20,7 +20,7 @@ public class FlowFree extends AStar {
 		super(startNode);
 		currentState = (FFStateNode) startNode;
 		initModifications(currentState);
-		edge = (currentState.getNodes().size() / 4) -1;
+		
 		counter = 0;
 	}
 	
@@ -34,7 +34,9 @@ public class FlowFree extends AStar {
 	//Kan kanskje kjøre i starten på alle states, er ikke sikker
 	//Mulig det er mer effektivt og putte noe av dette inn i reduction()
 	private void initModifications(FFStateNode state){
-		
+		//edge = (state.getNodes().size() / 4) -1;
+		//DER JA! FCKINGS SQRT!
+		edge = (int) Math.sqrt(state.getNodes().size()) - 1;
 		
 		//Hvis en barne node er det eneste alternativet, skal denne fylles med den "respektive" fargen
 		ArrayList<FFNode> colorList = new ArrayList<FFNode>();
@@ -46,22 +48,13 @@ public class FlowFree extends AStar {
 			if(((FFNode)state.getNodes().get(i)).getColor() != null){
 				colorList.add(((FFNode)state.getNodes().get(i))); //Alle med farge satt
 			}
-			System.out.println("node check " + state.getNodes().get(i).pos.y);
+			//System.out.println("node check " + state.getNodes().get(i).pos.y);
 			if(suppInit((FFNode)state.getNodes().get(i))){
 				edgeList.add((FFNode)state.getNodes().get(i));
 				if(((FFNode)state.getNodes().get(i)).getColor() != null){
 					edgeColorList.add((FFNode)state.getNodes().get(i));
 				}
 			}
-			/*
-			if(state.getNodes().get(i).pos.x == 0 || state.getNodes().get(i).pos.y == 0 || state.getNodes().get(i).pos.x == edge || state.getNodes().get(i).pos.y == edge){
-				System.out.println("node check1 " + state.getNodes().get(i).pos.y);
-				FFNode midNode = new FFNode(state.getNodes().get(i).pos, ((FFNode)state.getNodes().get(i)).getDomain().size());
-				edgeList.add(midNode);	//Alle noder på en kant
-				if(((FFNode)state.getNodes().get(i)).getColor() != null){
-					edgeColorList.add(midNode); //Alle noder med farger på kant, disse er også i edgeList but hey
-				}
-			}*/
 		}
 		
 		//Sjekker for eneste mulighet barn
@@ -114,22 +107,29 @@ public class FlowFree extends AStar {
 		//System.out.println("rightList " + rightList.size());
 		//System.out.println("bottomList " + bottomList.size());
 		//Hvis en hel path er ledig langs kanten, fyll den med den "respektive fargen"
-		System.out.println("counter " + counter);
+		//System.out.println("counter " + counter);
 	}
 	
 	//Ja, det har gått så langt at her lager man support metoder, som kun skal brukes på den første staten
-	//faen da, den er fremdeles 11...... WHY!?! Den skal være minst 13, nei den skal være 18
+	//faen da, den er fremdeles 11...... WHY!?! Den skal være minst 13, nei den skal være 18, nei den skal være 20 bah
 	private boolean suppInit(FFNode node){
-		counter = counter + 1;
+		//counter = counter + 1;
+		//System.out.println("edge " + edge);
+		//System.out.println("input node: x: " + node.pos.x + " y: " + node.pos.y);
 		if(node.pos.y == edge){
+			//System.out.println("y = edge");
 			return true;
 		}else if(node.pos.y == 0){
+			//System.out.println("y = 0");
 			return true;
 		}else if(node.pos.x == edge){
+			//System.out.println("x = edge");
 			return true;
 		}else if(node.pos.x == 0){
+			//System.out.println("x = 0");
 			return true;
 		}
+		//System.out.println("false");
 		return false;
 	}
 	
