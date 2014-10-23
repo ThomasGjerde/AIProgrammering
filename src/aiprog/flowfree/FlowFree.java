@@ -2,8 +2,11 @@ package aiprog.flowfree;
 
 import java.util.ArrayList;
 
+import aiprog.gui.FFGraphics;
+import aiprog.gui.Graphics;
 import aiprog.model.FFNode;
 import aiprog.model.FFStateNode;
+import aiprog.model.GACCSPNode;
 import aiprog.model.Node;
 import aiprog.search.AStar;
 
@@ -16,11 +19,12 @@ public class FlowFree extends AStar {
 	int edge;
 	int counter;
 	FFStateNode currentState;
-	public FlowFree(Node startNode) {
+	public FFGraphics graphic;
+	public FlowFree(Node startNode, FFGraphics graphics) {
 		super(startNode);
 		currentState = (FFStateNode) startNode;
 		initModifications(currentState);
-		
+		graphic = graphics;
 		counter = 0;
 	}
 	
@@ -34,7 +38,6 @@ public class FlowFree extends AStar {
 	//Kan kanskje kjøre i starten på alle states, er ikke sikker
 	//Mulig det er mer effektivt og putte noe av dette inn i reduction()
 	private void initModifications(FFStateNode state){
-		//DER JA! FCKINGS SQRT!
 		edge = (int) Math.sqrt(state.getNodes().size()) - 1;
 		
 		//Hvis en barne node er det eneste alternativet, skal denne fylles med den "respektive" fargen
@@ -67,39 +70,22 @@ public class FlowFree extends AStar {
 			}
 			midList.clear();
 		}
-		//Dette her burde egentlig bli standard staten, pga det er ikke mulig at dette kan være feil, eller koden kan være feil men om den funker så er dette garantert riktig
-		//Hem, how to do this..... jeg har lyst på vin, men så har jeg ikke vin, DILEMMA!
-		//Dette her burde bli en egen state, for dette er ikke "garantert" riktig
 		
-		//Hem den her er faktisk litt tricky
-		//Veien langs kanten burde være den korteste tilgjengelig
-		//Men før det må jeg vite at veien er "clear"
-		//Hem, kanskje jeg skal lage 4 arrays for vær kant? Virker unnødvendig
-		//Jeg kunne kjørt a* fra nodene i edgeColorList, virker but does it work????
-		//I såfall må vi modifisere a* og nodene ganske heftig, ikke verdt det imo
-		//Fck it!
-		ArrayList<FFNode> topList = new ArrayList<FFNode>();
-		ArrayList<FFNode> rightList = new ArrayList<FFNode>();
-		ArrayList<FFNode> leftList = new ArrayList<FFNode>();
-		ArrayList<FFNode> bottomList = new ArrayList<FFNode>();
-		for(int l=0; l<edgeList.size(); l++){
-			if(edgeList.get(l).pos.x == 5){
-				rightList.add(edgeList.get(l));
+		
+		ArrayList<FFNode> right = new ArrayList<FFNode>();
+		ArrayList<FFNode> left = new ArrayList<FFNode>();
+		for(int n=0; n<edgeList.size(); n++){
+			if(edgeList.get(n).pos.x == 0 || edgeList.get(n).pos.y == edge){
+				right.add(edgeList.get(n));
 			}
-			if(edgeList.get(l).pos.y == 5){
-				bottomList.add(edgeList.get(l));
+			if(edgeList.get(n).pos.x == edge || edgeList.get(n).pos.y == 0){
+				left.add(edgeList.get(n));
 			}
-			if(edgeList.get(l).pos.x == 0){
-				leftList.add(edgeList.get(l));
-			}
-			if(edgeList.get(l).pos.y == 0){
-				topList.add(edgeList.get(l));
-			}
-			//hem, alle y verdiene er fucked....
-			//og det er bare 11 noder i edgelist, wtf?
-			//System.out.println("nodepos x: " + edgeList.get(l).pos.y + " y: " + edgeList.get(l));
+			
 		}
-		//Okey, det er 6 noder i alle listene, how to do this....
+		System.out.println("right: " + right.size());
+		System.out.println("left " + left.size());
+		
 		
 		//Fjerner alle singe farga noder på kantene
 		ArrayList<FFNode> edgePairs = new ArrayList<FFNode>();
@@ -117,42 +103,33 @@ public class FlowFree extends AStar {
 		System.out.println("edgeColorList aft " + edgeColorList.size());
 		System.out.println("edgePairs " + edgePairs.size());
 		//okey, så da har vi det her...
+		//hem, kanskje jeg ikke trenger alle kant arrayene....
+		//int xDist = Math.abs(this.x - endPoint.x);
+		//int yDist = Math.abs(this.y - endPoint.y);
+		//return (xDist + yDist);
+		for(int m=0; m<edgePairs.size(); m++){
+			FFNode start = edgePairs.get(m);
+			FFNode end = edgePairs.get(m+1);
+			m++;
+			if(start.getColor() == end.getColor()){
+				System.out.println("true");
+			}
+		}
 		
-		
-		//System.out.println("topList size " + topList.size());
-		//System.out.println("leftList size " + leftList.size());
-		//System.out.println("bottomList size " + bottomList.size());
-		//System.out.println("rightList size " + rightList.size());
-		//System.out.println("colorEdgeList size " + edgeColorList.size());
-		//System.out.println("edgeListSize " + edgeList.size());
-		//System.out.println("topList " + topList.size());
-		//System.out.println("leftList " + leftList.size());
-		//System.out.println("rightList " + rightList.size());
-		//System.out.println("bottomList " + bottomList.size());
-		//Hvis en hel path er ledig langs kanten, fyll den med den "respektive fargen"
-		//System.out.println("counter " + counter);
 	}
 	
 	//Ja, det har gått så langt at her lager man support metoder, som kun skal brukes på den første staten
 	//faen da, den er fremdeles 11...... WHY!?! Den skal være minst 13, nei den skal være 18, nei den skal være 20 bah
 	private boolean suppInit(FFNode node){
-		//counter = counter + 1;
-		//System.out.println("edge " + edge);
-		//System.out.println("input node: x: " + node.pos.x + " y: " + node.pos.y);
 		if(node.pos.y == edge){
-			//System.out.println("y = edge");
 			return true;
 		}else if(node.pos.y == 0){
-			//System.out.println("y = 0");
 			return true;
 		}else if(node.pos.x == edge){
-			//System.out.println("x = edge");
 			return true;
 		}else if(node.pos.x == 0){
-			//System.out.println("x = 0");
 			return true;
 		}
-		//System.out.println("false");
 		return false;
 	}
 	
@@ -160,7 +137,6 @@ public class FlowFree extends AStar {
 	@Override
 	protected void updateGui() {
 		// TODO Auto-generated method stub
-		
 	}
 	
 	
@@ -179,7 +155,7 @@ public class FlowFree extends AStar {
 
 	@Override
 	protected void processCurrentNode() {
-		// TODO Auto-generated method stub
+		
 		
 	}
 

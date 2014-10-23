@@ -27,7 +27,7 @@ public class Main {
 			//åja, så derfor må jeg arve fra node i statenodesa....
 			//Det er mye dritt i denne arverekka som vi ikke trenger i dette.
 			//Egentlig trenger vi kun aStar og csp delene tror jeg, og ca halvparten av Node
-			FlowFree ff = new FlowFree(board.createInitState());
+			FlowFree ff = new FlowFree(board.createInitState(), ffgraph);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
