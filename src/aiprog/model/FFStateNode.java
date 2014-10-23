@@ -23,6 +23,9 @@ public class FFStateNode extends Node{
 	public int getHeuristic(){
 		return heuristic;
 	}
+	public ArrayList<FFNode> getNodes(){
+		return nodes;
+	}
 	
 	//Denne skal finne noen noder som er "prioritert" i forhold til og gjøre assumptions
 	//Hvis denne lista er tom, så kan vi evt bare velge en random?
