@@ -13,12 +13,15 @@ import aiprog.search.AStar;
 //Også er det litt mer oversiktlig med shit i samme klasse
 public class FlowFree extends AStar {
 
+	int edge;
+	int counter;
 	FFStateNode currentState;
 	public FlowFree(Node startNode) {
 		super(startNode);
 		currentState = (FFStateNode) startNode;
 		initModifications(currentState);
-		
+		edge = (currentState.getNodes().size() / 4) -1;
+		counter = 0;
 	}
 	
 	@Override
@@ -32,6 +35,7 @@ public class FlowFree extends AStar {
 	//Mulig det er mer effektivt og putte noe av dette inn i reduction()
 	private void initModifications(FFStateNode state){
 		
+		
 		//Hvis en barne node er det eneste alternativet, skal denne fylles med den "respektive" fargen
 		ArrayList<FFNode> colorList = new ArrayList<FFNode>();
 		ArrayList<FFNode> midList = new ArrayList<FFNode>();
@@ -42,12 +46,22 @@ public class FlowFree extends AStar {
 			if(((FFNode)state.getNodes().get(i)).getColor() != null){
 				colorList.add(((FFNode)state.getNodes().get(i))); //Alle med farge satt
 			}
-			if(state.getNodes().get(i).pos.x == 0 || state.getNodes().get(i).pos.y == 0){
-				edgeList.add((FFNode)state.getNodes().get(i));	//Alle noder på en kant
+			System.out.println("node check " + state.getNodes().get(i).pos.y);
+			if(suppInit((FFNode)state.getNodes().get(i))){
+				edgeList.add((FFNode)state.getNodes().get(i));
 				if(((FFNode)state.getNodes().get(i)).getColor() != null){
-					edgeColorList.add((FFNode)state.getNodes().get(i)); //Alle noder med farger på kant, disse er også i edgeList but hey
+					edgeColorList.add((FFNode)state.getNodes().get(i));
 				}
 			}
+			/*
+			if(state.getNodes().get(i).pos.x == 0 || state.getNodes().get(i).pos.y == 0 || state.getNodes().get(i).pos.x == edge || state.getNodes().get(i).pos.y == edge){
+				System.out.println("node check1 " + state.getNodes().get(i).pos.y);
+				FFNode midNode = new FFNode(state.getNodes().get(i).pos, ((FFNode)state.getNodes().get(i)).getDomain().size());
+				edgeList.add(midNode);	//Alle noder på en kant
+				if(((FFNode)state.getNodes().get(i)).getColor() != null){
+					edgeColorList.add(midNode); //Alle noder med farger på kant, disse er også i edgeList but hey
+				}
+			}*/
 		}
 		
 		//Sjekker for eneste mulighet barn
@@ -66,11 +80,59 @@ public class FlowFree extends AStar {
 		//Hem, how to do this..... jeg har lyst på vin, men så har jeg ikke vin, DILEMMA!
 		//Dette her burde bli en egen state, for dette er ikke "garantert" riktig
 		
-		
-		
+		//Hem den her er faktisk litt tricky
+		//Veien langs kanten burde være den korteste tilgjengelig
+		//Men før det må jeg vite at veien er "clear"
+		//Hem, kanskje jeg skal lage 4 arrays for vær kant? Virker unnødvendig
+		//Jeg kunne kjørt a* fra nodene i edgeColorList, virker but does it work????
+		//I såfall må vi modifisere a* og nodene ganske heftig, ikke verdt det imo
+		//Fck it!
+		ArrayList<FFNode> topList = new ArrayList<FFNode>();
+		ArrayList<FFNode> rightList = new ArrayList<FFNode>();
+		ArrayList<FFNode> leftList = new ArrayList<FFNode>();
+		ArrayList<FFNode> bottomList = new ArrayList<FFNode>();
+		for(int l=0; l<edgeList.size(); l++){
+			if(edgeList.get(l).pos.x == 5){
+				rightList.add(edgeList.get(l));
+			}
+			if(edgeList.get(l).pos.y == 5){
+				bottomList.add(edgeList.get(l));
+			}
+			if(edgeList.get(l).pos.x == 0){
+				leftList.add(edgeList.get(l));
+			}
+			if(edgeList.get(l).pos.y == 0){
+				topList.add(edgeList.get(l));
+			}
+			//hem, alle y verdiene er fucked....
+			//og det er bare 11 noder i edgelist, wtf?
+			//System.out.println("nodepos x: " + edgeList.get(l).pos.y + " y: " + edgeList.get(l));
+		}
+		System.out.println("edgeListSize " + edgeList.size());
+		//System.out.println("topList " + topList.size());
+		//System.out.println("leftList " + leftList.size());
+		//System.out.println("rightList " + rightList.size());
+		//System.out.println("bottomList " + bottomList.size());
 		//Hvis en hel path er ledig langs kanten, fyll den med den "respektive fargen"
+		System.out.println("counter " + counter);
 	}
-
+	
+	//Ja, det har gått så langt at her lager man support metoder, som kun skal brukes på den første staten
+	//faen da, den er fremdeles 11...... WHY!?! Den skal være minst 13, nei den skal være 18
+	private boolean suppInit(FFNode node){
+		counter = counter + 1;
+		if(node.pos.y == edge){
+			return true;
+		}else if(node.pos.y == 0){
+			return true;
+		}else if(node.pos.x == edge){
+			return true;
+		}else if(node.pos.x == 0){
+			return true;
+		}
+		return false;
+	}
+	
 	//duh
 	@Override
 	protected void updateGui() {
