@@ -26,6 +26,7 @@ public class FlowFree extends AStar {
 		graphic = graphics;
 		initModifications(currentState);
 		counter = 0;
+		reduction(currentState);
 	}
 	
 	@Override
@@ -168,10 +169,11 @@ public class FlowFree extends AStar {
 	//kan evt være deduction
 	//skal fikse det åpenbare
 	public void reduction(FFStateNode state){
-		boolean check = true;
-		int counter = 1;
-		ArrayList<FFNode> endArray = state.getAllEndOfPathNodes();
-		
+		//boolean check = true;
+		//int counter = 1;
+		FFStateNode redState = state;
+		ArrayList<FFNode> endArray = redState.getAllEndOfPathNodes();
+		//almost works
 		while(!endArray.isEmpty()){
 			for(int i=0; i<endArray.size(); i++){
 				ArrayList<FFNode> midList = new ArrayList<FFNode>();
@@ -189,24 +191,9 @@ public class FlowFree extends AStar {
 				midList.clear();
 			}
 		}
-		/*
-		while(counter != 0){
-			//1 iteration
-			counter = 0;
-			for(int i=0; i<endArray.size(); i++){
-				ArrayList<FFNode> midList = new ArrayList<FFNode>();
-				for(int j=0; j<endArray.get(i).getChildren().size(); j++){
-					if(((FFNode)endArray.get(i).getChildren().get(j)).getColor() == null){
-						midList.add((FFNode)endArray.get(i).getChildren().get(j));
-					}
-				}
-				if(midList.size() == 1){
-					midList.get(0).setColor(endArray.get(i).getColor(), endArray.get(i));
-					counter++;
-				}
-				midList.clear();
-			}
-		}*/
+		//redState.applyChanges();
+		graphic.setState(redState);
+		
 	}
 
 	@Override
