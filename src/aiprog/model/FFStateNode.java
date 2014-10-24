@@ -65,7 +65,9 @@ public class FFStateNode extends Node{
 	public ArrayList<FFNode> getAllEndOfPathNodes(){
 		ArrayList<FFNode> retArray = new ArrayList<FFNode>();
 		for(int i = 0; i < endPoints.size(); i++){
-			retArray.add(endPoints.get(i).getEndOfPath());
+			if(endPoints.get(i).checkConstraint() == false){
+				retArray.add(endPoints.get(i).getEndOfPath());
+			}	
 		}
 		return retArray;
 	}

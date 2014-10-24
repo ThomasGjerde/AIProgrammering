@@ -115,7 +115,7 @@ public class FFNode extends NavNode {
 		ArrayList<FFNode> retArray = new ArrayList<FFNode>();
 		for(int i = 0; i < this.children.size(); i++){
 			FFNode tempChild = (FFNode)children.get(i);
-			if(tempChild.getColor() == color && tempChild.parentPos.x == this.pos.x && tempChild.parentPos.y == this.pos.y){ //Possible problem
+			if(tempChild.getColor() == color && tempChild.parentPos != null && tempChild.parentPos.x == this.pos.x && tempChild.parentPos.y == this.pos.y){ //Possible problem
 				retArray.add(tempChild);
 			}
 		}
@@ -141,24 +141,18 @@ public class FFNode extends NavNode {
 				tempNode = childList.get(i);
 				
 			}
-			if(childList.size() == 0){
-				for(int i = 0; i < tempNode.children.size(); i++){
-					FFNode tempNode2 = (FFNode)tempNode.children.get(i);
-					if(tempNode2.getColor() == this.getColor()){
-						if(tempNode2.originPos != null && (tempNode2.originPos.x != this.pos.x || tempNode2.originPos.y == this.pos.y)){
-							return true;
-						}
-						if(tempNode2.endPoint == true && tempNode2.pos != this.pos){
-							return true;
-						}
-					}
+		}
+		for(int i = 0; i < tempNode.children.size(); i++){
+			FFNode tempNode2 = (FFNode)tempNode.children.get(i);
+			if(tempNode2.getColor() == this.getColor()){
+				if(tempNode2.originPos != null && (tempNode2.originPos.x != this.pos.x || tempNode2.originPos.y == this.pos.y)){
+					return true;
 				}
-				
+				if(tempNode2.endPoint == true && tempNode2.pos != this.pos){
+					return true;
+				}
 			}
 		}
 		return false;
-
 	}
-	
-	
 }
