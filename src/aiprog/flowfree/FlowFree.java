@@ -43,15 +43,11 @@ public class FlowFree extends AStar {
 		//Hvis en barne node er det eneste alternativet, skal denne fylles med den "respektive" fargen
 		ArrayList<FFNode> colorList = new ArrayList<FFNode>();
 		ArrayList<FFNode> midList = new ArrayList<FFNode>();
-		ArrayList<FFNode> edgeList = new ArrayList<FFNode>();
-		//ArrayList<FFNode> edgeColorList = new ArrayList<FFNode>();
+		
 		//Adder alle noder med farge til en liste
 		for(int i=0; i<state.getNodes().size(); i++){
 			if(((FFNode)state.getNodes().get(i)).getColor() != null){
 				colorList.add(((FFNode)state.getNodes().get(i))); //Alle med farge satt
-			}
-			if(suppInit((FFNode)state.getNodes().get(i))){
-				edgeList.add((FFNode)state.getNodes().get(i));
 			}
 		}
 		
@@ -68,6 +64,19 @@ public class FlowFree extends AStar {
 			midList.clear();
 		}
 		graphic.setState(currentState);
+		//Ferdig med det "garanterte"
+		
+		//Start antagelser
+		ArrayList<FFNode> cloneArray = new ArrayList<FFNode>();
+		for(int ii=0; ii<state.getNodes().size(); ii++){
+			cloneArray.add(state.getNodes().get(ii).cloneNode());
+		}
+		ArrayList<FFNode> edgeList = new ArrayList<FFNode>();
+		for(int a=0; a<cloneArray.size(); a++){
+			if(suppInit(cloneArray.get(a))){
+				edgeList.add(cloneArray.get(a));
+			}
+		}
 		
 		
 		ArrayList<FFNode> right = new ArrayList<FFNode>();
@@ -116,9 +125,12 @@ public class FlowFree extends AStar {
 					for(int x=0; x<pathLengthRight; x++){
 						if(full.get(o+x).getColor() == null){
 							full.get(o+x).setColor(colorStart.getColor(),null);
-							graphic.setState(currentState);
 						}
 					}
+					FFStateNode genState = currentState.generateStateNode(cloneArray);
+					//funker, men viser ikke i graphics
+					//genState.applyChanges();
+					//graphic.setState(genState);
 				}
 			}
 		}
@@ -150,12 +162,12 @@ public class FlowFree extends AStar {
 	@Override
 	protected void setHeuristic(Node node) {
 		// TODO Auto-generated method stub
-		
+		//Blanco it is
 	}
 	
 	//kan evt være deduction
 	//skal fikse det åpenbare
-	public void reduction(){
+	public void reduction(FFStateNode state){
 		
 	}
 
