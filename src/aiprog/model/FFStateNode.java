@@ -7,14 +7,16 @@ public class FFStateNode extends Node{
 	public ArrayList<FFNode> availAssumptions;
 	public ArrayList<FFNode> nodes = new ArrayList<FFNode>();
 	public ArrayList<FFNode> changes = new ArrayList<FFNode>();
+	public ArrayList<FFNode> endPoints;
 	
 	//Er ikke sikker p� om vi burde ha changes her... mulig det genererer mer minnebruk pga mange states?
 	//Kan ha det i freeflow i stede kanskje, idk
 	//public ArrayList<FFNode> changes = new ArrayList<FFNode>();
 	
-	public FFStateNode(ArrayList<FFNode> nodesInState){
+	public FFStateNode(ArrayList<FFNode> nodesInState, ArrayList<FFNode> endPoints){
 		nodes = new ArrayList<FFNode>(nodesInState);
 		availAssumptions = new ArrayList<FFNode>();
+		this.endPoints = new ArrayList<FFNode>(endPoints);
 	}
 	
 	public void setHeuristic(int h){
@@ -45,7 +47,7 @@ public class FFStateNode extends Node{
 		
 	}
 	public FFStateNode generateStateNode(ArrayList<FFNode> changes){
-		FFStateNode newNode = new FFStateNode(this.nodes);
+		FFStateNode newNode = new FFStateNode(this.nodes,endPoints);
 		ArrayList<FFNode> newChanges = new ArrayList<FFNode>();
 		for(int i = 0; i < changes.size(); i++){
 			newChanges.add(changes.get(i).cloneNode());
@@ -59,6 +61,13 @@ public class FFStateNode extends Node{
 			nodes.get(i).nodeColor = changes.get(i).nodeColor;
 			nodes.get(i).setDomain(changes.get(i).domain);
 		}
+	}
+	public ArrayList<FFNode> getAllEndOfPathNodes(){
+		ArrayList<FFNode> retArray = new ArrayList<FFNode>();
+		for(int i = 0; i < endPoints.size(); i++){
+			retArray.add(endPoints.get(i).getEndOfPath());
+		}
+		return retArray;
 	}
 	
 	

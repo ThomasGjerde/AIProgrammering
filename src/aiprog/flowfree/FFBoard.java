@@ -3,7 +3,6 @@ package aiprog.flowfree;
 import java.awt.Color;
 import java.io.IOException;
 import java.util.ArrayList;
-
 import aiprog.model.FFNode;
 import aiprog.model.FFStateNode;
 import aiprog.model.NavNode;
@@ -13,11 +12,13 @@ import aiprog.utility.IOUtils;
 public class FFBoard {
 	int numEndpoints;
 	public FFNode[][] boardArray;
+	ArrayList<FFNode> endPoints = new ArrayList<FFNode>();
 	public FFBoard(String path) throws IOException{
 		ArrayList<String> input = IOUtils.getInputFromFile(path);
 		ArrayList<Integer> paramLine = parseLine(input.get(0));
 		boardArray = new FFNode[paramLine.get(0)][paramLine.get(0)];
 		numEndpoints = paramLine.get(1);
+		
 		
 		for(int i = 0; i < boardArray.length; i++){
 			for(int j = 0; j < boardArray[0].length; j++){
@@ -31,9 +32,11 @@ public class FFBoard {
 			ArrayList<Integer> lineArray = parseLine(input.get(i));
 			boardArray[lineArray.get(1)][lineArray.get(2)].setColor(availColors.get(lineArray.get(0)),null);
 			boardArray[lineArray.get(1)][lineArray.get(2)].setEndPointStatus(true);
+			endPoints.add(boardArray[lineArray.get(1)][lineArray.get(2)]);
 			
 			boardArray[lineArray.get(3)][lineArray.get(4)].setColor(availColors.get(lineArray.get(0)),null);
 			boardArray[lineArray.get(3)][lineArray.get(4)].setEndPointStatus(true);
+			endPoints.add(boardArray[lineArray.get(3)][lineArray.get(4)]);
 		}
 		setChildrenForAllNodes();
 		
@@ -67,7 +70,7 @@ public class FFBoard {
 				nodeArray.add(boardArray[i][j]);
 			}
 		}
-		FFStateNode firstState = new FFStateNode(nodeArray);
+		FFStateNode firstState = new FFStateNode(nodeArray,endPoints);
 		return firstState;
 	}
 	

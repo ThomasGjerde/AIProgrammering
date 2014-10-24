@@ -121,6 +121,18 @@ public class FFNode extends NavNode {
 		}
 		return retArray;
 	}
+	public FFNode getEndOfPath(){
+		FFNode tempNode = this;
+		while(tempNode.getChildrenByColor(this.getColor()).size() > 0){
+			ArrayList<FFNode> childList = tempNode.getChildrenByColor(this.getColor());
+			for(int i = 0; i < childList.size(); i++){
+				tempNode = childList.get(i);
+				
+			}
+		}
+		return tempNode;
+		
+	}
 	public boolean checkConstraint(){
 		FFNode tempNode = this;
 		while(tempNode.getChildrenByColor(this.getColor()).size() > 0){
