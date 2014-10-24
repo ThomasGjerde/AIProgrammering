@@ -23,8 +23,8 @@ public class FlowFree extends AStar {
 	public FlowFree(Node startNode, FFGraphics graphics) {
 		super(startNode);
 		currentState = (FFStateNode) startNode;
-		initModifications(currentState);
 		graphic = graphics;
+		initModifications(currentState);
 		counter = 0;
 	}
 	
@@ -44,7 +44,7 @@ public class FlowFree extends AStar {
 		ArrayList<FFNode> colorList = new ArrayList<FFNode>();
 		ArrayList<FFNode> midList = new ArrayList<FFNode>();
 		ArrayList<FFNode> edgeList = new ArrayList<FFNode>();
-		ArrayList<FFNode> edgeColorList = new ArrayList<FFNode>();
+		//ArrayList<FFNode> edgeColorList = new ArrayList<FFNode>();
 		//Adder alle noder med farge til en liste
 		for(int i=0; i<state.getNodes().size(); i++){
 			if(((FFNode)state.getNodes().get(i)).getColor() != null){
@@ -52,9 +52,6 @@ public class FlowFree extends AStar {
 			}
 			if(suppInit((FFNode)state.getNodes().get(i))){
 				edgeList.add((FFNode)state.getNodes().get(i));
-				if(((FFNode)state.getNodes().get(i)).getColor() != null){
-					edgeColorList.add((FFNode)state.getNodes().get(i));
-				}
 			}
 		}
 		
@@ -66,10 +63,11 @@ public class FlowFree extends AStar {
 				}
 			}
 			if(midList.size() == 1){
-				midList.get(0).setColor(colorList.get(j).getColor());
+				midList.get(0).setColor(colorList.get(j).getColor(), colorList.get(j));
 			}
 			midList.clear();
 		}
+		graphic.setState(currentState);
 		
 		
 		ArrayList<FFNode> right = new ArrayList<FFNode>();
@@ -84,35 +82,46 @@ public class FlowFree extends AStar {
 		}
 		//IT WORKS MOTTHHAAAFUCCKAAS
 		
-		//Fjerner alle singe farga noder på kantene
-		ArrayList<FFNode> edgePairs = new ArrayList<FFNode>();
-		while(!edgeColorList.isEmpty()){
-			FFNode checkNode = edgeColorList.get(0);
-			edgeColorList.remove(0);
-			for(int k=0; k<edgeColorList.size(); k++){
-				if(checkNode.getColor() == edgeColorList.get(k).getColor()){
-					edgePairs.add(checkNode);
-					edgePairs.add(edgeColorList.get(k));
-					edgeColorList.remove(k);
+		
+		
+		//Alle edgenoder i et "rundt" array
+		ArrayList<FFNode> full = new ArrayList<FFNode>();
+		for(int l=0; l<right.size(); l++){
+			full.add(right.get(l));
+			
+		}
+		for(int m=left.size()-2; 0<m; m--){
+			full.add(left.get(m));
+		}
+		
+		//Dette gaar bare den ene veien
+		for(int o=0; o<full.size(); o++){
+			if(full.get(o).getColor() != null){
+				FFNode colorStart = full.get(o);
+				int pathLengthRight = 0;
+				
+				for(int z=o+1; z<full.size(); z++){
+					if(full.get(z).getColor() == null){
+						pathLengthRight++;
+					}else if(full.get(z).getColor() != colorStart.getColor()){
+						pathLengthRight = 0;
+						break;
+					}else if(full.get(z).getColor() == colorStart.getColor()){
+						break;
+					}
+				}
+				if(pathLengthRight != 0){
+					//DETTE FUNKER PGA JESUS
+					pathLengthRight++;
+					for(int x=0; x<pathLengthRight; x++){
+						if(full.get(o+x).getColor() == null){
+							full.get(o+x).setColor(colorStart.getColor(),null);
+							graphic.setState(currentState);
+						}
+					}
 				}
 			}
 		}
-		System.out.println("edgeColorList aft " + edgeColorList.size());
-		System.out.println("edgePairs " + edgePairs.size());
-		//okey, så da har vi det her...
-		//hem, kanskje jeg ikke trenger alle kant arrayene....
-		//int xDist = Math.abs(this.x - endPoint.x);
-		//int yDist = Math.abs(this.y - endPoint.y);
-		//return (xDist + yDist);
-		for(int m=0; m<edgePairs.size(); m++){
-			FFNode start = edgePairs.get(m);
-			FFNode end = edgePairs.get(m+1);
-			m++;
-			if(start.getColor() == end.getColor()){
-				System.out.println("true");
-			}
-		}
-		
 	}
 	
 	//Ja, det har gått så langt at her lager man support metoder, som kun skal brukes på den første staten
