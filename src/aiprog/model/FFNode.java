@@ -9,21 +9,23 @@ public class FFNode extends NavNode {
 	Color nodeColor;
 	boolean endPoint;
 	int heuristic;
-	
-	public FFNode (Point position, boolean end, Color color){
-		super(position);
-		endPoint = end;
-		setColor(color);
-		heuristic = 0;
-	}
+	Point originPos;
+	Point parentPos;
 	
 	public FFNode (Point position, int k){
 		super(position);
 		standardColors(k);
 		heuristic = 0;
 	}
-	
-	public void setColor(Color color){
+	public void setColor(Color color, FFNode parentNode){
+		if(parentNode != null){
+			if(parentNode.originPos != null){
+				this.originPos = new Point(parentNode.originPos.x, parentNode.originPos.y);
+			}else{
+				this.originPos = new Point(parentNode.pos.x,parentNode.pos.y);
+			}
+			this.parentPos = new Point(parentNode.pos.x,parentNode.pos.y);
+		}
 		nodeColor = color;
 		domain.clear();
 		domain.add(color);
@@ -72,8 +74,8 @@ public class FFNode extends NavNode {
 	
 	public void calcHeuristic(){
 		//Utregning for heuristic for denne noden
-		//Dette er unikt for vær state, så vi kan evt nullstille heuristc/dvs ikke ta det med over når vi lager en ny state
-		//Har ikke funnet ut om det går og ta med openlist nedover, tviler egentlig på det... kanskje hvis vi har parents, kan være tricky
+		//Dette er unikt for vï¿½r state, sï¿½ vi kan evt nullstille heuristc/dvs ikke ta det med over nï¿½r vi lager en ny state
+		//Har ikke funnet ut om det gï¿½r og ta med openlist nedover, tviler egentlig pï¿½ det... kanskje hvis vi har parents, kan vï¿½re tricky
 	}
 	
 	public void standardColors(int k){
@@ -95,5 +97,42 @@ public class FFNode extends NavNode {
 		
 		
 	}
+	public ArrayList<FFNode> getChildrenByColor(Color color){
+		ArrayList<FFNode> retArray = new ArrayList<FFNode>();
+		for(int i = 0; i < this.children.size(); i++){
+			FFNode tempChild = (FFNode)children.get(i);
+			if(tempChild.getColor() == color && tempChild.parentPos.x == this.pos.x && tempChild.parentPos.y == this.pos.y){ //Possible problem
+				retArray.add(tempChild);
+			}
+		}
+		return retArray;
+	}
+	public boolean checkConstraint(){
+		FFNode tempNode = this;
+		while(tempNode.getChildrenByColor(this.getColor()).size() > 0){
+			ArrayList<FFNode> childList = tempNode.getChildrenByColor(this.getColor());
+			for(int i = 0; i < childList.size(); i++){
+				tempNode = childList.get(i);
+				
+			}
+			if(childList.size() == 0){
+				for(int i = 0; i < tempNode.children.size(); i++){
+					FFNode tempNode2 = (FFNode)tempNode.children.get(i);
+					if(tempNode2.getColor() == this.getColor()){
+						if(tempNode2.originPos != null && (tempNode2.originPos.x != this.pos.x || tempNode2.originPos.y == this.pos.y)){
+							return true;
+						}
+						if(tempNode2.endPoint == true && tempNode2.pos != this.pos){
+							return true;
+						}
+					}
+				}
+				
+			}
+		}
+		return false;
+
+	}
+	
 	
 }

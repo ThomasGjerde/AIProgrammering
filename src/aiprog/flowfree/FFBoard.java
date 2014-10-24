@@ -29,10 +29,10 @@ public class FFBoard {
 		System.out.println(availColors.size());
 		for(int i = 1; i < input.size(); i++){
 			ArrayList<Integer> lineArray = parseLine(input.get(i));
-			boardArray[lineArray.get(1)][lineArray.get(2)].setColor(availColors.get(lineArray.get(0)));
+			boardArray[lineArray.get(1)][lineArray.get(2)].setColor(availColors.get(lineArray.get(0)),null);
 			boardArray[lineArray.get(1)][lineArray.get(2)].setEndPointStatus(true);
 			
-			boardArray[lineArray.get(3)][lineArray.get(4)].setColor(availColors.get(lineArray.get(0)));
+			boardArray[lineArray.get(3)][lineArray.get(4)].setColor(availColors.get(lineArray.get(0)),null);
 			boardArray[lineArray.get(3)][lineArray.get(4)].setEndPointStatus(true);
 		}
 		setChildrenForAllNodes();
