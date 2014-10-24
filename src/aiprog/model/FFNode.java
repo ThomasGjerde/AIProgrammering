@@ -6,7 +6,7 @@ import java.util.ArrayList;
 public class FFNode extends NavNode {
 	
 	ArrayList<Color> domain = new ArrayList<Color>();
-	Color nodeColor;
+	public Color nodeColor;
 	boolean endPoint;
 	int heuristic;
 	Point originPos;
@@ -15,6 +15,10 @@ public class FFNode extends NavNode {
 	public FFNode (Point position, int k){
 		super(position);
 		standardColors(k);
+		heuristic = 0;
+	}
+	private FFNode (Point position){
+		super(position);
 		heuristic = 0;
 	}
 	public void setColor(Color color, FFNode parentNode){
@@ -77,7 +81,17 @@ public class FFNode extends NavNode {
 		//Dette er unikt for v�r state, s� vi kan evt nullstille heuristc/dvs ikke ta det med over n�r vi lager en ny state
 		//Har ikke funnet ut om det g�r og ta med openlist nedover, tviler egentlig p� det... kanskje hvis vi har parents, kan v�re tricky
 	}
-	
+	public FFNode cloneNode(){
+		FFNode newNode = new FFNode(new Point(pos.x,pos.y));
+		newNode.nodeColor = this.nodeColor;
+		newNode.heuristic = this.heuristic;
+		newNode.parentPos = this.parentPos;
+		newNode.originPos = this.originPos;
+		ArrayList<Color> newDomain = new ArrayList<Color>(this.domain); //Possible reference problem?
+		newNode.setDomain(newDomain);
+		newNode.setEndPointStatus(endPoint);
+		return newNode;
+	}
 	public void standardColors(int k){
 		ArrayList<Color> standardColors = new ArrayList<Color>();
 		standardColors.add(Color.RED);
