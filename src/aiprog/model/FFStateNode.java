@@ -51,6 +51,7 @@ public class FFStateNode extends Node{
 			newChanges.add(changes.get(i).cloneNode());
 		}
 		newNode.changes = newChanges;
+		this.addChild(newNode);
 		return newNode;
 	}
 	public void applyChanges(){
