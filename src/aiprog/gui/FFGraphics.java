@@ -1,9 +1,11 @@
 package aiprog.gui;
 
 import java.awt.Color;
+import java.util.ArrayList;
 
 import aiprog.flowfree.FFBoard;
 import aiprog.model.FFNode;
+import aiprog.model.FFStateNode;
 
 public class FFGraphics extends Graphics{
 	
@@ -23,6 +25,17 @@ public class FFGraphics extends Graphics{
 					grid.setCellColorWithoutRepaint(i, j, Color.WHITE);
 				}
 				
+			}
+		}
+	}
+	public void setState(FFStateNode node){
+		ArrayList<FFNode> nodeList = node.nodes;
+		for(int i = 0; i < nodeList.size(); i++){
+			FFNode tempNode = nodeList.get(i);
+			if(tempNode.getColor() != null){
+				grid.setCellColorWithoutRepaint(tempNode.pos.x, tempNode.pos.y, tempNode.getColor());
+			}else{
+				grid.setCellColorWithoutRepaint(tempNode.pos.x, tempNode.pos.y, Color.WHITE);
 			}
 		}
 	}
