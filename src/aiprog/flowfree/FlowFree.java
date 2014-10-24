@@ -124,7 +124,7 @@ public class FlowFree extends AStar {
 					pathLengthRight++;
 					for(int x=0; x<pathLengthRight; x++){
 						if(full.get(o+x).getColor() == null){
-							full.get(o+x).setColor(colorStart.getColor(),null);
+							full.get(o+x).setColor(colorStart.getColor(),full.get(o+x-1));
 						}
 					}
 					FFStateNode genState = currentState.generateStateNode(cloneArray);
@@ -168,7 +168,45 @@ public class FlowFree extends AStar {
 	//kan evt være deduction
 	//skal fikse det åpenbare
 	public void reduction(FFStateNode state){
+		boolean check = true;
+		int counter = 1;
+		ArrayList<FFNode> endArray = state.getAllEndOfPathNodes();
 		
+		while(!endArray.isEmpty()){
+			for(int i=0; i<endArray.size(); i++){
+				ArrayList<FFNode> midList = new ArrayList<FFNode>();
+				for(int j=0; j<endArray.get(i).getChildren().size(); j++){
+					if(((FFNode)endArray.get(i).getChildren().get(j)).getColor() == null){
+						midList.add((FFNode)endArray.get(i).getChildren().get(j));
+					}
+				}
+				if(midList.size() == 1){
+					midList.get(0).setColor(endArray.get(i).getColor(), endArray.get(i));
+					endArray.add(midList.get(0));
+				}else{
+					endArray.remove(i);
+				}
+				midList.clear();
+			}
+		}
+		/*
+		while(counter != 0){
+			//1 iteration
+			counter = 0;
+			for(int i=0; i<endArray.size(); i++){
+				ArrayList<FFNode> midList = new ArrayList<FFNode>();
+				for(int j=0; j<endArray.get(i).getChildren().size(); j++){
+					if(((FFNode)endArray.get(i).getChildren().get(j)).getColor() == null){
+						midList.add((FFNode)endArray.get(i).getChildren().get(j));
+					}
+				}
+				if(midList.size() == 1){
+					midList.get(0).setColor(endArray.get(i).getColor(), endArray.get(i));
+					counter++;
+				}
+				midList.clear();
+			}
+		}*/
 	}
 
 	@Override
