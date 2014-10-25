@@ -64,10 +64,28 @@ public class FFStateNode extends Node{
 	}
 	public ArrayList<FFNode> getAllEndOfPathNodes(){
 		ArrayList<FFNode> retArray = new ArrayList<FFNode>();
+		/*
 		for(int i = 0; i < endPoints.size(); i++){
 			if(endPoints.get(i).checkConstraint() == false){
 				retArray.add(endPoints.get(i).getEndOfPath());
+				System.out.println(endPoints.get(i).getEndOfPath().pos.x + "," + endPoints.get(i).getEndOfPath().pos.y);
 			}	
+		}
+		*/	
+		for(int i = 0; i < nodes.size(); i++){
+			if(nodes.get(i).isHead()){
+				boolean addNode = true;
+				FFNode head = nodes.get(i);
+				for(int j = 0; j < head.children.size(); j++){
+					FFNode child = (FFNode)head.children.get(j);
+					if(child.isHead() && child.getColor() == head.getColor()){
+						addNode = false;
+					}
+				}
+				if(addNode){
+					retArray.add(nodes.get(i));
+				}
+			}
 		}
 		return retArray;
 	}

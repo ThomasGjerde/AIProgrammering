@@ -16,4 +16,9 @@ public class Point {
 		int yDist = Math.abs(this.y - endPoint.y);
 		return (xDist + yDist);
 	}
+	public String toString() {
+		// TODO Auto-generated method stub
+		return "(" + x + "," + y + ")";
+	}
+	
 }
