@@ -10,6 +10,7 @@ public class FFNode extends NavNode {
 	boolean endPoint;
 	Point originPos;
 	Point parentPos;
+	boolean head;
 	
 	public Point getParentPos() {
 		return parentPos;
@@ -32,12 +33,22 @@ public class FFNode extends NavNode {
 				this.originPos = new Point(parentNode.pos.x,parentNode.pos.y);
 			}
 			this.parentPos = new Point(parentNode.pos.x,parentNode.pos.y);
+		}else{
+			this.setHead(true);
 		}
 		nodeColor = color;
 		domain.clear();
 		domain.add(color);
+		parentNode.setHead(false);
+		this.setHead(true);
 	}
 	
+	public boolean isHead() {
+		return head;
+	}
+	public void setHead(boolean head) {
+		this.head = head;
+	}
 	public Color getColor(){
 		return nodeColor;
 	}
@@ -143,10 +154,12 @@ public class FFNode extends NavNode {
 		for(int i = 0; i < tempNode.children.size(); i++){
 			FFNode tempNode2 = (FFNode)tempNode.children.get(i);
 			if(tempNode2.getColor() == this.getColor()){
+				/*
 				if(tempNode2.originPos != null && (tempNode2.originPos.x != this.pos.x || tempNode2.originPos.y == this.pos.y)){
 					return true;
 				}
-				if(tempNode2.endPoint == true && tempNode2.pos != this.pos){
+				*/
+				if(tempNode2.isHead() && tempNode2.pos != this.pos){
 					return true;
 				}
 			}
