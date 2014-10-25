@@ -168,14 +168,73 @@ public class FlowFree extends AStar {
 	
 	//kan evt være deduction
 	//skal fikse det åpenbare
-	public void reduction(FFStateNode state){
+	public ArrayList<FFNode> reduction(FFStateNode state){
 		//boolean check = true;
 		//int counter = 1;
 		FFStateNode redState = state;
 		ArrayList<FFNode> endArray = redState.getAllEndOfPathNodes();
+		ArrayList<FFNode> returnArray = new ArrayList<FFNode>();
+		//int i=0;
+		int iterator = 1;
 		//almost works
 		while(!endArray.isEmpty()){
-			for(int i=0; i<endArray.size(); i++){
+			ArrayList<FFNode> midList = new ArrayList<FFNode>();
+			for(int i=0; i<endArray.get(iterator).getChildren().size(); i++){
+				FFNode midNode = (FFNode)endArray.get(iterator).getChildren().get(i);
+				if(midNode.isEndPoint()){
+					//System.out.println("true");
+					if(midNode.getColor() != null && midNode.getColor() == endArray.get(iterator).getColor()){
+						//System.out.println("true");
+						if(midNode.getOrigin() != null){
+							endArray.remove(iterator);
+							midList.clear();
+							break;
+						}
+						
+						try {
+							Thread.sleep(10);
+						} catch (InterruptedException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+						/*
+						if(midNode.getOrigin().x != endArray.get(iterator).getOrigin().x && midNode.getOrigin().y != endArray.get(iterator).getOrigin().y){
+							//System.out.println("krasj");
+							endArray.remove(iterator);
+							midList.clear();
+							break;
+						}*/
+					} 
+				}
+				if(((FFNode)endArray.get(iterator).getChildren().get(i)).getColor() == null){
+					midList.add((FFNode)endArray.get(iterator).getChildren().get(i));
+				}
+			}
+			/*
+			for(int j=0; j<midList.size(); j++){
+				if(midList.get(j).)
+			}*/
+			
+			if(midList.size() == 1){
+				midList.get(0).setColor(endArray.get(iterator).getColor(), endArray.get(iterator));
+				endArray.remove(iterator);
+				endArray.add(midList.get(0));
+			}else{
+				returnArray.add(endArray.get(iterator));
+				endArray.remove(iterator);
+			}
+			midList.clear();
+			iterator++;
+			if(iterator>=endArray.size()-1){
+				iterator = 0;
+			}
+			
+			
+		}
+		/*
+		while(!endArray.isEmpty()){
+			//for(int i=0; i<endArray.size(); i++){
+			while(!endArray.isEmpty()){
 				ArrayList<FFNode> midList = new ArrayList<FFNode>();
 				for(int j=0; j<endArray.get(i).getChildren().size(); j++){
 					if(((FFNode)endArray.get(i).getChildren().get(j)).getColor() == null){
@@ -185,15 +244,28 @@ public class FlowFree extends AStar {
 				if(midList.size() == 1){
 					midList.get(0).setColor(endArray.get(i).getColor(), endArray.get(i));
 					endArray.add(midList.get(0));
+					i=0;
 				}else{
+					returnArray.add(endArray.get(i));
 					endArray.remove(i);
 				}
 				midList.clear();
+				if(i >= endArray.size()-1){
+					i=0;
+				}else{
+					i++;
+				}
+				//System.out.println("i " + i);
+				//System.out.println("endArray " + endArray.size());
+			//}
 			}
 		}
+		*/
+		//return null;
 		//redState.applyChanges();
 		graphic.setState(redState);
 		
+		return null;
 	}
 
 	@Override
