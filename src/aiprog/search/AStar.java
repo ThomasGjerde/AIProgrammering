@@ -65,7 +65,7 @@ public abstract class AStar {
 		openList.add(node);
 		Collections.sort(openList, new Comparator<Node>(){
 		     public int compare(Node o1, Node o2){
-		    	 return o1.heuristic - o2.heuristic;
+		    	 return o2.heuristic - o1.heuristic;
 		     }
 		});
 	}

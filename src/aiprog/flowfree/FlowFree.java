@@ -179,6 +179,15 @@ public class FlowFree extends AStar {
 		assumptions(current);
 	}
 	
+	public void pathAssumption(){
+		//Kanskje vi faktisk skal bruke domener her
+		//Vi burde velge ut en farge/og en av nodene i dette paret
+		//så må vi lage en state per mulige path, en path er mulig hvis den overholder alle "pathreglene" og at den ender opp hos endnoden den ikke starta fra
+		//kanskje vi må lage et path object
+		//For det minste mappet så får vi ikke så mange mulige paths, feks, og hvis en path ikke er mulig og lage, så skal staten legges til closed
+	}
+	
+	
 	public void assumptionsSupp(FFStateNode state, FFNode node){
 		ArrayList<FFNode> cloneArray = new ArrayList<FFNode>();
 		FFNode midParent = null;
