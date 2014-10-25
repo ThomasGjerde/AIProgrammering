@@ -27,7 +27,7 @@ public class FlowFree extends AStar {
 	@Override
 	protected boolean checkVictory() {
 		// TODO Auto-generated method stub
-		return false;
+		return ((FFStateNode)currentNode).checkAllConstraints();
 	}
 	
 	//Skal bare kjøre på S0
@@ -172,7 +172,10 @@ public class FlowFree extends AStar {
 
 	@Override
 	protected void processCurrentNode() {
-		
+		FFStateNode current = (FFStateNode)currentNode;
+		current.applyChanges();
+		reduction(current,true);
+		assumptions(current);
 	}
 	
 	public void assumptionsSupp(FFStateNode state, FFNode node){
