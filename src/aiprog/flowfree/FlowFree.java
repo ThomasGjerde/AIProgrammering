@@ -202,7 +202,7 @@ public class FlowFree extends AStar {
 	public void assumptions(FFStateNode state){
 		
 		ArrayList<FFNode> headList = state.getAllEndOfPathNodes();
-		int counter = 0;
+		//int counter = 0;
 		
 		for(int i=0; i<headList.size(); i++){
 			FFNode midHead = headList.get(i);
@@ -211,8 +211,8 @@ public class FlowFree extends AStar {
 				if(midChild.getColor() == null){
 					midChild.setColor(midHead.getColor(), midHead);
 					assumptionsSupp(state, midChild);
-					counter++;
-					System.out.println("midchild x: " + midChild.pos.x + " y: " + midChild.pos.y + " counter " + counter);
+					//counter++;
+					//System.out.println("midchild x: " + midChild.pos.x + " y: " + midChild.pos.y + " counter " + counter);
 				}
 				//state.generateStateNode(cloneArray);
 			}

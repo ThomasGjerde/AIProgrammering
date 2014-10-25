@@ -61,6 +61,7 @@ public class FFStateNode extends Node{
 		}
 		newNode.setHeuristic(h);
 		this.addChild(newNode);
+		System.out.println("h " + h);
 		return newNode;
 	}
 	public void applyChanges(){
