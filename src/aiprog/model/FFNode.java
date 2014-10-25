@@ -114,6 +114,7 @@ public class FFNode extends NavNode {
 		standardColors.add(Color.PINK);
 		standardColors.add(Color.MAGENTA);
 		standardColors.add(Color.ORANGE);
+		standardColors.add(Color.BLACK);
 		
 		for(int i=0; i<k; i++){
 			domain.add(standardColors.get(i));

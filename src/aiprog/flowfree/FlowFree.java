@@ -22,6 +22,7 @@ public class FlowFree extends AStar {
 		counter = 0;
 		reduction(currentState, true);
 		assumptions(currentState);
+		this.search();
 	}
 	
 	@Override
@@ -141,7 +142,7 @@ public class FlowFree extends AStar {
 			midList.get(0).setColor(node.getColor(), node);
 			try {
 				
-				Thread.sleep(500);
+				Thread.sleep(0);
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
