@@ -33,13 +33,13 @@ public class FFNode extends NavNode {
 				this.originPos = new Point(parentNode.pos.x,parentNode.pos.y);
 			}
 			this.parentPos = new Point(parentNode.pos.x,parentNode.pos.y);
+			parentNode.setHead(false);
 		}else{
 			this.setHead(true);
 		}
 		nodeColor = color;
 		domain.clear();
 		domain.add(color);
-		parentNode.setHead(false);
 		this.setHead(true);
 	}
 	
