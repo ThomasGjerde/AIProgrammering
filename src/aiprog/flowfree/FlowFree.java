@@ -26,7 +26,7 @@ public class FlowFree extends AStar {
 		graphic = graphics;
 		initModifications(currentState);
 		counter = 0;
-		reduction(currentState);
+		reduction(currentState, true);
 	}
 	
 	@Override
@@ -168,104 +168,93 @@ public class FlowFree extends AStar {
 	
 	//kan evt være deduction
 	//skal fikse det åpenbare
-	public ArrayList<FFNode> reduction(FFStateNode state){
-		//boolean check = true;
-		//int counter = 1;
-		FFStateNode redState = state;
-		ArrayList<FFNode> endArray = redState.getAllEndOfPathNodes();
+	public void reduction(FFStateNode state, boolean check){
+		//FFStateNode redState = state;
+		//ArrayList<FFNode> endArray = redState.getAllEndOfPathNodes();
 		ArrayList<FFNode> returnArray = new ArrayList<FFNode>();
-		//int i=0;
-		int iterator = 1;
 		//almost works
+		if(check){
+			check = false;
+			FFStateNode redState = state;
+			ArrayList<FFNode> endArray = redState.getAllEndOfPathNodes();
+			for(int i=0; i<endArray.size(); i++){
+				ArrayList<FFNode> midList = new ArrayList<FFNode>();
+				for(int j=0; j<endArray.get(i).getChildren().size(); j++){
+					FFNode midNode = (FFNode)endArray.get(i).getChildren().get(j);
+					if(midNode.getColor() == null){
+						midList.add(midNode);
+					}
+				}
+				if(midList.size() == 1){
+					midList.get(0).setColor(endArray.get(i).getColor(), endArray.get(i));
+					graphic.setState(redState);
+					check = true;
+					try {
+						
+						Thread.sleep(500);
+					} catch (InterruptedException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
+				midList.clear();
+			}
+			//return returnArray;
+		}
+		if(check){
+			reduction(state, check);
+		}
+		
+		/*
 		while(!endArray.isEmpty()){
 			ArrayList<FFNode> midList = new ArrayList<FFNode>();
 			for(int i=0; i<endArray.get(iterator).getChildren().size(); i++){
 				FFNode midNode = (FFNode)endArray.get(iterator).getChildren().get(i);
-				if(midNode.isEndPoint()){
-					//System.out.println("true");
-					if(midNode.getColor() != null && midNode.getColor() == endArray.get(iterator).getColor()){
-						//System.out.println("true");
-						if(midNode.getOrigin() != null){
-							endArray.remove(iterator);
-							midList.clear();
-							break;
-						}
-						
-						try {
-							Thread.sleep(10);
-						} catch (InterruptedException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						}
-						/*
-						if(midNode.getOrigin().x != endArray.get(iterator).getOrigin().x && midNode.getOrigin().y != endArray.get(iterator).getOrigin().y){
-							//System.out.println("krasj");
-							endArray.remove(iterator);
-							midList.clear();
-							break;
-						}*/
-					} 
+				FFNode currentHead = endArray.get(iterator);
+				if(midNode.isHead() && midNode.getColor() == currentHead.getColor()){
+					endArray.remove(iterator);
+					midList.clear();
+					//break;
+				}else if(midNode.getColor() == null){
+					midList.add(midNode);
+					
 				}
-				if(((FFNode)endArray.get(iterator).getChildren().get(i)).getColor() == null){
-					midList.add((FFNode)endArray.get(iterator).getChildren().get(i));
-				}
+				
 			}
-			/*
-			for(int j=0; j<midList.size(); j++){
-				if(midList.get(j).)
-			}*/
 			
 			if(midList.size() == 1){
 				midList.get(0).setColor(endArray.get(iterator).getColor(), endArray.get(iterator));
 				endArray.remove(iterator);
 				endArray.add(midList.get(0));
+				graphic.setState(redState);
+				//redState.applyChanges();
+				try {
+					
+					Thread.sleep(500);
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 			}else{
 				returnArray.add(endArray.get(iterator));
 				endArray.remove(iterator);
+				System.out.println("midList size " + midList.size());
 			}
 			midList.clear();
 			iterator++;
 			if(iterator>=endArray.size()-1){
 				iterator = 0;
 			}
+			//graphic.setState(redState);
 			
-			
-		}
-		/*
-		while(!endArray.isEmpty()){
-			//for(int i=0; i<endArray.size(); i++){
-			while(!endArray.isEmpty()){
-				ArrayList<FFNode> midList = new ArrayList<FFNode>();
-				for(int j=0; j<endArray.get(i).getChildren().size(); j++){
-					if(((FFNode)endArray.get(i).getChildren().get(j)).getColor() == null){
-						midList.add((FFNode)endArray.get(i).getChildren().get(j));
-					}
-				}
-				if(midList.size() == 1){
-					midList.get(0).setColor(endArray.get(i).getColor(), endArray.get(i));
-					endArray.add(midList.get(0));
-					i=0;
-				}else{
-					returnArray.add(endArray.get(i));
-					endArray.remove(i);
-				}
-				midList.clear();
-				if(i >= endArray.size()-1){
-					i=0;
-				}else{
-					i++;
-				}
-				//System.out.println("i " + i);
-				//System.out.println("endArray " + endArray.size());
-			//}
-			}
 		}
 		*/
+		
 		//return null;
 		//redState.applyChanges();
-		graphic.setState(redState);
+		//graphic.setState(redState);
 		
-		return null;
+		//return returnArray;
 	}
 
 	@Override
