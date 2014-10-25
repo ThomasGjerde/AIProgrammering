@@ -3,17 +3,11 @@ package aiprog.flowfree;
 import java.util.ArrayList;
 
 import aiprog.gui.FFGraphics;
-import aiprog.gui.Graphics;
 import aiprog.model.FFNode;
 import aiprog.model.FFStateNode;
-import aiprog.model.GACCSPNode;
 import aiprog.model.Node;
 import aiprog.search.AStar;
 
-
-//Hopper over et nivå med arving her
-//Bare sånn at vi slipper bittelitt casting:)
-//Også er det litt mer oversiktlig med shit i samme klasse
 public class FlowFree extends AStar {
 	//Check
 	int edge;
@@ -37,35 +31,8 @@ public class FlowFree extends AStar {
 	
 	//Skal bare kjøre på S0
 	//Kan kanskje kjøre i starten på alle states, er ikke sikker
-	//Mulig det er mer effektivt og putte noe av dette inn i reduction()
 	private void initModifications(FFStateNode state){
 		edge = (int) Math.sqrt(state.getNodes().size()) - 1;
-		
-		//Hvis en barne node er det eneste alternativet, skal denne fylles med den "respektive" fargen
-		ArrayList<FFNode> colorList = new ArrayList<FFNode>();
-		ArrayList<FFNode> midList = new ArrayList<FFNode>();
-		
-		//Adder alle noder med farge til en liste
-		for(int i=0; i<state.getNodes().size(); i++){
-			if(((FFNode)state.getNodes().get(i)).getColor() != null){
-				colorList.add(((FFNode)state.getNodes().get(i))); //Alle med farge satt
-			}
-		}
-		
-		//Sjekker for eneste mulighet barn
-		for(int j=0; j<colorList.size(); j++){
-			for(int k=0; k<colorList.get(j).getChildren().size(); k++){
-				if(((FFNode)colorList.get(j).getChildren().get(k)).getColor() == null){
-					midList.add((FFNode)colorList.get(j).getChildren().get(k));
-				}
-			}
-			if(midList.size() == 1){
-				midList.get(0).setColor(colorList.get(j).getColor(), colorList.get(j));
-			}
-			midList.clear();
-		}
-		graphic.setState(currentState);
-		//Ferdig med det "garanterte"
 		
 		//Start antagelser
 		ArrayList<FFNode> cloneArray = new ArrayList<FFNode>();
@@ -90,9 +57,6 @@ public class FlowFree extends AStar {
 				left.add(edgeList.get(n));
 			}
 		}
-		//IT WORKS MOTTHHAAAFUCCKAAS
-		
-		
 		
 		//Alle edgenoder i et "rundt" array
 		ArrayList<FFNode> full = new ArrayList<FFNode>();
@@ -121,7 +85,6 @@ public class FlowFree extends AStar {
 					}
 				}
 				if(pathLengthRight != 0){
-					//DETTE FUNKER PGA JESUS
 					pathLengthRight++;
 					for(int x=0; x<pathLengthRight; x++){
 						if(full.get(o+x).getColor() == null){
@@ -129,16 +92,11 @@ public class FlowFree extends AStar {
 						}
 					}
 					FFStateNode genState = currentState.generateStateNode(cloneArray);
-					//funker, men viser ikke i graphics
-					//genState.applyChanges();
-					//graphic.setState(genState);
 				}
 			}
 		}
 	}
 	
-	//Ja, det har gått så langt at her lager man support metoder, som kun skal brukes på den første staten
-	//faen da, den er fremdeles 11...... WHY!?! Den skal være minst 13, nei den skal være 18, nei den skal være 20 bah
 	private boolean suppInit(FFNode node){
 		if(node.pos.y == edge){
 			return true;
@@ -152,7 +110,6 @@ public class FlowFree extends AStar {
 		return false;
 	}
 	
-	//duh
 	@Override
 	protected void updateGui() {
 		// TODO Auto-generated method stub
@@ -169,10 +126,7 @@ public class FlowFree extends AStar {
 	//kan evt være deduction
 	//skal fikse det åpenbare
 	public void reduction(FFStateNode state, boolean check){
-		//FFStateNode redState = state;
-		//ArrayList<FFNode> endArray = redState.getAllEndOfPathNodes();
-		ArrayList<FFNode> returnArray = new ArrayList<FFNode>();
-		//almost works
+		
 		if(check){
 			check = false;
 			FFStateNode redState = state;
@@ -199,62 +153,10 @@ public class FlowFree extends AStar {
 				}
 				midList.clear();
 			}
-			//return returnArray;
 		}
 		if(check){
 			reduction(state, check);
 		}
-		
-		/*
-		while(!endArray.isEmpty()){
-			ArrayList<FFNode> midList = new ArrayList<FFNode>();
-			for(int i=0; i<endArray.get(iterator).getChildren().size(); i++){
-				FFNode midNode = (FFNode)endArray.get(iterator).getChildren().get(i);
-				FFNode currentHead = endArray.get(iterator);
-				if(midNode.isHead() && midNode.getColor() == currentHead.getColor()){
-					endArray.remove(iterator);
-					midList.clear();
-					//break;
-				}else if(midNode.getColor() == null){
-					midList.add(midNode);
-					
-				}
-				
-			}
-			
-			if(midList.size() == 1){
-				midList.get(0).setColor(endArray.get(iterator).getColor(), endArray.get(iterator));
-				endArray.remove(iterator);
-				endArray.add(midList.get(0));
-				graphic.setState(redState);
-				//redState.applyChanges();
-				try {
-					
-					Thread.sleep(500);
-				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-			}else{
-				returnArray.add(endArray.get(iterator));
-				endArray.remove(iterator);
-				System.out.println("midList size " + midList.size());
-			}
-			midList.clear();
-			iterator++;
-			if(iterator>=endArray.size()-1){
-				iterator = 0;
-			}
-			//graphic.setState(redState);
-			
-		}
-		*/
-		
-		//return null;
-		//redState.applyChanges();
-		//graphic.setState(redState);
-		
-		//return returnArray;
 	}
 
 	@Override
