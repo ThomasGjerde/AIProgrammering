@@ -125,36 +125,47 @@ public class FlowFree extends AStar {
 	
 	//kan evt være deduction
 	//skal fikse det åpenbare
+	public boolean reduceSingle(FFNode node){
+		ArrayList<FFNode> midList = new ArrayList<FFNode>();
+		for(int i=0; i<node.getChildren().size(); i++){
+			FFNode midNode = (FFNode)node.getChildren().get(i);
+			if(midNode.isHead() && midNode.getColor() == node.getColor() && !midNode.isEndPoint()){
+				return false;
+			}
+			if(midNode.getColor() == null){
+				midList.add(midNode);
+			}
+		}
+		if(midList.size() == 1){
+			midList.get(0).setColor(node.getColor(), node);
+			try {
+				
+				Thread.sleep(500);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			return true;
+		}
+		return false;
+	}
+	
 	public void reduction(FFStateNode state, boolean check){
-		
 		if(check){
 			check = false;
 			ArrayList<FFNode> endArray = state.getAllEndOfPathNodes();
 			for(int i=0; i<endArray.size(); i++){
-				ArrayList<FFNode> midList = new ArrayList<FFNode>();
-				for(int j=0; j<endArray.get(i).getChildren().size(); j++){
-					FFNode midNode = (FFNode)endArray.get(i).getChildren().get(j);
-					if(midNode.getColor() == null){
-						midList.add(midNode);
-					}
-				}
-				if(midList.size() == 1){
-					midList.get(0).setColor(endArray.get(i).getColor(), endArray.get(i));
-					graphic.setState(state);
+				boolean result = reduceSingle(endArray.get(i));
+				/*if(result){
 					check = true;
-					try {
-						
-						Thread.sleep(500);
-					} catch (InterruptedException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-				}
-				midList.clear();
+					graphic.setState(state);
+				}*/
+				check = result;
+				graphic.setState(state);
 			}
 		}
 		if(check){
-			reduction(state, check);
+			reduction(state, true);
 		}
 	}
 
