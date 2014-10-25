@@ -111,5 +111,16 @@ public class FFStateNode extends Node{
 		return true;
 	}
 	
-	
+	public boolean hasFailed(){
+		ArrayList<FFNode> heads = this.getAllEndOfPathNodes();
+		for(int i = 0; i < heads.size(); i++){
+			FFNode head = (FFNode)heads.get(i);
+			for(int j = 0; j < head.children.size(); j++){
+				if(((FFNode)head.children.get(j)).getColor() == null){ //Might put in domain check here
+					return false;
+				}
+			}
+		}
+		return true;
+	}
 }
