@@ -27,6 +27,7 @@ public class FFGraphics extends Graphics{
 				
 			}
 		}
+		grid.repaint();
 	}
 	public void setState(FFStateNode node){
 		ArrayList<FFNode> nodeList = node.nodes;
@@ -38,6 +39,7 @@ public class FFGraphics extends Graphics{
 				grid.setCellColorWithoutRepaint(tempNode.pos.x, tempNode.pos.y, Color.WHITE);
 			}
 		}
+		grid.repaint();
 	}
 
 }
