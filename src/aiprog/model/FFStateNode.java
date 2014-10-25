@@ -53,6 +53,13 @@ public class FFStateNode extends Node{
 			newChanges.add(changes.get(i).cloneNode());
 		}
 		newNode.changes = newChanges;
+		int h = 0;
+		for(int i = 0; i < changes.size(); i++){
+			if(changes.get(i).getColor() != null){
+				h++;
+			}
+		}
+		newNode.setHeuristic(h);
 		this.addChild(newNode);
 		return newNode;
 	}
@@ -60,6 +67,7 @@ public class FFStateNode extends Node{
 		for(int i = 0; i < changes.size(); i++){
 			nodes.get(i).nodeColor = changes.get(i).nodeColor;
 			nodes.get(i).setDomain(changes.get(i).domain);
+			nodes.get(i).setHead(changes.get(i).isHead());
 		}
 	}
 	public ArrayList<FFNode> getAllEndOfPathNodes(){

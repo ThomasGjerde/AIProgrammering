@@ -99,6 +99,7 @@ public class FFNode extends NavNode {
 		ArrayList<Color> newDomain = new ArrayList<Color>(this.domain); //Possible reference problem?
 		newNode.setDomain(newDomain);
 		newNode.setEndPointStatus(endPoint);
+		newNode.setHead(this.isHead());
 		return newNode;
 	}
 	public void standardColors(int k){
