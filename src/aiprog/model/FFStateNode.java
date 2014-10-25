@@ -71,6 +71,19 @@ public class FFStateNode extends Node{
 		}
 		return retArray;
 	}
+	public boolean checkAllConstraints(){
+		for(int i = 0; i < endPoints.size(); i++){
+			if(endPoints.get(i).checkConstraint() == false){
+				return false;
+			}
+		}
+		for(int i = 0; i < nodes.size(); i++){
+			if(nodes.get(i).getColor() == null){
+				return false;
+			}
+		}
+		return true;
+	}
 	
 	
 }
