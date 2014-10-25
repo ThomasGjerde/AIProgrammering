@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import aiprog.flowfree.FFBoard;
 import aiprog.model.FFNode;
 import aiprog.model.FFStateNode;
+import aiprog.model.Point;
 
 public class FFGraphics extends Graphics{
 	
@@ -28,6 +29,7 @@ public class FFGraphics extends Graphics{
 		grid.repaint();
 	}
 	public void setState(FFStateNode node){
+		grid.texts.clear();
 		ArrayList<FFNode> nodeList = node.nodes;
 		for(int i = 0; i < nodeList.size(); i++){
 			FFNode tempNode = nodeList.get(i);
@@ -35,6 +37,12 @@ public class FFGraphics extends Graphics{
 				grid.setCellColorWithoutRepaint(tempNode.pos.x, tempNode.pos.y, tempNode.getColor());
 			}else{
 				grid.setCellColorWithoutRepaint(tempNode.pos.x, tempNode.pos.y, Color.WHITE);
+			}
+			if(tempNode.isHead()){
+				grid.addText(new GridText(tempNode.pos, "H"));
+			}
+			if(tempNode.isEndPoint()){
+				grid.addText(new GridText(tempNode.pos, "E"));
 			}
 		}
 		grid.repaint();
