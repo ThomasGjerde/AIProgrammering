@@ -21,6 +21,7 @@ public class FlowFree extends AStar {
 		initModifications(currentState);
 		counter = 0;
 		reduction(currentState, true);
+		assumptions(currentState);
 	}
 	
 	@Override
@@ -172,7 +173,48 @@ public class FlowFree extends AStar {
 	@Override
 	protected void processCurrentNode() {
 		
+	}
+	
+	public void assumptionsSupp(FFStateNode state, FFNode node){
+		ArrayList<FFNode> cloneArray = new ArrayList<FFNode>();
+		FFNode midParent = null;
+		FFNode midChild = null;
+		for(int c=0; c<state.getNodes().size(); c++){
+			cloneArray.add(state.getNodes().get(c).cloneNode());
+			//System.out.println("cloneArray" + cloneArray.get(c).getColor());
+			
+			if(cloneArray.get(c).pos.x == node.getParentPos().x && cloneArray.get(c).pos.y == node.getParentPos().y){
+				midParent = cloneArray.get(c);
+			}
+			if(cloneArray.get(c).pos.x == node.pos.x && cloneArray.get(c).pos.y == node.pos.y){
+				midChild = cloneArray.get(c);
+			}
+		}
+		midChild.setColor(node.getColor(), midParent);
+		state.generateStateNode(cloneArray);
 		
 	}
+	
+	public void assumptions(FFStateNode state){
+		
+		ArrayList<FFNode> headList = state.getAllEndOfPathNodes();
+		int counter = 0;
+		
+		for(int i=0; i<headList.size(); i++){
+			FFNode midHead = headList.get(i);
+			for(int j=0; j<midHead.getChildren().size(); j++){
+				FFNode midChild = ((FFNode)midHead.getChildren().get(j)).cloneNode();
+				if(midChild.getColor() == null){
+					midChild.setColor(midHead.getColor(), midHead);
+					assumptionsSupp(state, midChild);
+					counter++;
+					System.out.println("midchild x: " + midChild.pos.x + " y: " + midChild.pos.y + " counter " + counter);
+				}
+				//state.generateStateNode(cloneArray);
+			}
+		}
+	}
+	
+	//public ArrayList<FFNode> revert(ArrayList<FFNode> )
 
 }
