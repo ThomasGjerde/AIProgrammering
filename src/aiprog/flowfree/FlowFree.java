@@ -129,8 +129,7 @@ public class FlowFree extends AStar {
 		
 		if(check){
 			check = false;
-			FFStateNode redState = state;
-			ArrayList<FFNode> endArray = redState.getAllEndOfPathNodes();
+			ArrayList<FFNode> endArray = state.getAllEndOfPathNodes();
 			for(int i=0; i<endArray.size(); i++){
 				ArrayList<FFNode> midList = new ArrayList<FFNode>();
 				for(int j=0; j<endArray.get(i).getChildren().size(); j++){
@@ -141,7 +140,7 @@ public class FlowFree extends AStar {
 				}
 				if(midList.size() == 1){
 					midList.get(0).setColor(endArray.get(i).getColor(), endArray.get(i));
-					graphic.setState(redState);
+					graphic.setState(state);
 					check = true;
 					try {
 						
