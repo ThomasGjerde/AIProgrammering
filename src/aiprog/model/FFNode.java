@@ -8,18 +8,21 @@ public class FFNode extends NavNode {
 	ArrayList<Color> domain = new ArrayList<Color>();
 	public Color nodeColor;
 	boolean endPoint;
-	int heuristic;
 	Point originPos;
 	Point parentPos;
 	
+	public Point getParentPos() {
+		return parentPos;
+	}
+	public void setParentPos(Point parentPos) {
+		this.parentPos = parentPos;
+	}
 	public FFNode (Point position, int k){
 		super(position);
 		standardColors(k);
-		heuristic = 0;
 	}
 	private FFNode (Point position){
 		super(position);
-		heuristic = 0;
 	}
 	public void setColor(Color color, FFNode parentNode){
 		if(parentNode != null){
@@ -33,19 +36,10 @@ public class FFNode extends NavNode {
 		nodeColor = color;
 		domain.clear();
 		domain.add(color);
-		heuristic = 0;
 	}
 	
 	public Color getColor(){
 		return nodeColor;
-	}
-	
-	public void setHeuristic(){
-		
-	}
-	
-	public int getHeuristic(){
-		return heuristic;
 	}
 	
 	public boolean isEndPoint(){
