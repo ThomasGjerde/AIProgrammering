@@ -60,6 +60,10 @@ public class FFNode extends NavNode {
 		return domain;
 	}
 	
+	public Point getOrigin(){
+		return originPos;
+	}
+	
 	public void setDomain(ArrayList<Color> newDomain){
 		//Husk at dette er pass by referanse
 		//Vi kan enten clone det her, eller i metoden for nye states
