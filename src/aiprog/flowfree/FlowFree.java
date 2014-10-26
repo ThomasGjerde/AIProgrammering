@@ -85,16 +85,16 @@ public class FlowFree extends AStar {
 		FFNode hoyreTop = null;
 		
 		for(int ll=0; ll<state.getNodes().size(); ll++){
-			if(state.getNodes().get(ll).pos.x == 0 && state.getNodes().get(ll).pos.y == 0){
+			if(state.getNodes().get(ll).pos.x == 0 && state.getNodes().get(ll).pos.y == 0 && ((FFNode)state.getNodes().get(ll)).getColor() == null){
 				venstreTop = state.getNodes().get(ll);
 			}
-			if(state.getNodes().get(ll).pos.x == edge && state.getNodes().get(ll).pos.y == edge){
+			if(state.getNodes().get(ll).pos.x == edge && state.getNodes().get(ll).pos.y == edge && ((FFNode)state.getNodes().get(ll)).getColor() == null){
 				hoyreBot = state.getNodes().get(ll);
 			}
-			if(state.getNodes().get(ll).pos.x == 0 && state.getNodes().get(ll).pos.y == edge){
+			if(state.getNodes().get(ll).pos.x == 0 && state.getNodes().get(ll).pos.y == edge && ((FFNode)state.getNodes().get(ll)).getColor() == null){
 				venstreBot = state.getNodes().get(ll);
 			}
-			if(state.getNodes().get(ll).pos.x == edge && state.getNodes().get(ll).pos.y == 0){
+			if(state.getNodes().get(ll).pos.x == edge && state.getNodes().get(ll).pos.y == 0 && ((FFNode)state.getNodes().get(ll)).getColor() == null){
 				hoyreTop = state.getNodes().get(ll);
 			}
 		}
@@ -106,16 +106,18 @@ public class FlowFree extends AStar {
 		
 		for(int cc = 0; cc<hjorneArray.size(); cc++){
 			ArrayList<FFNode> midList = new ArrayList<FFNode>();
-			for(int vv=0; vv<hjorneArray.get(cc).getChildren().size(); vv++){
-				if(((FFNode)hjorneArray.get(cc).getChildren().get(vv)).getColor() != null){
-					midList.add((FFNode)hjorneArray.get(cc).getChildren().get(vv));
+			if(hjorneArray.get(cc) != null){
+				for(int vv=0; vv<hjorneArray.get(cc).getChildren().size(); vv++){
+					if(((FFNode)hjorneArray.get(cc).getChildren().get(vv)).getColor() != null){
+						midList.add((FFNode)hjorneArray.get(cc).getChildren().get(vv));
+					}
 				}
-			}
-			if(midList.size() == 1){
-				hjorneArray.get(cc).setColor(midList.get(0).getColor(), midList.get(0));
+				if(midList.size() == 1){
+					hjorneArray.get(cc).setColor(midList.get(0).getColor(), midList.get(0));
+					midList.clear();
+				}
 				midList.clear();
 			}
-			midList.clear();
 		}
 		
 		//Dette gaar bare den ene veien
@@ -195,7 +197,7 @@ public class FlowFree extends AStar {
 			midList.get(0).setColor(node.getColor(), node);
 			try {
 				
-				Thread.sleep(50);
+				Thread.sleep(0);
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
