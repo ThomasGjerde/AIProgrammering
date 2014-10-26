@@ -73,14 +73,19 @@ public class FFStateNode extends Node{
 	}
 	public ArrayList<FFNode> getAllEndOfPathNodes(){
 		ArrayList<FFNode> retArray = new ArrayList<FFNode>();
-		/*
+		
 		for(int i = 0; i < endPoints.size(); i++){
 			if(endPoints.get(i).checkConstraint() == false){
-				retArray.add(endPoints.get(i).getEndOfPath());
+				FFNode head = endPoints.get(i).getEndOfPath();
+				if(head.isHead() == false){
+					System.out.println("Not Head");
+					head.setHead(true);
+				}
+				//retArray.add(head);
 				System.out.println(endPoints.get(i).getEndOfPath().pos.x + "," + endPoints.get(i).getEndOfPath().pos.y);
 			}	
 		}
-		*/	
+		
 		for(int i = 0; i < nodes.size(); i++){
 			if(nodes.get(i).isHead()){
 				boolean addNode = true;
@@ -96,6 +101,7 @@ public class FFStateNode extends Node{
 				}
 			}
 		}
+		
 		return retArray;
 	}
 	public boolean checkAllConstraints(){
