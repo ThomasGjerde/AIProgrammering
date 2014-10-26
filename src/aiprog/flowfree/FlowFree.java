@@ -23,8 +23,14 @@ public class FlowFree extends AStar {
 		initModifications(currentState);
 		counter = 0;
 		reduction(currentState, true);
-		assumptions(currentState);
-		this.search();
+		currentState.checkAllConstraints();
+		if(currentState.checkAllConstraints()){
+			System.out.println("Victory");
+		}else{
+			assumptions(currentState);
+			this.search();
+		}
+		
 	}
 	
 	@Override
@@ -185,7 +191,7 @@ public class FlowFree extends AStar {
 			return false;
 		}
 		if(midList.size() == 1){
-			//stateFail = false;
+			stateFail = false;
 			midList.get(0).setColor(node.getColor(), node);
 			try {
 				
