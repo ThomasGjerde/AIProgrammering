@@ -20,9 +20,9 @@ public class FlowFree extends AStar {
 		currentState = (FFStateNode) startNode;
 		graphic = graphics;
 		stateFail = false;
-		initModifications(currentState);
 		counter = 0;
 		reduction(currentState, true);
+		initModifications(currentState);
 		currentState.checkAllConstraints();
 		if(currentState.checkAllConstraints()){
 			System.out.println("Victory");
