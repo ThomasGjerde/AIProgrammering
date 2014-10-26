@@ -9,6 +9,7 @@ import aiprog.navigation.Board;
 import aiprog.navigation.GridBestFirstSearch;
 import aiprog.navigation.GridBreadthFirstSearch;
 import aiprog.navigation.GridDepthFirstSearch;
+import aiprog.nonogram.NNBoard;
 import aiprog.vcp.VCPGraph;
 
 
@@ -20,11 +21,21 @@ public class Main {
 	@SuppressWarnings("unused")
 	public static void main(String[] args) {
 		
+		try {
+			NNBoard board = new NNBoard("input/nono-heart-1.txt");
+			for(int i = 0; i < board.colConstraints.get(0).size(); i++){
+				System.out.println("ColStraint: " + board.colConstraints.get(0).get(i));
+			}
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
+		/*
 		try {
 			FFBoard board = new FFBoard("input/flowspec-0.txt");
 			FFGraphics ffgraph = new FFGraphics(board);
-			//åja, så derfor må jeg arve fra node i statenodesa....
+			//ï¿½ja, sï¿½ derfor mï¿½ jeg arve fra node i statenodesa....
 			//Det er mye dritt i denne arverekka som vi ikke trenger i dette.
 			//Egentlig trenger vi kun aStar og csp delene tror jeg, og ca halvparten av Node
 			FlowFree ff = new FlowFree(board.createInitState(), ffgraph);
@@ -32,7 +43,7 @@ public class Main {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+		*/
 		/*
 		try {
 			Board board = new Board("/home/board.txt");
