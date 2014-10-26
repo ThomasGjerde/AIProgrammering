@@ -69,6 +69,7 @@ public class FFStateNode extends Node{
 			nodes.get(i).nodeColor = changes.get(i).nodeColor;
 			nodes.get(i).setDomain(changes.get(i).domain);
 			nodes.get(i).setHead(changes.get(i).isHead());
+			nodes.get(i).setParentPos(changes.get(i).parentPos);
 		}
 	}
 	public ArrayList<FFNode> getAllEndOfPathNodes(){
