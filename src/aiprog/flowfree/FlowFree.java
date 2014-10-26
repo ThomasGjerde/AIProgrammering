@@ -14,10 +14,12 @@ public class FlowFree extends AStar {
 	int counter;
 	FFStateNode currentState;
 	public FFGraphics graphic;
+	public boolean stateFail;
 	public FlowFree(Node startNode, FFGraphics graphics) {
 		super(startNode);
 		currentState = (FFStateNode) startNode;
 		graphic = graphics;
+		stateFail = false;
 		initModifications(currentState);
 		counter = 0;
 		reduction(currentState, true);
@@ -138,7 +140,11 @@ public class FlowFree extends AStar {
 				midList.add(midNode);
 			}
 		}
+		if(midList.size() == 0){
+			stateFail = true;
+		}
 		if(midList.size() == 1){
+			stateFail = false;
 			midList.get(0).setColor(node.getColor(), node);
 			try {
 				
@@ -176,7 +182,11 @@ public class FlowFree extends AStar {
 		FFStateNode current = (FFStateNode)currentNode;
 		current.applyChanges();
 		reduction(current,true);
-		assumptions(current);
+		if(!stateFail){
+			assumptions(current);
+		}else{
+			stateFail = false;
+		}
 	}
 	
 	public void pathAssumption(){
