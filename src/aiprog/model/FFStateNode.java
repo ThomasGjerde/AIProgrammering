@@ -61,7 +61,7 @@ public class FFStateNode extends Node{
 		}
 		newNode.setHeuristic(h);
 		this.addChild(newNode);
-		System.out.println("h " + h);
+		//System.out.println("h " + h);
 		return newNode;
 	}
 	public void applyChanges(){
@@ -70,22 +70,23 @@ public class FFStateNode extends Node{
 			nodes.get(i).setDomain(changes.get(i).domain);
 			nodes.get(i).setHead(changes.get(i).isHead());
 			nodes.get(i).setParentPos(changes.get(i).parentPos);
+			nodes.get(i).originPos = changes.get(i).originPos;
 		}
 	}
 	public ArrayList<FFNode> getAllEndOfPathNodes(){
 		ArrayList<FFNode> retArray = new ArrayList<FFNode>();
-		
 		for(int i = 0; i < endPoints.size(); i++){
 			if(endPoints.get(i).checkConstraint() == false){
 				FFNode head = endPoints.get(i).getEndOfPath();
 				if(head.isHead() == false){
-					System.out.println("Not Head");
+					//System.out.println("Not Head");
 					head.setHead(true);
 				}
 				//retArray.add(head);
-				System.out.println(endPoints.get(i).getEndOfPath().pos.x + "," + endPoints.get(i).getEndOfPath().pos.y);
+				//System.out.println(endPoints.get(i).getEndOfPath().pos.x + "," + endPoints.get(i).getEndOfPath().pos.y);
 			}	
 		}
+		
 		
 		for(int i = 0; i < nodes.size(); i++){
 			if(nodes.get(i).isHead()){
@@ -117,7 +118,7 @@ public class FFStateNode extends Node{
 		if(getAllEndOfPathNodes().size() > 0){
 			return false;
 		}
-		System.out.println("AllHeadsValidated");
+		//System.out.println("AllHeadsValidated");
 		for(int i = 0; i < nodes.size(); i++){
 			if(nodes.get(i).getColor() == null){
 				return false;
@@ -136,6 +137,11 @@ public class FFStateNode extends Node{
 				}
 			}
 		}
+		
 		return true;
 	}
+	private boolean hasPossibleRoute(FFNode node){
+		return true;
+	}
+	
 }
