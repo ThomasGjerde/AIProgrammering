@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import aiprog.utility.IOUtils;
 
 public class NNBoard {
-	boolean[][] boardArray;
+	public boolean[][] boardArray;
 	public ArrayList<ArrayList<Integer>> colConstraints;
 	public ArrayList<ArrayList<Integer>> rowConstraints;
 	public NNBoard(String path) throws IOException{
