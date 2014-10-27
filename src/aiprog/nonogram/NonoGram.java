@@ -17,6 +17,7 @@ public class NonoGram extends AStar{
 		initColReduction(currentState);
 		initRowReduction(currentState);
 		initModifications(currentState);
+		checkVictory();
 		System.out.println("ferdig med reductions");
 		System.out.println("domainsum: " + currentState.getDomainSum());
 		System.out.println("counter: " + counter);
@@ -129,18 +130,27 @@ public class NonoGram extends AStar{
 	@Override
 	protected boolean checkVictory() {
 		// TODO Auto-generated method stub
-		return false;
+		NNStateNode state = (NNStateNode)currentNode;
+		for(int i=0; i<state.rowDomains.size(); i++){
+			if(state.rowDomains.get(i) == null){
+				return false;
+			}
+		}
+		return true;
 	}
 
 	@Override
 	protected void processCurrentNode() {
-		// TODO Auto-generated method stub
+		NNStateNode state = (NNStateNode)currentNode;
+		
 		
 	}
 
 	@Override
 	protected void setHeuristic(Node node) {
 		// TODO Auto-generated method stub
+		NNStateNode state = (NNStateNode)node;
+		state.heuristic = state.getDomainSum();
 		
 	}
 
