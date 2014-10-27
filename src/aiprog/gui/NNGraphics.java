@@ -1,6 +1,7 @@
 package aiprog.gui;
 import java.awt.Color;
 
+import aiprog.model.NNStateNode;
 import aiprog.nonogram.NNBoard;
 
 public class NNGraphics extends Graphics{
@@ -20,6 +21,21 @@ public class NNGraphics extends Graphics{
 				}
 				
 			}
+		}
+		grid.repaint();
+	}
+	public void setState(NNStateNode state){
+		for(int i = 0; i < state.rowDomains.size(); i++){
+			if(state.rowDomains.get(i).getValue() != null){
+				for(int j = 0; j < state.rowDomains.get(i).getValue().size(); i++){
+					if(state.rowDomains.get(i).getValue().get(j) == true){
+						grid.setCellColorWithoutRepaint(i, j, Color.BLACK);
+					}else{
+						grid.setCellColorWithoutRepaint(i, j, Color.WHITE);
+					}
+				}	
+			}
+			
 		}
 		grid.repaint();
 	}

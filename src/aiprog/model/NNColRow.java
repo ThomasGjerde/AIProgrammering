@@ -60,8 +60,17 @@ public class NNColRow {
 			}
 			newDomain.add(temp);
 		}
+
 		NNColRow ret = new NNColRow();
+		if(value != null){
+			ArrayList<Boolean> newValue = new ArrayList<Boolean>();
+			for(int i = 0; i < value.size(); i++){
+				newValue.add(value.get(i));
+			}
+			ret.setValue(newValue);
+		}
 		ret.setDomain(newDomain);
+		
 		return ret;
 	}
 }
