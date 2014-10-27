@@ -5,11 +5,9 @@ import java.util.ArrayList;
 public class NNColRow {
 	ArrayList<ArrayList<Boolean>> domain;
 	ArrayList<Boolean> value;
-	int heuristic;
 	public NNColRow(ArrayList<ArrayList<Boolean>> domain){
 		setDomain(domain);
 		value = new ArrayList<Boolean>();
-		heuristic = domain.size();
 	}
 	public NNColRow(){
 		domain = new ArrayList<ArrayList<Boolean>>();
@@ -17,10 +15,7 @@ public class NNColRow {
 	public ArrayList<Boolean> getValue(){
 		return value;
 	}
-	public int getHeuristic(){
-		heuristic = domain.size();
-		return heuristic;
-	}
+	
 	public void setValue(ArrayList<Boolean> newValue){
 		value = newValue;
 	}

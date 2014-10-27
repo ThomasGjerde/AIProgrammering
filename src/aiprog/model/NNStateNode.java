@@ -120,4 +120,27 @@ public class NNStateNode extends Node{
 	public NNStateNode generateStateNode(ArrayList<NNColRow> colChanges, ArrayList<NNColRow> rowChanges){
 		return new NNStateNode(colChanges,rowChanges);
 	}
+	
+	public NNColRow getSmallestRowDomain(){
+		NNColRow smallest = null;
+		int h=100;
+		for(int i=0; i<this.rowDomains.size(); i++){
+			if(h>this.rowDomains.get(i).getDomain().size() && this.rowDomains.get(i).getDomain().size() > 2){
+				h=this.rowDomains.get(i).getDomain().size();
+				smallest = this.rowDomains.get(i);
+			}
+		}
+		return smallest;
+	}
+	public NNColRow getSmallestColDomain(){
+		NNColRow smallest = null;
+		int h=100;
+		for(int i=0; i<this.colDomains.size(); i++){
+			if(h>this.colDomains.get(i).getDomain().size() && this.colDomains.get(i).getDomain().size() > 2){
+				h = this.colDomains.get(i).getDomain().size();
+				smallest = this.colDomains.get(i);
+			}
+		}
+		return smallest;
+	}
 }

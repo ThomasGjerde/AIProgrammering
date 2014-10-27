@@ -18,9 +18,11 @@ public class NonoGram extends AStar{
 		initRowReduction(currentState);
 		initModifications(currentState);
 		checkVictory();
+		assumption(currentState);
 		System.out.println("ferdig med reductions");
 		System.out.println("domainsum: " + currentState.getDomainSum());
 		System.out.println("counter: " + counter);
+		search();
 		// TODO Auto-generated constructor stub
 	}
 	
@@ -141,9 +143,57 @@ public class NonoGram extends AStar{
 
 	@Override
 	protected void processCurrentNode() {
-		NNStateNode state = (NNStateNode)currentNode;
+		System.out.println("processcurrentNode");
+		if(!checkVictory()){
+			NNStateNode state = (NNStateNode)currentNode;
+			assumption(state);
+		}else{
+			System.out.println("Seier");
+		}
 		
+		//ArrayList<Boolean> assumption = assumption(state);
 		
+		//stateReduction();
+		
+	}
+	
+	public void assumption(NNStateNode state){
+		NNColRow smallestRow = state.getSmallestRowDomain();
+		System.out.println("smallestRow :" + smallestRow.getDomain().size());
+		NNColRow smallestCol = state.getSmallestColDomain();
+		System.out.println("smallestCol :" + smallestCol.getDomain().size());
+		if(smallestRow.getDomain().size() > smallestCol.getDomain().size()){
+			assumptionCol(smallestCol, state);
+		}else{
+			assumptionRow(smallestCol, state);
+		}
+	}
+	
+	public void assumptionCol(NNColRow col, NNStateNode state){
+		for(int i=0; i<col.getDomain().size(); i++){
+			NNStateNode childState = state.generateStateNode(state.colDomains, state.rowDomains);
+			//currentNode = childState;
+			for(int j=0; j<col.getDomain().get(i).size(); j++){
+				reduction(col, j,col.getDomain().get(i).get(j));
+			}
+			setHeuristic(childState);
+			currentNode.children.add(childState);
+			System.out.println("assumptionCol");
+		}
+		
+	}
+	
+	public void assumptionRow(NNColRow row, NNStateNode state){
+		for(int i=0; i<row.getDomain().size(); i++){
+			NNStateNode childState = state.generateStateNode(state.colDomains, state.rowDomains);
+			//currentNode = childState;
+			for(int j=0; j<row.getDomain().get(i).size(); j++){
+				reduction(row, j,row.getDomain().get(i).get(j));
+			}
+			setHeuristic(childState);
+			currentNode.children.add(childState);
+			System.out.println("assumptionRow");
+		}
 	}
 
 	@Override
