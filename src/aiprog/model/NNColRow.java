@@ -4,11 +4,19 @@ import java.util.ArrayList;
 
 public class NNColRow {
 	ArrayList<ArrayList<Boolean>> domain;
+	ArrayList<Boolean> value;
 	public NNColRow(ArrayList<ArrayList<Boolean>> domain){
 		setDomain(domain);
+		value = new ArrayList<Boolean>();
 	}
 	public NNColRow(){
 		domain = new ArrayList<ArrayList<Boolean>>();
+	}
+	public ArrayList<Boolean> getValue(){
+		return value;
+	}
+	public void setValue(ArrayList<Boolean> newValue){
+		value = newValue;
 	}
 	public ArrayList<ArrayList<Boolean>> getDomain() {
 		return domain;

@@ -16,6 +16,7 @@ public class NonoGram extends AStar{
 		System.out.println("domainsum: " + currentState.getDomainSum());
 		initColReduction(currentState);
 		initRowReduction(currentState);
+		initModifications(currentState);
 		System.out.println("ferdig med reductions");
 		System.out.println("domainsum: " + currentState.getDomainSum());
 		System.out.println("counter: " + counter);
@@ -25,6 +26,21 @@ public class NonoGram extends AStar{
 	//Skal fylle alle domenene i starten
 	public void fillDomains(){
 		
+	}
+	
+	public void initModifications(NNStateNode state){
+		for(int i=0; i<state.colDomains.size(); i++){
+			if(state.colDomains.get(i).getDomain().size() == 1){
+				state.colDomains.get(i).setValue(state.colDomains.get(i).getDomain().get(0));
+				System.out.println("colFilled");
+			}
+		}
+		for(int j=0; j<state.rowDomains.size(); j++){
+			if(state.rowDomains.get(j).getDomain().size() == 1){
+				state.rowDomains.get(j).setValue(state.rowDomains.get(j).getDomain().get(0));
+				System.out.println("rowfilled");
+			}
+		}
 	}
 	
 	public void initColReduction(NNStateNode state){
