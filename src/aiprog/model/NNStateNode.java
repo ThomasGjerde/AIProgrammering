@@ -13,11 +13,9 @@ public class NNStateNode extends Node{
 		ArrayList<ArrayList<Integer>> colConstraints = board.colConstraints;
 		ArrayList<ArrayList<Integer>> rowConstraints = board.rowConstraints;
 		for(int i = 0; i < colConstraints.size(); i++){
-			//colDomains.add(
 			colDomains.add(generateColRow(board.boardArray.length, colConstraints.get(i)));
 		}
 		for(int i = 0; i < rowConstraints.size(); i++){
-			//rowDomains.add(generateColRow(board.boardArray[0].length, rowConstraints.get(i)));
 			rowDomains.add(generateColRow(board.boardArray[0].length, rowConstraints.get(i)));
 		}
 	}
@@ -50,30 +48,10 @@ public class NNStateNode extends Node{
 				
 			}
 			newDomainList.add(newDomain);
-			//printArrayList(newDomain);
 		}
 		newColRow.setDomain(newDomainList);
 		return newColRow;
-		/*
-		//permute(list, 0);
-		for(int i = 0; i < tempDomain.size(); i++){
-			for(int j = 0; j < tempDomain.get(i).length; j++){
-				System.out.print(tempDomain.get(i)[j]);
-				
-			}
-			System.out.println("");
-		}
-		return null;
-		/*
-		boolean[] list = new boolean[size];
-		int currentIndex = 0;
-		for(int i = 0; i < constraints.size(); i++){
-			for(int j = 0; j < constraints.get(i); j++){
-				list[currentIndex + j] = true;
-			}
-			currentIndex += constraints.get(i) + 1;
-		}
-		 */
+		
 	}
 	private void printArrayList(ArrayList<Boolean> list){
 		for(int i = 0; i < list.size(); i++){
@@ -97,7 +75,6 @@ public class NNStateNode extends Node{
 				array[i] = array[i-1];
 			}
 			array[startIndex] = 0;
-			//printArray(array,"Array");
 			makePermutation(array, startIndex + 3);
 			makePermutation(array, startIndex + 1);
 		}
@@ -111,18 +88,7 @@ public class NNStateNode extends Node{
 		}
 		System.out.println("");
 	}
-	private boolean arraysEqual(int[] array1, int[] array2){
-		if(array1.length == array2.length){
-			for(int i = 0; i < array1.length; i++){
-				if(array1[i] != array2[i]){
-					return false;
-				}
-			}
-			return true;
-		}else{
-			return false;
-		}
-	}
+
 	private void saveArray(int[] a) {
 		int[] array = a.clone();
 		for(int i = 0; i < tempDomain.size(); i++){
@@ -131,30 +97,8 @@ public class NNStateNode extends Node{
 			}
 		}
 		tempDomain.add(array);
-		/*
-		for (int i = 0; i < a.length; i++) {
-			System.out.print(a[i]+" ");
+	}
 
-		}
-		System.out.println("");
-		*/
-	}
-	private void permute(int[] a,int k ) {
-		if(k==a.length){
-			saveArray(a);
-		}else{
-			for (int i = k; i < a.length; i++) {
-				int temp=a[k];
-				a[k]=a[i];
-				a[i]=temp;
-				permute(a,k+1);
-				temp=a[k];
-				a[k]=a[i];
-				a[i]=temp;
-			}
-		}
-			
-	}
 	public int getDomainSum(){
 		int sum = 0;
 		for(int i = 0; i < colDomains.size(); i++){
@@ -163,7 +107,6 @@ public class NNStateNode extends Node{
 		for(int i = 0; i < rowDomains.size(); i++){
 			sum += rowDomains.get(i).domain.size();
 		}
-		return sum;
-		
+		return sum;		
 	}
 }
