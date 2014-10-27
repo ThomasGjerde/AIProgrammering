@@ -24,7 +24,7 @@ public class Main {
 	public static void main(String[] args) {
 		
 		try {
-			NNBoard board = new NNBoard("input/nono-heart-1.txt");
+			NNBoard board = new NNBoard("input/nono-rabbit.txt");
 			//NNGraphics graphics = new NNGraphics(board);
 			NNStateNode sn = new NNStateNode(board);
 		} catch (IOException e) {

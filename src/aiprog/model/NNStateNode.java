@@ -34,6 +34,26 @@ public class NNStateNode extends Node{
 			list[i*2] = constraints.get(i);
 		}
 		makePermutation(list, 0);
+		ArrayList<ArrayList<Boolean>> newDomainList = new ArrayList<ArrayList<Boolean>>();
+		for(int i = 0; i < tempDomain.size(); i++){
+			ArrayList<Boolean> newDomain = new ArrayList<Boolean>();
+			for(int j = 0; j < tempDomain.get(i).length; j++){
+				int num = tempDomain.get(i)[j];
+				if(num > 0){
+					for(int k = 0; k < num; k++){
+						newDomain.add(true);
+					}
+				}else{
+					newDomain.add(false);
+				}
+				
+			}
+			newDomainList.add(newDomain);
+			//printArrayList(newDomain);
+		}
+		newColRow.setDomain(newDomainList);
+		return newColRow;
+		/*
 		//permute(list, 0);
 		for(int i = 0; i < tempDomain.size(); i++){
 			for(int j = 0; j < tempDomain.get(i).length; j++){
@@ -54,28 +74,31 @@ public class NNStateNode extends Node{
 		}
 		 */
 	}
-	private void makePermutation(int[] array, int startIndex){
-		System.out.println("Startindex: " + startIndex);
-		try {
-			Thread.sleep(0);
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+	private void printArrayList(ArrayList<Boolean> list){
+		for(int i = 0; i < list.size(); i++){
+			System.out.print((list.get(i) ? "1" : "0") + " ");
 		}
-		if(startIndex < array.length){
+		System.out.println("");
+	}
+	private void makePermutation(int[] array, int startIndex){
+		//int[] array = a.clone();
+		saveArray(array);
+		
+		if(startIndex < array.length && array[startIndex] != 0){
+			makePermutation(array, startIndex + 2);
 			moveElement(array,startIndex);
 		}
 	}
 	private void moveElement(int[] a, int startIndex){
-		System.out.println("Startindex " + startIndex);
 		int[] array = a.clone();
 		while(array[array.length-1] == 0){
-			for(int i = array.length-2; i >= startIndex; i--){
-				array[i+1] = array[i];
+			for(int i = array.length-1; i > startIndex; i--){
+				array[i] = array[i-1];
 			}
 			array[startIndex] = 0;
-			//printArray(array, "Array");
+			//printArray(array,"Array");
 			makePermutation(array, startIndex + 3);
+			makePermutation(array, startIndex + 1);
 		}
 	}
 	private void printArray(int[] a, String prefix){
