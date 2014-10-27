@@ -8,13 +8,17 @@ import aiprog.model.Node;
 import aiprog.search.AStar;
 
 public class NonoGram extends AStar{
-
+	int counter = 0;
 	NNStateNode currentState;
 	public NonoGram(Node startNode) {
 		super(startNode);
 		currentState = (NNStateNode)startNode;
+		System.out.println("domainsum: " + currentState.getDomainSum());
 		initColReduction(currentState);
 		initRowReduction(currentState);
+		System.out.println("ferdig med reductions");
+		System.out.println("domainsum: " + currentState.getDomainSum());
+		System.out.println("counter: " + counter);
 		// TODO Auto-generated constructor stub
 	}
 	
@@ -64,7 +68,7 @@ public class NonoGram extends AStar{
 	public ArrayList<Integer> findCommon(ArrayList<ArrayList<Boolean>> domain){
 		
 		ArrayList<Integer> intArray = new ArrayList<Integer>();
-		for(int i=0; i<domain.size(); i++){
+		for(int i=0; i<domain.get(0).size(); i++){
 			if(domain.get(0).get(0) == true){
 				intArray.add(1);
 			}else{
@@ -100,6 +104,8 @@ public class NonoGram extends AStar{
 		for(int i=0; i<obj.getDomain().size(); i++){
 			if(obj.getDomain().get(i).get(pos) != value){
 				obj.deleteFromDomain(obj.getDomain().get(i));
+				counter++;
+				//System.out.println("reduction");
 			}
 		}
 	}
