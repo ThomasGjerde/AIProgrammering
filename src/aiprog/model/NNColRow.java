@@ -37,4 +37,17 @@ public class NNColRow {
 			}
 		}
 	}
+	public NNColRow cloneColRow(){
+		ArrayList<ArrayList<Boolean>> newDomain = new ArrayList<ArrayList<Boolean>>();
+		for(int i = 0; i < domain.size(); i++){
+			ArrayList<Boolean> temp = new ArrayList<Boolean>();
+			for(int j = 0; j < domain.get(i).size(); j++){
+				temp.add(domain.get(i).get(j));
+			}
+			newDomain.add(temp);
+		}
+		NNColRow ret = new NNColRow();
+		ret.setDomain(newDomain);
+		return ret;
+	}
 }

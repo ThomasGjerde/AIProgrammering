@@ -109,4 +109,15 @@ public class NNStateNode extends Node{
 		}
 		return sum;		
 	}
+	private NNStateNode(ArrayList<NNColRow> colChanges, ArrayList<NNColRow> rowChanges){
+		for(int i = 0; i < colChanges.size(); i++){
+			colDomains.add(colChanges.get(i).cloneColRow());
+		}
+		for(int i = 0; i < rowChanges.size(); i++){
+			rowDomains.add(rowChanges.get(i).cloneColRow());
+		}
+	}
+	public NNStateNode generateStateNode(ArrayList<NNColRow> colChanges, ArrayList<NNColRow> rowChanges){
+		return new NNStateNode(colChanges,rowChanges);
+	}
 }
