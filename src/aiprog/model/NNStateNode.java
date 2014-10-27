@@ -6,8 +6,8 @@ import java.util.Arrays;
 import aiprog.nonogram.NNBoard;
 
 public class NNStateNode extends Node{
-	ArrayList<NNColRow> colDomains;
-	ArrayList<NNColRow> rowDomains;
+	public ArrayList<NNColRow> colDomains;
+	public ArrayList<NNColRow> rowDomains;
 	ArrayList<int[]> tempDomain;
 	public NNStateNode(NNBoard board){
 		ArrayList<ArrayList<Integer>> colConstraints = board.colConstraints;
@@ -31,9 +31,10 @@ public class NNStateNode extends Node{
 		int[] list = new int[numZeros + constraints.size()];
 		Arrays.fill(list, 0);
 		for(int i = 0; i < constraints.size(); i++){
-			list[i] = constraints.get(i);
+			list[i*2] = constraints.get(i);
 		}
-		permute(list, 0);
+		makePermutation(list, 0);
+		//permute(list, 0);
 		for(int i = 0; i < tempDomain.size(); i++){
 			for(int j = 0; j < tempDomain.get(i).length; j++){
 				System.out.print(tempDomain.get(i)[j]);
@@ -53,6 +54,30 @@ public class NNStateNode extends Node{
 		}
 		 */
 	}
+	private void makePermutation(int[] array, int startIndex){
+		System.out.println("Startindex: " + startIndex);
+		try {
+			Thread.sleep(0);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		if(startIndex < array.length){
+			moveElement(array,startIndex);
+		}
+	}
+	private void moveElement(int[] a, int startIndex){
+		System.out.println("Startindex " + startIndex);
+		int[] array = a.clone();
+		while(array[array.length-1] == 0){
+			for(int i = array.length-2; i >= startIndex; i--){
+				array[i+1] = array[i];
+			}
+			array[startIndex] = 0;
+			//printArray(array, "Array");
+			makePermutation(array, startIndex + 3);
+		}
+	}
 	private void printArray(int[] a, String prefix){
 		System.out.println("----------------");
 		System.out.println(prefix);
@@ -66,19 +91,18 @@ public class NNStateNode extends Node{
 		if(array1.length == array2.length){
 			for(int i = 0; i < array1.length; i++){
 				if(array1[i] != array2[i]){
-					System.out.println(array1[i] + " != " + array2[i]);
 					return false;
 				}
 			}
 			return true;
 		}else{
-			System.out.println("Length");
 			return false;
 		}
 	}
-	private void saveArray(int[] array) {
+	private void saveArray(int[] a) {
+		int[] array = a.clone();
 		for(int i = 0; i < tempDomain.size(); i++){
-			if(arraysEqual(tempDomain.get(i),array)){
+			if(Arrays.equals(tempDomain.get(i),array)){
 				return;
 			}
 		}

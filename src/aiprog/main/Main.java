@@ -6,6 +6,7 @@ import aiprog.flowfree.FFBoard;
 import aiprog.flowfree.FlowFree;
 import aiprog.gui.FFGraphics;
 import aiprog.gui.NNGraphics;
+import aiprog.model.NNStateNode;
 import aiprog.navigation.Board;
 import aiprog.navigation.GridBestFirstSearch;
 import aiprog.navigation.GridBreadthFirstSearch;
@@ -24,10 +25,8 @@ public class Main {
 		
 		try {
 			NNBoard board = new NNBoard("input/nono-heart-1.txt");
-			NNGraphics graphics = new NNGraphics(board);
-			for(int i = 0; i < board.colConstraints.get(0).size(); i++){
-				System.out.println("ColStraint: " + board.colConstraints.get(0).get(i));
-			}
+			//NNGraphics graphics = new NNGraphics(board);
+			NNStateNode sn = new NNStateNode(board);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
