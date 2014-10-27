@@ -13,6 +13,8 @@ public class NonoGram extends AStar{
 	public NonoGram(Node startNode) {
 		super(startNode);
 		currentState = (NNStateNode)startNode;
+		initColReduction(currentState);
+		initRowReduction(currentState);
 		// TODO Auto-generated constructor stub
 	}
 	
@@ -21,8 +23,42 @@ public class NonoGram extends AStar{
 		
 	}
 	
-	public void initReduction(NNStateNode state){
-		
+	public void initColReduction(NNStateNode state){
+		for(int i=0; i<state.colDomains.size(); i++){
+			ArrayList<Integer> intArray = findCommon(state.colDomains.get(i).getDomain());
+			if(checkCommon(intArray)){
+				for(int j=0; j<intArray.size(); j++){
+					if(intArray.get(j) != 3){
+						boolean check;
+						if(intArray.get(j) == 1){
+							check = true;
+						}else{
+							check = false;
+						}
+						reduction(state.rowDomains.get(j), i, check);
+					}
+				}
+			}
+		}
+	}
+	
+	public void initRowReduction(NNStateNode state){
+		for(int i=0; i<state.rowDomains.size(); i++){
+			ArrayList<Integer> intArray = findCommon(state.rowDomains.get(i).getDomain());
+			if(checkCommon(intArray)){
+				for(int j=0; j<intArray.size(); j++){
+					if(intArray.get(j) != 3){
+						boolean check;
+						if(intArray.get(j) == 1){
+							check = true;
+						}else{
+							check = false;
+						}
+						reduction(state.colDomains.get(j), i, check);
+					}
+				}	
+			}
+		}
 	}
 	
 	public ArrayList<Integer> findCommon(ArrayList<ArrayList<Boolean>> domain){
@@ -47,7 +83,15 @@ public class NonoGram extends AStar{
 			}
 		}
 		return intArray;
-		
+	}
+	
+	public boolean checkCommon(ArrayList<Integer> intArray){
+		for(int i=0; i<intArray.size(); i++){
+			if(intArray.get(i) == 1 || intArray.get(i) == 0){
+				return true;
+			}
+		}
+		return false;
 	}
 	
 	//Skal redusere domenene til vær rowcol
