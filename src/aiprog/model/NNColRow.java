@@ -16,4 +16,7 @@ public class NNColRow {
 			this.domain.add((ArrayList<Boolean>) domain.get(i).clone()); //Might not work
 		}
 	}
+	public void addToDomain(ArrayList<Boolean> list){
+		domain.add(list);
+	}
 }
