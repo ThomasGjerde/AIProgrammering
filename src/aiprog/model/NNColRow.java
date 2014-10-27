@@ -7,6 +7,9 @@ public class NNColRow {
 	public NNColRow(ArrayList<ArrayList<Boolean>> domain){
 		setDomain(domain);
 	}
+	public NNColRow(){
+		domain = new ArrayList<ArrayList<Boolean>>();
+	}
 	public ArrayList<ArrayList<Boolean>> getDomain() {
 		return domain;
 	}
@@ -18,5 +21,8 @@ public class NNColRow {
 	}
 	public void addToDomain(ArrayList<Boolean> list){
 		domain.add(list);
+	}
+	public void deleteFromDomain(){
+		
 	}
 }
