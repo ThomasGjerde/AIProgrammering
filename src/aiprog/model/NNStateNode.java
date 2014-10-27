@@ -6,18 +6,19 @@ import java.util.Arrays;
 import aiprog.nonogram.NNBoard;
 
 public class NNStateNode extends Node{
-	public ArrayList<NNColRow> colDomains;
-	public ArrayList<NNColRow> rowDomains;
+	public ArrayList<NNColRow> colDomains = new ArrayList<NNColRow>();
+	public ArrayList<NNColRow> rowDomains = new ArrayList<NNColRow>();
 	ArrayList<int[]> tempDomain;
 	public NNStateNode(NNBoard board){
 		ArrayList<ArrayList<Integer>> colConstraints = board.colConstraints;
 		ArrayList<ArrayList<Integer>> rowConstraints = board.rowConstraints;
 		for(int i = 0; i < colConstraints.size(); i++){
 			//colDomains.add(
-			generateColRow(board.boardArray.length, colConstraints.get(i));
+			colDomains.add(generateColRow(board.boardArray.length, colConstraints.get(i)));
 		}
 		for(int i = 0; i < rowConstraints.size(); i++){
 			//rowDomains.add(generateColRow(board.boardArray[0].length, rowConstraints.get(i)));
+			rowDomains.add(generateColRow(board.boardArray[0].length, rowConstraints.get(i)));
 		}
 	}
 	private NNColRow generateColRow(int size, ArrayList<Integer> constraints){
