@@ -1,5 +1,6 @@
 package aiprog.nonogram;
 
+import aiprog.model.NNColRow;
 import aiprog.model.Node;
 import aiprog.search.AStar;
 
@@ -17,8 +18,12 @@ public class NonoGram extends AStar{
 	
 	//Skal redusere domenene til vær rowcol
 	//Skal kanskje ta inn 2 rowcol objecter, ala en row og en col
-	public void reduction(){
-		
+	public void reduction(NNColRow obj, int pos, boolean value){
+		for(int i=0; i<obj.getDomain().size(); i++){
+			if(obj.getDomain().get(i).get(pos) != value){
+				obj.deleteFromDomain(obj.getDomain().get(i));
+			}
+		}
 	}
 
 	@Override

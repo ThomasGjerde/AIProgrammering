@@ -22,7 +22,19 @@ public class NNColRow {
 	public void addToDomain(ArrayList<Boolean> list){
 		domain.add(list);
 	}
-	public void deleteFromDomain(){
-		
+	//vel, for se om dette her funker
+	public void deleteFromDomain(ArrayList<Boolean> removeArray){
+		boolean check = false;
+		for(int i=0; i<domain.size(); i++){
+			for(int j=0; j<domain.get(i).size(); j++){
+				if(domain.get(i).get(j) != removeArray.get(j)){
+					check = true;
+					break;
+				}
+			}
+			if(check != true){
+				domain.remove(domain.get(i));
+			}
+		}
 	}
 }
