@@ -155,4 +155,15 @@ public class NNStateNode extends Node{
 		}
 			
 	}
+	public int getDomainSum(){
+		int sum = 0;
+		for(int i = 0; i < colDomains.size(); i++){
+			sum += colDomains.get(i).domain.size();
+		}
+		for(int i = 0; i < rowDomains.size(); i++){
+			sum += rowDomains.get(i).domain.size();
+		}
+		return sum;
+		
+	}
 }
