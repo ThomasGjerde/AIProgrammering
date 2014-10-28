@@ -60,6 +60,9 @@ public class FFStateNode extends Node{
 			}
 		}
 		newNode.setHeuristic(h);
+		if(newNode.hasFailed()){
+			System.out.println("FailedNode");
+		}
 		this.addChild(newNode);
 		//System.out.println("h " + h);
 		return newNode;
@@ -130,15 +133,19 @@ public class FFStateNode extends Node{
 	public boolean hasFailed(){
 		ArrayList<FFNode> heads = this.getAllEndOfPathNodes();
 		for(int i = 0; i < heads.size(); i++){
+			boolean failed = true;
 			FFNode head = (FFNode)heads.get(i);
 			for(int j = 0; j < head.children.size(); j++){
 				if(((FFNode)head.children.get(j)).getColor() == null){ //Might put in domain check here
-					return false;
+					failed = false;
 				}
+			}
+			if(failed == true){
+				return true;
 			}
 		}
 		
-		return true;
+		return false;
 	}
 	private boolean hasPossibleRoute(FFNode node){
 		return true;

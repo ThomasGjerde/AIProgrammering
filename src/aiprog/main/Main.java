@@ -22,7 +22,7 @@ public class Main {
 	 */
 	@SuppressWarnings("unused")
 	public static void main(String[] args) {
-		
+		/*
 		try {
 			NNBoard board = new NNBoard("input/nono-rabbit.txt");
 			//NNGraphics graphics = new NNGraphics(board);
@@ -31,10 +31,10 @@ public class Main {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		*/
 		
-		/*
 		try {
-			FFBoard board = new FFBoard("input/flowspec-0.txt");
+			FFBoard board = new FFBoard("input/flowspec-2.txt");
 			FFGraphics ffgraph = new FFGraphics(board);
 			//�ja, s� derfor m� jeg arve fra node i statenodesa....
 			//Det er mye dritt i denne arverekka som vi ikke trenger i dette.
@@ -44,7 +44,7 @@ public class Main {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		*/
+		
 		/*
 		try {
 			Board board = new Board("/home/board.txt");

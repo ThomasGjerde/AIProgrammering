@@ -39,8 +39,8 @@ public class FlowFree extends AStar {
 		return ((FFStateNode)currentNode).checkAllConstraints();
 	}
 	
-	//Skal bare kjøre på S0
-	//Kan kanskje kjøre i starten på alle states, er ikke sikker
+	//Skal bare kjï¿½re pï¿½ S0
+	//Kan kanskje kjï¿½re i starten pï¿½ alle states, er ikke sikker
 	private void initModifications(FFStateNode state){
 		edge = (int) Math.sqrt(state.getNodes().size()) - 1;
 		
@@ -127,6 +127,10 @@ public class FlowFree extends AStar {
 				int pathLengthRight = 0;
 				
 				for(int z=o+1; z<full.size(); z++){
+					if(z == (full.size()-1)){
+						pathLengthRight = 0;
+						break;
+					}
 					if(full.get(z).getColor() == null){
 						pathLengthRight++;
 					}else if(full.get(z).getColor() != colorStart.getColor()){
@@ -137,6 +141,7 @@ public class FlowFree extends AStar {
 					}
 				}
 				if(pathLengthRight != 0){
+					System.out.println(full.get(o).getColor() +" " + pathLengthRight);
 					pathLengthRight++;
 					for(int x=0; x<pathLengthRight; x++){
 						if(full.get(o+x).getColor() == null){
@@ -175,8 +180,8 @@ public class FlowFree extends AStar {
 		//Blanco it is
 	}
 	
-	//kan evt være deduction
-	//skal fikse det åpenbare
+	//kan evt vï¿½re deduction
+	//skal fikse det ï¿½penbare
 	public boolean reduceSingle(FFNode node){
 		ArrayList<FFNode> midList = new ArrayList<FFNode>();
 		for(int i=0; i<node.getChildren().size(); i++){
@@ -197,7 +202,7 @@ public class FlowFree extends AStar {
 			midList.get(0).setColor(node.getColor(), node);
 			try {
 				
-				Thread.sleep(10);
+				Thread.sleep(1000);
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -231,7 +236,7 @@ public class FlowFree extends AStar {
 		FFStateNode current = (FFStateNode)currentNode;
 		current.applyChanges();
 		reduction(current,true);
-		if(!stateFail){
+		if(!stateFail && !current.hasFailed()){
 			assumptions(current);
 		}else{
 			stateFail = false;
@@ -241,9 +246,9 @@ public class FlowFree extends AStar {
 	public void pathAssumption(){
 		//Kanskje vi faktisk skal bruke domener her
 		//Vi burde velge ut en farge/og en av nodene i dette paret
-		//så må vi lage en state per mulige path, en path er mulig hvis den overholder alle "pathreglene" og at den ender opp hos endnoden den ikke starta fra
-		//kanskje vi må lage et path object
-		//For det minste mappet så får vi ikke så mange mulige paths, feks, og hvis en path ikke er mulig og lage, så skal staten legges til closed
+		//sï¿½ mï¿½ vi lage en state per mulige path, en path er mulig hvis den overholder alle "pathreglene" og at den ender opp hos endnoden den ikke starta fra
+		//kanskje vi mï¿½ lage et path object
+		//For det minste mappet sï¿½ fï¿½r vi ikke sï¿½ mange mulige paths, feks, og hvis en path ikke er mulig og lage, sï¿½ skal staten legges til closed
 	}
 	
 	
