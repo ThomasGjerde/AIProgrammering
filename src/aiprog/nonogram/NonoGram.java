@@ -2,6 +2,7 @@ package aiprog.nonogram;
 
 import java.util.ArrayList;
 
+import aiprog.gui.NNGraphics;
 import aiprog.model.NNColRow;
 import aiprog.model.NNStateNode;
 import aiprog.model.Node;
@@ -10,15 +11,26 @@ import aiprog.search.AStar;
 public class NonoGram extends AStar{
 	int counter = 0;
 	NNStateNode currentState;
-	public NonoGram(Node startNode) {
+	NNGraphics graphics;
+	public NonoGram(Node startNode, NNGraphics graph) {
 		super(startNode);
+		graphics = graph;
 		currentState = (NNStateNode)startNode;
 		System.out.println("domainsum: " + currentState.getDomainSum());
-		initColReduction(currentState);
-		initRowReduction(currentState);
+		boolean dom=true;
+		while(dom){
+			int oldCount = currentState.getDomainSum();
+			initColReduction(currentState);
+			initRowReduction(currentState);
+			int newCount = currentState.getDomainSum();
+			if(oldCount == newCount){
+				break;
+			}
+		}
 		initModifications(currentState);
 		checkVictory();
-		assumption(currentState);
+		graphics.setState(currentState);
+		//assumption(currentState);
 		System.out.println("ferdig med reductions");
 		System.out.println("domainsum: " + currentState.getDomainSum());
 		System.out.println("counter: " + counter);
@@ -84,6 +96,7 @@ public class NonoGram extends AStar{
 		}
 	}
 	
+	//Mulig jeg må modifisere denne litt
 	public ArrayList<Integer> findCommon(ArrayList<ArrayList<Boolean>> domain){
 		
 		ArrayList<Integer> intArray = new ArrayList<Integer>();
@@ -108,6 +121,7 @@ public class NonoGram extends AStar{
 		return intArray;
 	}
 	
+	//Denne funker
 	public boolean checkCommon(ArrayList<Integer> intArray){
 		for(int i=0; i<intArray.size(); i++){
 			if(intArray.get(i) == 1 || intArray.get(i) == 0){
@@ -117,16 +131,20 @@ public class NonoGram extends AStar{
 		return false;
 	}
 	
-	//Skal redusere domenene til vær rowcol
-	//Skal kanskje ta inn ett rowcol object og redusere domenet til denne basert på en value
+	//Det ser ut til at denne fungerer
 	public void reduction(NNColRow obj, int pos, boolean value){
 		for(int i=0; i<obj.getDomain().size(); i++){
 			if(obj.getDomain().get(i).get(pos) != value){
 				obj.deleteFromDomain(obj.getDomain().get(i));
-				counter++;
+				//counter++;
 				//System.out.println("reduction");
 			}
 		}
+		counter++;
+	}
+	
+	public void stateReduction(){
+		
 	}
 
 	@Override
@@ -146,7 +164,7 @@ public class NonoGram extends AStar{
 		System.out.println("processcurrentNode");
 		if(!checkVictory()){
 			NNStateNode state = (NNStateNode)currentNode;
-			assumption(state);
+			//assumption(state);
 		}else{
 			System.out.println("Seier");
 		}
@@ -157,11 +175,14 @@ public class NonoGram extends AStar{
 		
 	}
 	
+	//Funker tror jeg
+	//Skal finne raden eller col med minst domene og sende videre til enten
+	//assumtionCol (for col) eller assumptionRow for row
 	public void assumption(NNStateNode state){
 		NNColRow smallestRow = state.getSmallestRowDomain();
-		System.out.println("smallestRow :" + smallestRow.getDomain().size());
+		//System.out.println("smallestRow :" + smallestRow.getDomain().size());
 		NNColRow smallestCol = state.getSmallestColDomain();
-		System.out.println("smallestCol :" + smallestCol.getDomain().size());
+		//System.out.println("smallestCol :" + smallestCol.getDomain().size());
 		if(smallestRow.getDomain().size() > smallestCol.getDomain().size()){
 			assumptionCol(smallestCol, state);
 		}else{
@@ -169,6 +190,10 @@ public class NonoGram extends AStar{
 		}
 	}
 	
+	//Funker ikke
+	//Skal genere en state for vært element i domain
+	//Ettersom de er generert skal endringen bli satt og reduction skal bli gjort
+	//Så skal den legges til i openlista
 	public void assumptionCol(NNColRow col, NNStateNode state){
 		for(int i=0; i<col.getDomain().size(); i++){
 			NNStateNode childState = state.generateStateNode(state.colDomains, state.rowDomains);
@@ -183,6 +208,10 @@ public class NonoGram extends AStar{
 		
 	}
 	
+	//Funker ikke
+	//Skal genere en state for vært element  domain
+	//Ettersom de er generert skal endringen bli satt og reduction skal bli gjort
+	//Så skal den legges til i openlista
 	public void assumptionRow(NNColRow row, NNStateNode state){
 		for(int i=0; i<row.getDomain().size(); i++){
 			NNStateNode childState = state.generateStateNode(state.colDomains, state.rowDomains);

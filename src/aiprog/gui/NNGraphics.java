@@ -27,11 +27,11 @@ public class NNGraphics extends Graphics{
 	public void setState(NNStateNode state){
 		for(int i = 0; i < state.rowDomains.size(); i++){
 			if(state.rowDomains.get(i).getValue() != null){
-				for(int j = 0; j < state.rowDomains.get(i).getValue().size(); i++){
+				for(int j = 0; j < state.rowDomains.get(i).getValue().size(); j++){
 					if(state.rowDomains.get(i).getValue().get(j) == true){
-						grid.setCellColorWithoutRepaint(i, j, Color.BLACK);
+						grid.setCellColorWithoutRepaint(j, i, Color.BLACK);
 					}else{
-						grid.setCellColorWithoutRepaint(i, j, Color.WHITE);
+						grid.setCellColorWithoutRepaint(j, i, Color.WHITE);
 					}
 				}	
 			}
