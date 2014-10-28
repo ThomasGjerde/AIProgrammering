@@ -122,7 +122,6 @@ public class NNStateNode extends Node{
 		NNStateNode newNode = new NNStateNode(colChanges,rowChanges);
 		if(newNode.validateConstraints()){
 			this.addChild(newNode);
-			System.out.println("Valid");
 		}
 		else{
 			System.out.println("Not valid");
@@ -183,5 +182,29 @@ public class NNStateNode extends Node{
 			}
 		}
 		return true;
+	}
+	public Boolean[][] buildArray(){
+		Boolean[][] resultArray = new Boolean[rowDomains.size()][colDomains.size()];
+		for(int i = 0; i < rowDomains.size(); i++){
+			if(rowDomains.get(i).getValue() != null){
+				for(int j = 0; j < rowDomains.get(i).getValue().size(); j++){
+					if(rowDomains.get(i).getValue().get(j) != null){
+						resultArray[i][j] = rowDomains.get(i).getValue().get(j);
+					}
+				}
+			}
+
+		}
+		for(int i = 0; i < colDomains.size(); i++){
+			if(colDomains.get(i).getValue() != null){
+				for(int j = 0; j < colDomains.get(i).getValue().size(); j++){
+					if(colDomains.get(i).getValue().get(j) != null){
+						resultArray[j][i] = colDomains.get(i).getValue().get(j);
+					}
+				}
+			}
+
+		}
+		return resultArray;
 	}
 }

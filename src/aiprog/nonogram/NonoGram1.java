@@ -136,7 +136,7 @@ public class NonoGram1 extends AStar {
 		int row = currentState.getSmallestRowDomainIndex();
 
 		if(currentState.colDomains.get(col).getDomain().size() < currentState.rowDomains.get(row).getDomain().size()){
-
+			System.out.println("States Generated: " + currentState.colDomains.get(col).getDomain().size());
 			for(int j = 0; j < currentState.colDomains.get(col).getDomain().size(); j++){
 				ArrayList<NNColRow> colChanges = new ArrayList<NNColRow>(); 
 				for(int i = 0; i < currentState.colDomains.size(); i++){
@@ -151,7 +151,7 @@ public class NonoGram1 extends AStar {
 			}
 			
 		}else{
-
+			System.out.println("States generated: " + currentState.rowDomains.get(row).getDomain().size());
 			for(int j = 0; j < currentState.rowDomains.get(row).getDomain().size(); j++){
 				ArrayList<NNColRow> colChanges = new ArrayList<NNColRow>(); 
 				for(int i = 0; i < currentState.colDomains.size(); i++){
@@ -163,8 +163,6 @@ public class NonoGram1 extends AStar {
 				}
 				rowChanges.get(row).setValue(rowChanges.get(row).getDomain().get(j));
 				currentState.generateStateNode(colChanges, rowChanges);
-				System.out.println("CurrentState: " + currentState.children.size());
-				System.out.println("CurrentNode" + currentNode.children.size());
 			}
 		}
 	}
@@ -266,21 +264,58 @@ public class NonoGram1 extends AStar {
 	}
 	@Override
 	protected boolean checkVictory() {
-		return currentState.validateConstraints();
+
+		if(currentState.validateConstraints()){
+			Boolean[][] resultArray = currentState.buildArray();
+			for(int i = 0; i < resultArray.length; i++){
+				for(int j = 0; j < resultArray[0].length; j++){
+					if(resultArray[i][j] == null){
+						return false;
+					}
+				}
+			}
+			/*
+			for(int i = 0; i < currentState.colDomains.size(); i++){
+				if(currentState.colDomains.get(i).getValue() == null){
+					return false;
+				}
+			}
+			*/
+			/*
+			for(int i = 0; i < currentState.rowDomains.size(); i++){
+				if(currentState.rowDomains.get(i).getValue() == null){
+					return false;
+				}
+			}*/
+			return true;
+		}else{
+			return false;
+		}
 	}
 
 	@Override
 	protected void processCurrentNode() {
 		currentState = (NNStateNode)currentNode;
 		reduseByCommon(currentState);
+
+		generalReduction();
+		reduseByCommon(currentState);
 		generalReduction();
 		makeAssumption();
+		System.out.println("Sum: " + currentState.getDomainSum());
+		try {
+			Thread.sleep(0);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	@Override
 	protected void setHeuristic(Node node) {
 		NNStateNode tempNode = (NNStateNode)node;
 		tempNode.heuristic = initialDomainSize - tempNode.getDomainSum();
+		System.out.println("H: " + tempNode.heuristic);
 		
 	}
 

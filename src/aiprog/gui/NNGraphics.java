@@ -37,6 +37,7 @@ public class NNGraphics extends Graphics{
 			}
 			
 		}
+		
 		for(int i = 0; i < state.colDomains.size(); i++){
 			if(state.colDomains.get(i).getValue() != null){
 				for(int j = 0; j < state.colDomains.get(i).getValue().size(); j++){
@@ -48,6 +49,7 @@ public class NNGraphics extends Graphics{
 				}
 			}
 		}
+		
 		grid.repaint();
 	}
 
