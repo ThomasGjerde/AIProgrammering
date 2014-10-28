@@ -12,12 +12,16 @@ public class NonoGram1 extends AStar {
 
 	NNStateNode currentState;
 	NNGraphics graphics;
+	int initialDomainSize = 0;
 	public NonoGram1(Node startNode, NNGraphics graph) {
 		super(startNode);
 		currentState = (NNStateNode)startNode;
+		initialDomainSize = currentState.getDomainSum();
 		graphics = graph;
 		initModifications(currentState);
 		graphics.setState(currentState);
+		makeAssumption();
+		this.search();
 		/*
 		for(int i=0; i<currentState.colDomains.size(); i++){
 			System.out.println("colDomains: " + currentState.colDomains.get(i).getDomain().size());
@@ -80,6 +84,9 @@ public class NonoGram1 extends AStar {
 	public void reduseByCommon(NNStateNode state){
 		ArrayList<NNColRow> colList = new ArrayList<NNColRow>(state.colDomains);
 		for(int i = 0; i < colList.size(); i++){
+			if(colList.get(i).getDomain().size() < 1){
+				continue;
+			}
 			ArrayList<Integer> changeStatus = findCommon(colList.get(i));
 			for(int j = 0; j < changeStatus.size(); j++){
 				if(changeStatus.get(j) != 3){
@@ -101,6 +108,9 @@ public class NonoGram1 extends AStar {
 		
 		ArrayList<NNColRow> rowList = new ArrayList<NNColRow>(state.rowDomains);
 		for(int i = 0; i < rowList.size(); i++){
+			if(rowList.get(i).getDomain().size() < 1){
+				continue;
+			}
 			ArrayList<Integer> changeStatus = findCommon(rowList.get(i));
 			for(int j = 0; j < changeStatus.size(); j++){
 				if(changeStatus.get(j) != 3){
@@ -124,24 +134,37 @@ public class NonoGram1 extends AStar {
 	public void makeAssumption(){
 		int col = currentState.getSmallestColDomainIndex();
 		int row = currentState.getSmallestRowDomainIndex();
-		ArrayList<NNColRow> colChanges = new ArrayList<NNColRow>(); 
-		for(int i = 0; i < currentState.colDomains.size(); i++){
-			colChanges.add(currentState.colDomains.get(i).cloneColRow());
-		}
-		ArrayList<NNColRow> rowChanges = new ArrayList<NNColRow>(); 
-		for(int i = 0; i < currentState.rowDomains.size(); i++){
-			rowChanges.add(currentState.rowDomains.get(i).cloneColRow());
-		}
-		if(col < row){
-			for(int i = 0; i < currentState.colDomains.get(col).getDomain().size(); i++){
-				colChanges.get(col).setValue(colChanges.get(col).getDomain().get(i));
+
+		if(currentState.colDomains.get(col).getDomain().size() < currentState.rowDomains.get(row).getDomain().size()){
+
+			for(int j = 0; j < currentState.colDomains.get(col).getDomain().size(); j++){
+				ArrayList<NNColRow> colChanges = new ArrayList<NNColRow>(); 
+				for(int i = 0; i < currentState.colDomains.size(); i++){
+					colChanges.add(currentState.colDomains.get(i).cloneColRow());
+				}
+				ArrayList<NNColRow> rowChanges = new ArrayList<NNColRow>(); 
+				for(int i = 0; i < currentState.rowDomains.size(); i++){
+					rowChanges.add(currentState.rowDomains.get(i).cloneColRow());
+				}
+				colChanges.get(col).setValue(colChanges.get(col).getDomain().get(j));
 				currentState.generateStateNode(colChanges, rowChanges);
 			}
 			
 		}else{
-			for(int i = 0; i < currentState.rowDomains.get(row).getDomain().size(); i++){
-				rowChanges.get(row).setValue(rowChanges.get(row).getDomain().get(i));
+
+			for(int j = 0; j < currentState.rowDomains.get(row).getDomain().size(); j++){
+				ArrayList<NNColRow> colChanges = new ArrayList<NNColRow>(); 
+				for(int i = 0; i < currentState.colDomains.size(); i++){
+					colChanges.add(currentState.colDomains.get(i).cloneColRow());
+				}
+				ArrayList<NNColRow> rowChanges = new ArrayList<NNColRow>(); 
+				for(int i = 0; i < currentState.rowDomains.size(); i++){
+					rowChanges.add(currentState.rowDomains.get(i).cloneColRow());
+				}
+				rowChanges.get(row).setValue(rowChanges.get(row).getDomain().get(j));
 				currentState.generateStateNode(colChanges, rowChanges);
+				System.out.println("CurrentState: " + currentState.children.size());
+				System.out.println("CurrentNode" + currentNode.children.size());
 			}
 		}
 	}
@@ -243,25 +266,27 @@ public class NonoGram1 extends AStar {
 	}
 	@Override
 	protected boolean checkVictory() {
-		// TODO Auto-generated method stub
-		return false;
+		return currentState.validateConstraints();
 	}
 
 	@Override
 	protected void processCurrentNode() {
-		// TODO Auto-generated method stub
-		
+		currentState = (NNStateNode)currentNode;
+		reduseByCommon(currentState);
+		generalReduction();
+		makeAssumption();
 	}
 
 	@Override
 	protected void setHeuristic(Node node) {
-		// TODO Auto-generated method stub
+		NNStateNode tempNode = (NNStateNode)node;
+		tempNode.heuristic = initialDomainSize - tempNode.getDomainSum();
 		
 	}
 
 	@Override
 	protected void updateGui() {
-		// TODO Auto-generated method stub
+		graphics.setState(currentState);
 		
 	}
 	

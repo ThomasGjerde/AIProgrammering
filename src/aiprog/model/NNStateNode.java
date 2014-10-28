@@ -122,6 +122,10 @@ public class NNStateNode extends Node{
 		NNStateNode newNode = new NNStateNode(colChanges,rowChanges);
 		if(newNode.validateConstraints()){
 			this.addChild(newNode);
+			System.out.println("Valid");
+		}
+		else{
+			System.out.println("Not valid");
 		}
 		return newNode;
 	}

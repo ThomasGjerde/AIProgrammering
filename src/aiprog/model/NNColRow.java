@@ -84,14 +84,24 @@ public class NNColRow {
 						checkArray.add(counter);
 					}
 					counter = 0;
-					checkArray.add(0);
 				}else{
 					counter++;
 				}
-				if(counter > 0){
-					checkArray.add(counter);
-				}
+
 			}
+			if(counter > 0){
+				checkArray.add(counter);
+			}
+			System.out.println("----------------");
+			for(int i = 0; i < constraints.size(); i++){
+				System.out.print(constraints.get(i) + ",");
+			}
+			System.out.println("");
+			for(int i = 0; i < checkArray.size(); i++){
+				System.out.print(checkArray.get(i) + ",");
+			}
+			System.out.println("");
+			System.out.println("----------------");
 			if(constraints.size() == checkArray.size()){
 				for(int i = 0; i < constraints.size(); i++){
 					if(constraints.get(i) != checkArray.get(i)){
