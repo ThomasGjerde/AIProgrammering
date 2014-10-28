@@ -16,17 +16,9 @@ public class NonoGram extends AStar{
 		super(startNode);
 		graphics = graph;
 		currentState = (NNStateNode)startNode;
+		
 		System.out.println("domainsum: " + currentState.getDomainSum());
-		boolean dom=true;
-		while(dom){
-			int oldCount = currentState.getDomainSum();
-			initColReduction(currentState);
-			initRowReduction(currentState);
-			int newCount = currentState.getDomainSum();
-			if(oldCount == newCount){
-				break;
-			}
-		}
+		
 		initModifications(currentState);
 		checkVictory();
 		graphics.setState(currentState);
@@ -34,28 +26,39 @@ public class NonoGram extends AStar{
 		System.out.println("ferdig med reductions");
 		System.out.println("domainsum: " + currentState.getDomainSum());
 		System.out.println("counter: " + counter);
-		search();
-		// TODO Auto-generated constructor stub
-	}
-	
-	//Skal fylle alle domenene i starten
-	public void fillDomains(){
-		
+		//search();
 	}
 	
 	public void initModifications(NNStateNode state){
 		for(int i=0; i<state.colDomains.size(); i++){
 			if(state.colDomains.get(i).getDomain().size() == 1){
 				state.colDomains.get(i).setValue(state.colDomains.get(i).getDomain().get(0));
-				System.out.println("colFilled");
+				reduseByCol(i, state);
+				//System.out.println("colFilled");
 			}
 		}
 		for(int j=0; j<state.rowDomains.size(); j++){
 			if(state.rowDomains.get(j).getDomain().size() == 1){
 				state.rowDomains.get(j).setValue(state.rowDomains.get(j).getDomain().get(0));
-				System.out.println("rowfilled");
+				reduseByRow(j, state);
+				//System.out.println("rowfilled");
 			}
 		}
+		
+		
+		//int oldCount = currentState.getDomainSum();
+		initColReduction(currentState);
+		initRowReduction(currentState);
+		//initColReduction(currentState);
+		//initRowReduction(currentState);
+		//int newCount = currentState.getDomainSum();
+		/*
+		for(int x=0; x<state.colDomains.size(); x++){
+			System.out.println("colDomains: " + state.colDomains.get(x).getDomain().size());
+		}
+		for(int c=0; c<state.rowDomains.size(); c++){
+			System.out.println("rowdomains: " + state.rowDomains.get(c).getDomain().size());
+		}*/
 	}
 	
 	public void initColReduction(NNStateNode state){
@@ -70,12 +73,14 @@ public class NonoGram extends AStar{
 						}else{
 							check = false;
 						}
-						reduction(state.rowDomains.get(j), i, check);
+						state.rowDomains.get(j).catogory = true;
+						reduction(state.rowDomains.get(j), i, check, state, j);
 					}
 				}
 			}
 		}
 	}
+	
 	
 	public void initRowReduction(NNStateNode state){
 		for(int i=0; i<state.rowDomains.size(); i++){
@@ -89,19 +94,20 @@ public class NonoGram extends AStar{
 						}else{
 							check = false;
 						}
-						reduction(state.colDomains.get(j), i, check);
+						state.colDomains.get(j).catogory = false;
+						reduction(state.colDomains.get(j), i, check, state, j);
 					}
 				}	
 			}
 		}
 	}
-	
+
 	//Mulig jeg må modifisere denne litt
 	public ArrayList<Integer> findCommon(ArrayList<ArrayList<Boolean>> domain){
-		
+		//System.out.println("domainsize " + domain.get(0).size());
 		ArrayList<Integer> intArray = new ArrayList<Integer>();
 		for(int i=0; i<domain.get(0).size(); i++){
-			if(domain.get(0).get(0) == true){
+			if(domain.get(0).get(i) == true){
 				intArray.add(1);
 			}else{
 				intArray.add(0);
@@ -132,31 +138,101 @@ public class NonoGram extends AStar{
 	}
 	
 	//Det ser ut til at denne fungerer
-	public void reduction(NNColRow obj, int pos, boolean value){
+	//Vet ikke om dette funker....
+	public void reduction(NNColRow obj, int pos, boolean value, NNStateNode state, int objPos){
 		for(int i=0; i<obj.getDomain().size(); i++){
 			if(obj.getDomain().get(i).get(pos) != value){
 				obj.deleteFromDomain(obj.getDomain().get(i));
+				if(obj.getDomain().size() == 1){
+					obj.setValue(obj.getDomain().get(0));
+					if(obj.catogory == true){
+						reduseByRow(objPos, state);
+					}else{
+						reduseByCol(objPos, state);
+					}
+				}
 				//counter++;
 				//System.out.println("reduction");
 			}
 		}
-		counter++;
+		//counter++;
 	}
 	
-	public void stateReduction(){
-		
+	public void stateReduction(NNStateNode state){
+		for(int i=0; i<state.colDomains.size(); i++){
+			NNColRow col = state.colDomains.get(i);
+			if(col.getValue() != null){
+				reduseByCol(i, state);
+			}
+		}
+		for(int j=0; j<state.rowDomains.size(); j++){
+			NNColRow row = state.rowDomains.get(j);
+			if(row.getValue() != null){
+				reduseByRow(j, state);
+			}
+		}
+	}
+	
+	//Denne ser ut til og fungere
+	public void reduseByCol(int pos, NNStateNode state){
+		NNColRow col = state.colDomains.get(pos);
+		for(int i=0; i<col.getValue().size(); i++){
+			NNColRow row = state.rowDomains.get(i);
+			if(row.getValue() == null){
+				for(int j=0; j<row.getDomain().size(); j++){
+					ArrayList<Boolean> rowDomain = row.getDomain().get(j);
+					if(rowDomain.get(pos) != col.getValue().get(i)){
+						row.getDomain().remove(j);
+						if(row.getDomain().size() == 1){
+							row.setValue(row.getDomain().get(0));
+							reduseByRow(i, state);
+						}
+					}
+				}
+			}
+		}
+	}
+	
+	//Denne ser ut til og fungere
+	public void reduseByRow(int pos, NNStateNode state){
+		NNColRow row = state.rowDomains.get(pos);
+		for(int i=0; i<row.getValue().size(); i++){
+			NNColRow col = state.colDomains.get(i);
+			if(col.getValue() == null){
+				for(int j=0; j<col.getDomain().size(); j++){
+					ArrayList<Boolean> colDomain = col.getDomain().get(j);
+					if(colDomain.get(pos) != row.getValue().get(i)){
+						col.getDomain().remove(j);
+						if(col.getDomain().size() == 1){
+							col.setValue(col.getDomain().get(0));
+							reduseByCol(i, state);
+						}
+					}
+				}
+			}
+		}
 	}
 
 	@Override
 	protected boolean checkVictory() {
-		// TODO Auto-generated method stub
 		NNStateNode state = (NNStateNode)currentNode;
+		int rows=0;
+		int cols=0;
 		for(int i=0; i<state.rowDomains.size(); i++){
-			if(state.rowDomains.get(i) == null){
-				return false;
+			if(state.rowDomains.get(i).getValue() != null && state.rowDomains.get(i).getDomain().size() == 1){
+				rows++;
 			}
 		}
-		return true;
+		for(int j=0; j<state.colDomains.size(); j++){
+			if(state.colDomains.get(j).getValue() != null && state.colDomains.get(j).getDomain().size() == 1){
+				cols++;
+			}
+		}
+		if(state.rowDomains.size() == rows && state.colDomains.size() == cols){
+			return true;
+		}else{
+			return false;
+		}
 	}
 
 	@Override
@@ -164,14 +240,12 @@ public class NonoGram extends AStar{
 		System.out.println("processcurrentNode");
 		if(!checkVictory()){
 			NNStateNode state = (NNStateNode)currentNode;
-			//assumption(state);
+			graphics.setState(state);
+			assumption(state);
 		}else{
 			System.out.println("Seier");
+			graphics.setState((NNStateNode)currentNode);
 		}
-		
-		//ArrayList<Boolean> assumption = assumption(state);
-		
-		//stateReduction();
 		
 	}
 	
@@ -180,9 +254,7 @@ public class NonoGram extends AStar{
 	//assumtionCol (for col) eller assumptionRow for row
 	public void assumption(NNStateNode state){
 		NNColRow smallestRow = state.getSmallestRowDomain();
-		//System.out.println("smallestRow :" + smallestRow.getDomain().size());
 		NNColRow smallestCol = state.getSmallestColDomain();
-		//System.out.println("smallestCol :" + smallestCol.getDomain().size());
 		if(smallestRow.getDomain().size() > smallestCol.getDomain().size()){
 			assumptionCol(smallestCol, state);
 		}else{
@@ -197,12 +269,11 @@ public class NonoGram extends AStar{
 	public void assumptionCol(NNColRow col, NNStateNode state){
 		for(int i=0; i<col.getDomain().size(); i++){
 			NNStateNode childState = state.generateStateNode(state.colDomains, state.rowDomains);
-			//currentNode = childState;
-			for(int j=0; j<col.getDomain().get(i).size(); j++){
-				reduction(col, j,col.getDomain().get(i).get(j));
-			}
+			childState.colDomains.get(state.smallestPos).setValue(col.getDomain().get(i));
+			stateReduction(childState);
+			
 			setHeuristic(childState);
-			currentNode.children.add(childState);
+			state.children.add(childState);
 			System.out.println("assumptionCol");
 		}
 		
@@ -215,27 +286,22 @@ public class NonoGram extends AStar{
 	public void assumptionRow(NNColRow row, NNStateNode state){
 		for(int i=0; i<row.getDomain().size(); i++){
 			NNStateNode childState = state.generateStateNode(state.colDomains, state.rowDomains);
-			//currentNode = childState;
-			for(int j=0; j<row.getDomain().get(i).size(); j++){
-				reduction(row, j,row.getDomain().get(i).get(j));
-			}
+			childState.rowDomains.get(state.smallestPos).setValue(row.getDomain().get(i));
+			stateReduction(childState);
+			
 			setHeuristic(childState);
-			currentNode.children.add(childState);
+			state.children.add(childState);
 			System.out.println("assumptionRow");
 		}
 	}
 
-	@Override
 	protected void setHeuristic(Node node) {
-		// TODO Auto-generated method stub
 		NNStateNode state = (NNStateNode)node;
 		state.heuristic = state.getDomainSum();
 		
 	}
 
-	@Override
 	protected void updateGui() {
-		// TODO Auto-generated method stub
 		
 	}
 

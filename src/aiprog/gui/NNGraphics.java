@@ -8,7 +8,7 @@ public class NNGraphics extends Graphics{
 
 	public NNGraphics(NNBoard board) {
 		super(board.boardArray[0].length, board.boardArray.length);
-		setBoard(board);
+		//setBoard(board);
 		// TODO Auto-generated constructor stub
 	}
 	public void setBoard(NNBoard board){

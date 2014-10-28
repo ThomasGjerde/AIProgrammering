@@ -9,6 +9,7 @@ public class NNStateNode extends Node{
 	public ArrayList<NNColRow> colDomains = new ArrayList<NNColRow>();
 	public ArrayList<NNColRow> rowDomains = new ArrayList<NNColRow>();
 	ArrayList<int[]> tempDomain;
+	public int smallestPos;
 	public NNStateNode(NNBoard board){
 		ArrayList<ArrayList<Integer>> colConstraints = board.colConstraints;
 		ArrayList<ArrayList<Integer>> rowConstraints = board.rowConstraints;
@@ -120,27 +121,46 @@ public class NNStateNode extends Node{
 	public NNStateNode generateStateNode(ArrayList<NNColRow> colChanges, ArrayList<NNColRow> rowChanges){
 		return new NNStateNode(colChanges,rowChanges);
 	}
+	public boolean domainCheck(){
+		for(int i=0; i<this.colDomains.size(); i++){
+			if(this.colDomains.get(i).getDomain().size() == 0){
+				return false;
+			}
+		}
+		for(int j=0; j<this.rowDomains.size(); j++){
+			if(this.rowDomains.get(j).getDomain().size() == 0){
+				return false;
+			}
+		}
+		return true;
+	}
 	
 	public NNColRow getSmallestRowDomain(){
 		NNColRow smallest = null;
 		int h=100;
+		int midPos = 0;
 		for(int i=0; i<this.rowDomains.size(); i++){
-			if(h>this.rowDomains.get(i).getDomain().size() && this.rowDomains.get(i).getDomain().size() > 2){
+			if(h>this.rowDomains.get(i).getDomain().size() && this.rowDomains.get(i).getDomain().size() >= 2){
 				h=this.rowDomains.get(i).getDomain().size();
 				smallest = this.rowDomains.get(i);
+				midPos = i;
 			}
 		}
+		smallestPos = midPos;
 		return smallest;
 	}
 	public NNColRow getSmallestColDomain(){
 		NNColRow smallest = null;
 		int h=100;
+		int midPos = 0;
 		for(int i=0; i<this.colDomains.size(); i++){
-			if(h>this.colDomains.get(i).getDomain().size() && this.colDomains.get(i).getDomain().size() > 2){
+			if(h>this.colDomains.get(i).getDomain().size() && this.colDomains.get(i).getDomain().size() >= 2){
 				h = this.colDomains.get(i).getDomain().size();
 				smallest = this.colDomains.get(i);
+				midPos = i;
 			}
 		}
+		smallestPos = midPos;
 		return smallest;
 	}
 }

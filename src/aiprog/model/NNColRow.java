@@ -5,6 +5,7 @@ import java.util.ArrayList;
 public class NNColRow {
 	ArrayList<ArrayList<Boolean>> domain;
 	ArrayList<Boolean> value;
+	public boolean catogory;
 	public NNColRow(ArrayList<ArrayList<Boolean>> domain){
 		setDomain(domain);
 		value = new ArrayList<Boolean>();
@@ -18,6 +19,8 @@ public class NNColRow {
 	
 	public void setValue(ArrayList<Boolean> newValue){
 		value = newValue;
+		this.domain.clear();
+		this.domain.add(value);
 	}
 	public ArrayList<ArrayList<Boolean>> getDomain() {
 		return domain;

@@ -12,6 +12,7 @@ import aiprog.navigation.GridBestFirstSearch;
 import aiprog.navigation.GridBreadthFirstSearch;
 import aiprog.navigation.GridDepthFirstSearch;
 import aiprog.nonogram.NNBoard;
+import aiprog.nonogram.NonoGram1;
 import aiprog.vcp.VCPGraph;
 
 
@@ -22,17 +23,18 @@ public class Main {
 	 */
 	@SuppressWarnings("unused")
 	public static void main(String[] args) {
-		/*
+		
 		try {
-			NNBoard board = new NNBoard("input/nono-rabbit.txt");
-			//NNGraphics graphics = new NNGraphics(board);
+			NNBoard board = new NNBoard("input/nono-heart-1.txt");
+			NNGraphics graphics = new NNGraphics(board);
 			NNStateNode sn = new NNStateNode(board);
+			NonoGram1 nono = new NonoGram1(sn, graphics);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		*/
 		
+		/*
 		try {
 			FFBoard board = new FFBoard("input/flowspec-5.txt");
 			FFGraphics ffgraph = new FFGraphics(board);
@@ -44,7 +46,7 @@ public class Main {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+		*/
 		/*
 		try {
 			Board board = new Board("/home/board.txt");
