@@ -42,6 +42,9 @@ public class FFNode extends NavNode {
 		domain.add(color);
 		this.setHead(true);
 	}
+	public void removeFromDomain(Color color){
+		domain.remove(color);
+	}
 	
 	public boolean isHead() {
 		return head;

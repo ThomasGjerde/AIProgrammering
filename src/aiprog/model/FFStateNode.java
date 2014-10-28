@@ -1,5 +1,6 @@
 package aiprog.model;
 
+import java.awt.Color;
 import java.util.ArrayList;
 
 public class FFStateNode extends Node{
@@ -149,6 +150,28 @@ public class FFStateNode extends Node{
 	}
 	private boolean hasPossibleRoute(FFNode node){
 		return true;
+	}
+	public ArrayList<Color> getCompletedColors(){
+		ArrayList<Color> completedColors = new ArrayList<Color>();
+		for(int i = 0; i < endPoints.size(); i++){
+			if (!completedColors.contains(endPoints.get(i).getColor())){
+				completedColors.add(endPoints.get(i).getColor());
+			}
+		}
+		ArrayList<FFNode> heads = getAllEndOfPathNodes();
+		for(int i = 0; i < endPoints.size(); i++){
+			for(int j = 0; j < heads.size(); j++){
+				if(endPoints.get(i).getColor() == heads.get(j).getColor()){
+					completedColors.remove(endPoints.get(i).getColor());
+				}
+			}
+		}
+		return completedColors;
+	}
+	public void removeColorFromAllDomains(Color color){
+		for(int i = 0; i < nodes.size(); i++){
+			nodes.get(i).removeFromDomain(color);
+		}
 	}
 	
 }

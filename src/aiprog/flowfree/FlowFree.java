@@ -1,5 +1,6 @@
 package aiprog.flowfree;
 
+import java.awt.Color;
 import java.util.ArrayList;
 
 import aiprog.gui.FFGraphics;
@@ -21,6 +22,7 @@ public class FlowFree extends AStar {
 		graphic = graphics;
 		stateFail = false;
 		counter = 0;
+		setCorners(currentState);
 		reduction(currentState, true);
 		initModifications(currentState);
 		currentState.checkAllConstraints();
@@ -41,6 +43,49 @@ public class FlowFree extends AStar {
 	
 	//Skal bare kj�re p� S0
 	//Kan kanskje kj�re i starten p� alle states, er ikke sikker
+	private void setCorners(FFStateNode state){
+		//alle tomme gjorne noder blir satt til en farge hvis det bare er 1 mulighet
+				FFNode venstreTop = null;
+				FFNode venstreBot = null;
+				FFNode hoyreBot = null;
+				FFNode hoyreTop = null;
+				
+				for(int ll=0; ll<state.getNodes().size(); ll++){
+					if(state.getNodes().get(ll).pos.x == 0 && state.getNodes().get(ll).pos.y == 0 && ((FFNode)state.getNodes().get(ll)).getColor() == null){
+						venstreTop = state.getNodes().get(ll);
+					}
+					if(state.getNodes().get(ll).pos.x == edge && state.getNodes().get(ll).pos.y == edge && ((FFNode)state.getNodes().get(ll)).getColor() == null){
+						hoyreBot = state.getNodes().get(ll);
+					}
+					if(state.getNodes().get(ll).pos.x == 0 && state.getNodes().get(ll).pos.y == edge && ((FFNode)state.getNodes().get(ll)).getColor() == null){
+						venstreBot = state.getNodes().get(ll);
+					}
+					if(state.getNodes().get(ll).pos.x == edge && state.getNodes().get(ll).pos.y == 0 && ((FFNode)state.getNodes().get(ll)).getColor() == null){
+						hoyreTop = state.getNodes().get(ll);
+					}
+				}
+				ArrayList<FFNode> hjorneArray = new ArrayList<FFNode>();
+				hjorneArray.add(venstreTop);
+				hjorneArray.add(venstreBot);
+				hjorneArray.add(hoyreTop);
+				hjorneArray.add(hoyreBot);
+				
+				for(int cc = 0; cc<hjorneArray.size(); cc++){
+					ArrayList<FFNode> midList = new ArrayList<FFNode>();
+					if(hjorneArray.get(cc) != null){
+						for(int vv=0; vv<hjorneArray.get(cc).getChildren().size(); vv++){
+							if(((FFNode)hjorneArray.get(cc).getChildren().get(vv)).getColor() != null){
+								midList.add((FFNode)hjorneArray.get(cc).getChildren().get(vv));
+							}
+						}
+						if(midList.size() == 1){
+							hjorneArray.get(cc).setColor(midList.get(0).getColor(), midList.get(0));
+							midList.clear();
+						}
+						midList.clear();
+					}
+				}
+	}
 	private void initModifications(FFStateNode state){
 		edge = (int) Math.sqrt(state.getNodes().size()) - 1;
 		
@@ -78,47 +123,7 @@ public class FlowFree extends AStar {
 			full.add(left.get(m));
 		}
 		
-		//alle tomme gjorne noder blir satt til en farge hvis det bare er 1 mulighet
-		FFNode venstreTop = null;
-		FFNode venstreBot = null;
-		FFNode hoyreBot = null;
-		FFNode hoyreTop = null;
 		
-		for(int ll=0; ll<state.getNodes().size(); ll++){
-			if(state.getNodes().get(ll).pos.x == 0 && state.getNodes().get(ll).pos.y == 0 && ((FFNode)state.getNodes().get(ll)).getColor() == null){
-				venstreTop = state.getNodes().get(ll);
-			}
-			if(state.getNodes().get(ll).pos.x == edge && state.getNodes().get(ll).pos.y == edge && ((FFNode)state.getNodes().get(ll)).getColor() == null){
-				hoyreBot = state.getNodes().get(ll);
-			}
-			if(state.getNodes().get(ll).pos.x == 0 && state.getNodes().get(ll).pos.y == edge && ((FFNode)state.getNodes().get(ll)).getColor() == null){
-				venstreBot = state.getNodes().get(ll);
-			}
-			if(state.getNodes().get(ll).pos.x == edge && state.getNodes().get(ll).pos.y == 0 && ((FFNode)state.getNodes().get(ll)).getColor() == null){
-				hoyreTop = state.getNodes().get(ll);
-			}
-		}
-		ArrayList<FFNode> hjorneArray = new ArrayList<FFNode>();
-		hjorneArray.add(venstreTop);
-		hjorneArray.add(venstreBot);
-		hjorneArray.add(hoyreTop);
-		hjorneArray.add(hoyreBot);
-		
-		for(int cc = 0; cc<hjorneArray.size(); cc++){
-			ArrayList<FFNode> midList = new ArrayList<FFNode>();
-			if(hjorneArray.get(cc) != null){
-				for(int vv=0; vv<hjorneArray.get(cc).getChildren().size(); vv++){
-					if(((FFNode)hjorneArray.get(cc).getChildren().get(vv)).getColor() != null){
-						midList.add((FFNode)hjorneArray.get(cc).getChildren().get(vv));
-					}
-				}
-				if(midList.size() == 1){
-					hjorneArray.get(cc).setColor(midList.get(0).getColor(), midList.get(0));
-					midList.clear();
-				}
-				midList.clear();
-			}
-		}
 		
 		//Dette gaar bare den ene veien
 		for(int o=0; o<full.size(); o++){
@@ -202,7 +207,7 @@ public class FlowFree extends AStar {
 			midList.get(0).setColor(node.getColor(), node);
 			try {
 				
-				Thread.sleep(1000);
+				Thread.sleep(0);
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -211,13 +216,58 @@ public class FlowFree extends AStar {
 		}
 		return false;
 	}
-	
+	private boolean passThroughReduction(FFNode node){
+		for(int i = 0; i < node.children.size(); i++){
+			FFNode child = (FFNode)node.children.get(i);
+			if(child.getColor() == null){
+				for(int j = 0; j < child.getDomain().size(); j++){
+					int neighbouringColors = 0;
+					for(int k = 0; k < child.getChildren().size(); k++){
+						FFNode grandChild = (FFNode)child.getChildren().get(k);
+						for(int l = 0; l < grandChild.getDomain().size(); l++){
+							if(grandChild.getDomain().get(l) == child.getDomain().get(j)){
+								neighbouringColors++;
+							}
+						}
+					}
+					if(child.pos.x == 5 && child.pos.y == 6){
+						System.out.println(child.getDomain().get(j) + " " + neighbouringColors);
+					}
+					if(neighbouringColors < 2){
+						
+						child.removeFromDomain(child.getDomain().get(j));
+						return true;
+					}
+				}
+			}
+			
+		}
+		return false;
+	}
+	private boolean setNeighbouringSingleton(FFNode node){
+		boolean changed = false;
+		for(int i = 0; i < node.children.size(); i++){
+			FFNode child = (FFNode)node.children.get(i);
+			if(child.getDomain().size() == 1 && child.getColor() == null){
+				child.setColor(child.getDomain().get(0), node);
+				System.out.println("Singleton");
+				changed = true;
+			}
+		}
+		return changed;
+	}
 	public void reduction(FFStateNode state, boolean check){
 		if(check){
 			check = false;
 			ArrayList<FFNode> endArray = state.getAllEndOfPathNodes();
 			for(int i=0; i<endArray.size(); i++){
 				boolean result = reduceSingle(endArray.get(i));
+				if(!result){
+					boolean tempResult = passThroughReduction(endArray.get(i));
+					if(tempResult){
+						result = setNeighbouringSingleton(endArray.get(i));
+					}
+				}
 				/*if(result){
 					check = true;
 					graphic.setState(state);
@@ -236,13 +286,20 @@ public class FlowFree extends AStar {
 		FFStateNode current = (FFStateNode)currentNode;
 		current.applyChanges();
 		reduction(current,true);
+		completedColorReduction(); //Might move this
 		if(!stateFail && !current.hasFailed()){
 			assumptions(current);
 		}else{
 			stateFail = false;
 		}
 	}
-	
+	public void completedColorReduction(){
+		FFStateNode current = (FFStateNode)currentNode;
+		ArrayList<Color> completedColors = current.getCompletedColors();
+		for(int i = 0; i < completedColors.size(); i++){
+			current.removeColorFromAllDomains(completedColors.get(i));
+		}
+	}
 	public void pathAssumption(){
 		//Kanskje vi faktisk skal bruke domener her
 		//Vi burde velge ut en farge/og en av nodene i dette paret

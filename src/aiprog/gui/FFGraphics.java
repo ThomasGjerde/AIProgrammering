@@ -44,6 +44,7 @@ public class FFGraphics extends Graphics{
 			if(tempNode.isEndPoint()){
 				grid.addText(new GridText(tempNode.pos, "E"));
 			}
+			grid.addText(new GridText(tempNode.pos, ""+tempNode.getDomain().size()));
 		}
 		grid.repaint();
 	}
