@@ -37,6 +37,17 @@ public class NNGraphics extends Graphics{
 			}
 			
 		}
+		for(int i = 0; i < state.colDomains.size(); i++){
+			if(state.colDomains.get(i).getValue() != null){
+				for(int j = 0; j < state.colDomains.get(i).getValue().size(); j++){
+					if(state.colDomains.get(i).getValue().get(j) == true){
+						grid.setCellColorWithoutRepaint(i, j, Color.BLACK);
+					}else{
+						grid.setCellColorWithoutRepaint(i, j, Color.WHITE);
+					}
+				}
+			}
+		}
 		grid.repaint();
 	}
 
