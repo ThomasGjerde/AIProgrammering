@@ -78,10 +78,24 @@ public class NonoGram1 extends AStar {
 	}
 	//UC
 	public void reduseByCommon(NNStateNode state){
-		ArrayList<NNColRow> colRowList = new ArrayList<NNColRow>();
-		for(int i=0; i<state.colDomains.size(); i++){
-			if(state.colDomains.get(i).getDomain().size() > 1){
-				colRowList.add(state.colDomains.get(i));
+		ArrayList<NNColRow> colList = new ArrayList<NNColRow>(state.colDomains);
+		for(int i = 0; i < colList.size(); i++){
+			ArrayList<Integer> changeStatus = findCommon(colList.get(i));
+			for(int j = 0; j < changeStatus.size(); j++){
+				if(changeStatus.get(j) != 3){
+					NNColRow row = state.rowDomains.get(j);
+					for(int k = 0; k < row.getDomain().size(); k++){
+						boolean value;
+						if(changeStatus.get(j) == 1){
+							value = true;
+						}else{
+							value = false;
+						}
+						if(row.getDomain().get(k).get(i) != value){
+							row.deleteFromDomain(row.getDomain().get(k));
+						}
+					}
+				}
 			}
 		}
 		/*
@@ -90,6 +104,7 @@ public class NonoGram1 extends AStar {
 				colRowList.add(state.rowDomains.get(m));
 			}
 		}*/
+		/*
 		for(int x=0; x<colRowList.size(); x++){
 			System.out.println("colRowList: " + colRowList.get(x).getDomain());
 		}
@@ -101,10 +116,6 @@ public class NonoGram1 extends AStar {
 				for(int k=0; k<midObj.getDomain().size(); k++){
 					for(int l=0; l<midObj.getDomain().get(k).size(); l++){
 						int intCheck = intArray.get(l);
-						/*
-						if(midObj.getDomain().get(k).get(l) == null){
-							break;
-						}*/
 						boolean booleanCheck = midObj.getDomain().get(k).get(l);
 						if((intCheck == 1 && booleanCheck == true) || (intCheck == 0 && booleanCheck == false)){
 							//colRowList.get(j).getDomain().remove(k);
@@ -128,6 +139,7 @@ public class NonoGram1 extends AStar {
 				colRowList.get(z).setValue(colRowList.get(z).getDomain().get(0));
 			}
 		}
+		*/
 		
 	}
 	
