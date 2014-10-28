@@ -119,51 +119,41 @@ public class NonoGram1 extends AStar {
 				}
 			}
 		}
-		/*
-		for(int m=0; m<state.rowDomains.size(); m++){
-			if(state.rowDomains.get(m).getDomain().size() > 1){
-				colRowList.add(state.rowDomains.get(m));
-			}
-		}*/
-		/*
-		for(int x=0; x<colRowList.size(); x++){
-			System.out.println("colRowList: " + colRowList.get(x).getDomain());
-		}
 		
-		for(int j=0; j<colRowList.size(); j++){
-			ArrayList<Integer> intArray = findCommon(colRowList.get(j));
-			NNColRow midObj = colRowList.get(j);
-			if(checkCommon(intArray)){
-				for(int k=0; k<midObj.getDomain().size(); k++){
-					for(int l=0; l<midObj.getDomain().get(k).size(); l++){
-						int intCheck = intArray.get(l);
-						boolean booleanCheck = midObj.getDomain().get(k).get(l);
-						if((intCheck == 1 && booleanCheck == true) || (intCheck == 0 && booleanCheck == false)){
-							//colRowList.get(j).getDomain().remove(k);
-						}else{
-							colRowList.get(j).getDomain().remove(k);
+	}
+	public void generalReduction(){
+		ArrayList<NNColRow> colList = new ArrayList<NNColRow>(currentState.colDomains);
+		for(int i = 0; i < colList.size(); i++){
+			NNColRow col = colList.get(i);
+			if(col.getValue() != null){
+				for(int j = 0; j < col.getValue().size(); j++){
+					NNColRow row = currentState.rowDomains.get(j);
+					for(int k = 0; k < row.getDomain().size(); k++){
+						if(row.getDomain().get(k).get(i) != col.getValue().get(j)){
+							row.deleteFromDomain(row.getDomain().get(k));
 						}
-						if(midObj.getDomain().size() == 1){
-							//midObj.setValue(newValue);
-							break;
-						}
-					}
-					if(midObj.getDomain().size() == 1){
-						break;
 					}
 				}
 			}
+			
 		}
-		for(int z=0; z<colRowList.size(); z++){
-			System.out.println("colRowListModif: " + colRowList.get(z).getDomain());
-			if(colRowList.get(z).getDomain().size() == 1){
-				colRowList.get(z).setValue(colRowList.get(z).getDomain().get(0));
-			}
-		}
-		*/
 		
+		ArrayList<NNColRow> rowList = new ArrayList<NNColRow>(currentState.rowDomains);
+		for(int i = 0; i < rowList.size(); i++){
+			NNColRow row = rowList.get(i);
+			if(row.getValue() != null){
+				for(int j = 0; j < row.getValue().size(); j++){
+					NNColRow col = currentState.colDomains.get(j);
+					for(int k = 0; k < col.getDomain().size(); k++){
+						if(col.getDomain().get(k).get(i) != row.getValue().get(j)){
+							col.deleteFromDomain(col.getDomain().get(k));
+						}
+					}
+				}
+			}
+			
+		}
 	}
-	
 	public void reduseSpesific(){
 		
 	}
