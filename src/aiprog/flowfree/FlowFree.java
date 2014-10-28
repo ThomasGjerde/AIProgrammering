@@ -338,7 +338,7 @@ public class FlowFree extends AStar {
 			FFNode midHead = headList.get(i);
 			for(int j=0; j<midHead.getChildren().size(); j++){
 				FFNode midChild = ((FFNode)midHead.getChildren().get(j)).cloneNode();
-				if(midChild.getColor() == null){
+				if(midChild.getColor() == null && midChild.getDomain().contains(midHead.getColor())){
 					midChild.setColor(midHead.getColor(), midHead);
 					assumptionsSupp(state, midChild);
 					//counter++;

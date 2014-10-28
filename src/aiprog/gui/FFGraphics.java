@@ -14,6 +14,9 @@ public class FFGraphics extends Graphics{
 		super(board.boardArray[0].length, board.boardArray.length);
 		setBoard(board);
 	}
+	public FFGraphics(int x, int y) {
+		super(x,y);
+	}
 	public void setBoard(FFBoard board){
 		for(int i = 0; i < board.boardArray[0].length; i++){
 			for(int j = 0; j < board.boardArray.length; j++){

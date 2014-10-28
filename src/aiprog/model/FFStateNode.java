@@ -3,6 +3,8 @@ package aiprog.model;
 import java.awt.Color;
 import java.util.ArrayList;
 
+import aiprog.gui.FFGraphics;
+
 public class FFStateNode extends Node{
 	
 	public ArrayList<FFNode> availAssumptions;
@@ -61,9 +63,6 @@ public class FFStateNode extends Node{
 			}
 		}
 		newNode.setHeuristic(h);
-		if(newNode.hasFailed()){
-			System.out.println("FailedNode");
-		}
 		this.addChild(newNode);
 		//System.out.println("h " + h);
 		return newNode;
@@ -145,7 +144,26 @@ public class FFStateNode extends Node{
 				return true;
 			}
 		}
-		
+		for(int i = 0; i < heads.size(); i++){
+			for(int j = 0; j < heads.size(); j++){
+				if(heads.get(i).getColor() == heads.get(j).getColor() && i != j){
+					if(!heads.get(i).canReach(heads.get(j))){
+						return true;
+					}
+				}
+			}
+		}
+		for(int i = 0; i < nodes.size(); i++){
+			FFNode node = (FFNode)nodes.get(i);
+			if(node.getDomain().size() == 0 && node.getColor() == null){
+				return true;
+			}
+		}
+		/*
+		if(hasTrappedBlock()){
+			return true;
+		}
+		*/
 		return false;
 	}
 	private boolean hasPossibleRoute(FFNode node){
@@ -171,6 +189,50 @@ public class FFStateNode extends Node{
 	public void removeColorFromAllDomains(Color color){
 		for(int i = 0; i < nodes.size(); i++){
 			nodes.get(i).removeFromDomain(color);
+		}
+	}
+	private boolean hasTrappedBlock(){
+		
+		for(int i = 0; i < nodes.size(); i++){
+			ArrayList<FFNode> freeBlock = getFreeBlock(nodes.get(i));
+			System.out.println("Freeblock: " + freeBlock.size());
+			if(blockIsTrapped(freeBlock)){
+				return true;
+			}
+		}
+		return false;
+	}
+	private boolean blockIsTrapped(ArrayList<FFNode> freeBlock){
+		for(int j = 0; j < freeBlock.size(); j++){
+			for(int k = 0; k < freeBlock.get(j).children.size(); k++){
+				FFNode child = (FFNode)freeBlock.get(j).children.get(k);
+				if(child.getDomain().size() > 0 && child.getColor() != null){
+					return false;
+				}
+			}
+		}
+		return true;
+	}
+	private ArrayList<FFNode> getFreeBlock(FFNode startNode){
+		System.out.println(startNode.pos.toString());
+		ArrayList<FFNode> retList = new ArrayList<FFNode>();
+		retList.add(startNode);
+		searchFreeBlocks(startNode,retList);
+		return retList;
+	}
+	private void searchFreeBlocks(FFNode startNode, ArrayList<FFNode> result){
+		for(int i = 0; i < startNode.children.size(); i++){
+			FFNode child = (FFNode)startNode.children.get(i);
+			System.out.println("FOR");
+			if(child.getColor() == null){
+				System.out.println("Before");
+				if(!result.contains(child)){
+					result.add(child);
+					System.out.println("RES: " + result.size());
+					searchFreeBlocks(child, result);
+				}
+				
+			}
 		}
 	}
 	

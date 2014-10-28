@@ -34,7 +34,7 @@ public class Main {
 		*/
 		
 		try {
-			FFBoard board = new FFBoard("input/flowspec-4.txt");
+			FFBoard board = new FFBoard("input/flowspec-5.txt");
 			FFGraphics ffgraph = new FFGraphics(board);
 			//�ja, s� derfor m� jeg arve fra node i statenodesa....
 			//Det er mye dritt i denne arverekka som vi ikke trenger i dette.

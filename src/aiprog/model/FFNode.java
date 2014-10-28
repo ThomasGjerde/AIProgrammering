@@ -11,6 +11,7 @@ public class FFNode extends NavNode {
 	Point originPos;
 	Point parentPos;
 	boolean head;
+	private boolean found = false;
 	
 	public Point getParentPos() {
 		return parentPos;
@@ -170,5 +171,29 @@ public class FFNode extends NavNode {
 			}
 		}
 		return false;
+	}
+	public boolean canReach(FFNode node){
+		found = false;
+		ArrayList<Point> visited = new ArrayList<Point>();
+		searchNode(this,node, visited);
+		System.out.println("CanReach run");
+		return found;
+	}
+	private void searchNode(FFNode node,FFNode target, ArrayList<Point> visited){
+		if(found){
+			return;
+		}
+		for(int i = 0; i < node.children.size(); i++){
+			FFNode tempNode = (FFNode)node.children.get(i);
+			if(tempNode == target){
+				found = true;
+				return;
+			}
+			if(tempNode.getColor() == null && !visited.contains(tempNode.pos)){
+				ArrayList<Point> newVisited = visited;
+				newVisited.add(tempNode.pos);
+				searchNode(tempNode,target, newVisited);
+			}
+		}
 	}
 }
