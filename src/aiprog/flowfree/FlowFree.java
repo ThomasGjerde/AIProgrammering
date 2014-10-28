@@ -230,9 +230,6 @@ public class FlowFree extends AStar {
 							}
 						}
 					}
-					if(child.pos.x == 5 && child.pos.y == 6){
-						System.out.println(child.getDomain().get(j) + " " + neighbouringColors);
-					}
 					if(neighbouringColors < 2){
 						
 						child.removeFromDomain(child.getDomain().get(j));
@@ -250,7 +247,6 @@ public class FlowFree extends AStar {
 			FFNode child = (FFNode)node.children.get(i);
 			if(child.getDomain().size() == 1 && child.getColor() == null){
 				child.setColor(child.getDomain().get(0), node);
-				System.out.println("Singleton");
 				changed = true;
 			}
 		}

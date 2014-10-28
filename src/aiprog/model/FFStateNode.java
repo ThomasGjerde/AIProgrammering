@@ -195,7 +195,6 @@ public class FFStateNode extends Node{
 		
 		for(int i = 0; i < nodes.size(); i++){
 			ArrayList<FFNode> freeBlock = getFreeBlock(nodes.get(i));
-			System.out.println("Freeblock: " + freeBlock.size());
 			if(blockIsTrapped(freeBlock)){
 				return true;
 			}
@@ -214,7 +213,6 @@ public class FFStateNode extends Node{
 		return true;
 	}
 	private ArrayList<FFNode> getFreeBlock(FFNode startNode){
-		System.out.println(startNode.pos.toString());
 		ArrayList<FFNode> retList = new ArrayList<FFNode>();
 		retList.add(startNode);
 		searchFreeBlocks(startNode,retList);
@@ -223,12 +221,9 @@ public class FFStateNode extends Node{
 	private void searchFreeBlocks(FFNode startNode, ArrayList<FFNode> result){
 		for(int i = 0; i < startNode.children.size(); i++){
 			FFNode child = (FFNode)startNode.children.get(i);
-			System.out.println("FOR");
 			if(child.getColor() == null){
-				System.out.println("Before");
 				if(!result.contains(child)){
 					result.add(child);
-					System.out.println("RES: " + result.size());
 					searchFreeBlocks(child, result);
 				}
 				

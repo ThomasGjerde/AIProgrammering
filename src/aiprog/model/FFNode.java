@@ -176,7 +176,6 @@ public class FFNode extends NavNode {
 		found = false;
 		ArrayList<Point> visited = new ArrayList<Point>();
 		searchNode(this,node, visited);
-		System.out.println("CanReach run");
 		return found;
 	}
 	private void searchNode(FFNode node,FFNode target, ArrayList<Point> visited){
