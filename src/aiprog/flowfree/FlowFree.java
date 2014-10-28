@@ -207,7 +207,7 @@ public class FlowFree extends AStar {
 			midList.get(0).setColor(node.getColor(), node);
 			try {
 				
-				Thread.sleep(0);
+				Thread.sleep(100);
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
