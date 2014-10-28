@@ -121,6 +121,30 @@ public class NonoGram1 extends AStar {
 		}
 		
 	}
+	public void makeAssumption(){
+		int col = currentState.getSmallestColDomainIndex();
+		int row = currentState.getSmallestRowDomainIndex();
+		ArrayList<NNColRow> colChanges = new ArrayList<NNColRow>(); 
+		for(int i = 0; i < currentState.colDomains.size(); i++){
+			colChanges.add(currentState.colDomains.get(i).cloneColRow());
+		}
+		ArrayList<NNColRow> rowChanges = new ArrayList<NNColRow>(); 
+		for(int i = 0; i < currentState.rowDomains.size(); i++){
+			rowChanges.add(currentState.rowDomains.get(i).cloneColRow());
+		}
+		if(col < row){
+			for(int i = 0; i < currentState.colDomains.get(col).getDomain().size(); i++){
+				colChanges.get(col).setValue(colChanges.get(col).getDomain().get(i));
+				currentState.generateStateNode(colChanges, rowChanges);
+			}
+			
+		}else{
+			for(int i = 0; i < currentState.rowDomains.get(row).getDomain().size(); i++){
+				rowChanges.get(row).setValue(rowChanges.get(row).getDomain().get(i));
+				currentState.generateStateNode(colChanges, rowChanges);
+			}
+		}
+	}
 	public void generalReduction(){
 		ArrayList<NNColRow> colList = new ArrayList<NNColRow>(currentState.colDomains);
 		for(int i = 0; i < colList.size(); i++){

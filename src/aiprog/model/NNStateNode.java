@@ -21,7 +21,7 @@ public class NNStateNode extends Node{
 		}
 	}
 	private NNColRow generateColRow(int size, ArrayList<Integer> constraints){
-		NNColRow newColRow = new NNColRow();
+		NNColRow newColRow = new NNColRow(constraints);
 		tempDomain = new ArrayList<int[]>();
 		int listSize = 0;
 		for(int i = 0; i < constraints.size(); i++){
@@ -119,7 +119,11 @@ public class NNStateNode extends Node{
 		}
 	}
 	public NNStateNode generateStateNode(ArrayList<NNColRow> colChanges, ArrayList<NNColRow> rowChanges){
-		return new NNStateNode(colChanges,rowChanges);
+		NNStateNode newNode = new NNStateNode(colChanges,rowChanges);
+		if(newNode.validateConstraints()){
+			this.addChild(newNode);
+		}
+		return newNode;
 	}
 	public boolean domainCheck(){
 		for(int i=0; i<this.colDomains.size(); i++){
@@ -135,7 +139,7 @@ public class NNStateNode extends Node{
 		return true;
 	}
 	
-	public NNColRow getSmallestRowDomain(){
+	public int getSmallestRowDomainIndex(){
 		NNColRow smallest = null;
 		int h=100;
 		int midPos = 0;
@@ -147,9 +151,9 @@ public class NNStateNode extends Node{
 			}
 		}
 		smallestPos = midPos;
-		return smallest;
+		return midPos;
 	}
-	public NNColRow getSmallestColDomain(){
+	public int getSmallestColDomainIndex(){
 		NNColRow smallest = null;
 		int h=100;
 		int midPos = 0;
@@ -161,6 +165,19 @@ public class NNStateNode extends Node{
 			}
 		}
 		smallestPos = midPos;
-		return smallest;
+		return midPos;
+	}
+	public boolean validateConstraints(){
+		for(int i = 0; i < colDomains.size(); i++){
+			if(!colDomains.get(i).validateConstraint()){
+				return false;
+			}
+		}
+		for(int i = 0; i < rowDomains.size(); i++){
+			if(!rowDomains.get(i).validateConstraint()){
+				return false;
+			}
+		}
+		return true;
 	}
 }

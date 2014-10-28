@@ -6,11 +6,14 @@ public class NNColRow {
 	ArrayList<ArrayList<Boolean>> domain;
 	ArrayList<Boolean> value;
 	public boolean catogory;
-	public NNColRow(ArrayList<ArrayList<Boolean>> domain){
+	ArrayList<Integer> constraints = new ArrayList<Integer>();
+	public NNColRow(ArrayList<ArrayList<Boolean>> domain, ArrayList<Integer> constraints){
 		setDomain(domain);
+		this.constraints = new ArrayList<Integer>(constraints);
 		value = new ArrayList<Boolean>();
 	}
-	public NNColRow(){
+	public NNColRow(ArrayList<Integer> constraints){
+		this.constraints = new ArrayList<Integer>(constraints);
 		domain = new ArrayList<ArrayList<Boolean>>();
 	}
 	public ArrayList<Boolean> getValue(){
@@ -59,7 +62,7 @@ public class NNColRow {
 			newDomain.add(temp);
 		}
 
-		NNColRow ret = new NNColRow();
+		NNColRow ret = new NNColRow(this.constraints);
 		if(value != null){
 			ArrayList<Boolean> newValue = new ArrayList<Boolean>();
 			for(int i = 0; i < value.size(); i++){
@@ -70,5 +73,37 @@ public class NNColRow {
 		ret.setDomain(newDomain);
 		
 		return ret;
+	}
+	public boolean validateConstraint(){
+		if(this.getValue() != null){
+			ArrayList<Integer> checkArray = new ArrayList<Integer>();
+			int counter = 0;
+			for(int i = 0; i < getValue().size(); i++){
+				if(getValue().get(i) == false){
+					if(counter > 0){
+						checkArray.add(counter);
+					}
+					counter = 0;
+					checkArray.add(0);
+				}else{
+					counter++;
+				}
+				if(counter > 0){
+					checkArray.add(counter);
+				}
+			}
+			if(constraints.size() == checkArray.size()){
+				for(int i = 0; i < constraints.size(); i++){
+					if(constraints.get(i) != checkArray.get(i)){
+						return false;
+					}
+				}
+				return true;
+			}else{
+				return false;
+			}
+		}else{
+			return true;
+		}
 	}
 }

@@ -102,7 +102,7 @@ public class NonoGram extends AStar{
 		}
 	}
 
-	//Mulig jeg må modifisere denne litt
+	//Mulig jeg mï¿½ modifisere denne litt
 	public ArrayList<Integer> findCommon(ArrayList<ArrayList<Boolean>> domain){
 		//System.out.println("domainsize " + domain.get(0).size());
 		ArrayList<Integer> intArray = new ArrayList<Integer>();
@@ -253,6 +253,7 @@ public class NonoGram extends AStar{
 	//Skal finne raden eller col med minst domene og sende videre til enten
 	//assumtionCol (for col) eller assumptionRow for row
 	public void assumption(NNStateNode state){
+		/*
 		NNColRow smallestRow = state.getSmallestRowDomain();
 		NNColRow smallestCol = state.getSmallestColDomain();
 		if(smallestRow.getDomain().size() > smallestCol.getDomain().size()){
@@ -260,12 +261,13 @@ public class NonoGram extends AStar{
 		}else{
 			assumptionRow(smallestCol, state);
 		}
+		*/
 	}
 	
 	//Funker ikke
-	//Skal genere en state for vært element i domain
+	//Skal genere en state for vï¿½rt element i domain
 	//Ettersom de er generert skal endringen bli satt og reduction skal bli gjort
-	//Så skal den legges til i openlista
+	//Sï¿½ skal den legges til i openlista
 	public void assumptionCol(NNColRow col, NNStateNode state){
 		for(int i=0; i<col.getDomain().size(); i++){
 			NNStateNode childState = state.generateStateNode(state.colDomains, state.rowDomains);
@@ -280,9 +282,9 @@ public class NonoGram extends AStar{
 	}
 	
 	//Funker ikke
-	//Skal genere en state for vært element  domain
+	//Skal genere en state for vï¿½rt element  domain
 	//Ettersom de er generert skal endringen bli satt og reduction skal bli gjort
-	//Så skal den legges til i openlista
+	//Sï¿½ skal den legges til i openlista
 	public void assumptionRow(NNColRow row, NNStateNode state){
 		for(int i=0; i<row.getDomain().size(); i++){
 			NNStateNode childState = state.generateStateNode(state.colDomains, state.rowDomains);
