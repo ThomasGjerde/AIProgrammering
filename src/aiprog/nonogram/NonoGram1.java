@@ -98,6 +98,27 @@ public class NonoGram1 extends AStar {
 				}
 			}
 		}
+		
+		ArrayList<NNColRow> rowList = new ArrayList<NNColRow>(state.rowDomains);
+		for(int i = 0; i < rowList.size(); i++){
+			ArrayList<Integer> changeStatus = findCommon(rowList.get(i));
+			for(int j = 0; j < changeStatus.size(); j++){
+				if(changeStatus.get(j) != 3){
+					NNColRow col = state.colDomains.get(j);
+					for(int k = 0; k < col.getDomain().size(); k++){
+						boolean value;
+						if(changeStatus.get(j) == 1){
+							value = true;
+						}else{
+							value = false;
+						}
+						if(col.getDomain().get(k).get(i) != value){
+							col.deleteFromDomain(col.getDomain().get(k));
+						}
+					}
+				}
+			}
+		}
 		/*
 		for(int m=0; m<state.rowDomains.size(); m++){
 			if(state.rowDomains.get(m).getDomain().size() > 1){
