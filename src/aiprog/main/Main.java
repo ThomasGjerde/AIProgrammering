@@ -37,6 +37,7 @@ public class Main {
 					 
 					System.out.println("Path length: " + ff.getPathLength());
 					System.out.println("Expanded nodes: " + ff.getSteps());
+					System.out.println("Generated states: " + ff.getGeneratedChildren());
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -49,6 +50,7 @@ public class Main {
 					NonoGram1 nono = new NonoGram1(sn, graphics);
 					System.out.println("Path length: " + nono.getPathLength());
 					System.out.println("Expanded nodes: " + nono.getSteps());
+					System.out.println("Generated states: " + nono.getGeneratedChildren());
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();

@@ -13,6 +13,10 @@ public abstract class AStar {
 	protected int steps = 0;
 	protected int pathLength = 0;
 	protected boolean victory = false;
+	protected int generatedChildren = 0;
+	public int getGeneratedChildren() {
+		return generatedChildren;
+	}
 	public AStar(Node startNode){
 		this.currentNode = startNode;
 	}
@@ -22,6 +26,7 @@ public abstract class AStar {
 		while(!victory){
 			ArrayList<Node> children = currentNode.getUnoccupiedChildren();
 			for(int i = 0; i < children.size(); i++){
+				generatedChildren++;
 				Node tempNode = children.get(i);
 				if(!openList.contains(tempNode) && !closedList.contains(tempNode)){
 					tempNode.parent = currentNode;
