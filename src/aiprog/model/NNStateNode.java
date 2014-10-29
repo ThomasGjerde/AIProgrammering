@@ -175,9 +175,15 @@ public class NNStateNode extends Node{
 			if(!colDomains.get(i).validateConstraint()){
 				return false;
 			}
+			if(!colDomains.get(i).crossValidate(i, rowDomains)){
+				return false;
+			}
 		}
 		for(int i = 0; i < rowDomains.size(); i++){
 			if(!rowDomains.get(i).validateConstraint()){
+				return false;
+			}
+			if(!rowDomains.get(i).crossValidate(i, colDomains)){
 				return false;
 			}
 		}

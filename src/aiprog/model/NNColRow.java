@@ -121,4 +121,31 @@ public class NNColRow {
 		}
 		System.out.println("");
 	}
+	public boolean crossValidate(int index, ArrayList<NNColRow> list){
+		if(this.getValue() == null){
+			return true;
+		}
+		for(int i = 0; i < this.getValue().size(); i++){
+			if(list.get(i).getValue() != null){
+				if(list.get(i).getValue().get(index) != this.getValue().get(i)){
+					return false;
+				}
+			}else{
+				if(list.get(i).getDomain().size() == 0){
+					return false;
+				}
+				boolean valid = false;
+				for(int j = 0; j < list.get(i).getDomain().size(); j++){
+					if(list.get(i).getDomain().get(j).get(index) == this.getValue().get(i)){
+						valid = true;
+					}
+				}
+				if(!valid){
+					return false;
+				}
+			}
+			
+		}
+		return true;
+	}
 }
