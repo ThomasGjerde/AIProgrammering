@@ -15,7 +15,7 @@ public class NNBoard {
 		boardArray = new boolean[paramLine.get(1)][paramLine.get(0)];
 		colConstraints = new ArrayList<ArrayList<Integer>>();
 		rowConstraints = new ArrayList<ArrayList<Integer>>();
-		for(int i = 1; i < boardArray.length + 1; i++){
+		for(int i = boardArray.length; i > 0; i--){
 			ArrayList<Integer> line = parseLine(input.get(i));
 			ArrayList<Integer> row = new ArrayList<Integer>();
 			for(int j = 0; j < line.size(); j++){

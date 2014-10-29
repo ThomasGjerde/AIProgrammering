@@ -272,7 +272,6 @@ public class NonoGram1 extends AStar {
 	}
 	@Override
 	protected boolean checkVictory() {
-
 		if(currentState.validateConstraints()){
 			Boolean[][] resultArray = currentState.buildArray();
 			for(int i = 0; i < resultArray.length; i++){
@@ -328,10 +327,6 @@ public class NonoGram1 extends AStar {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		if(currentState.colDomains.get(8).getValue() != null){
-			System.out.println("col9 value: " + currentState.colDomains.get(8).getValue() );
-		}
-		System.out.println("col9: " + currentState.colDomains.get(8).getDomain());
 	}
 
 	@Override
