@@ -23,16 +23,27 @@ public class Main {
 	 */
 	@SuppressWarnings("unused")
 	public static void main(String[] args) {
-		
-		try {
-			NNBoard board = new NNBoard("input/nono-heart-1.txt");
-			NNGraphics graphics = new NNGraphics(board);
-			NNStateNode sn = new NNStateNode(board);
-			NonoGram1 nono = new NonoGram1(sn, graphics);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		if(args[0].toLowerCase().equals("flowfree")){
+			try {
+				FFBoard board = new FFBoard(args[1]);
+				FFGraphics ffgraph = new FFGraphics(board);
+				FlowFree ff = new FlowFree(board.createInitState(), ffgraph);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}else if(args[0].toLowerCase().equals("nonogram")){
+			try {
+				NNBoard board = new NNBoard(args[1]);
+				NNGraphics graphics = new NNGraphics(board);
+				NNStateNode sn = new NNStateNode(board);
+				NonoGram1 nono = new NonoGram1(sn, graphics);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
+		
 		
 		/*
 		try {
