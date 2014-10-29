@@ -124,7 +124,6 @@ public class NNStateNode extends Node{
 			this.addChild(newNode);
 		}
 		else{
-			System.out.println("Not valid");
 		}
 		return newNode;
 	}

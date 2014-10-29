@@ -27,7 +27,6 @@ public class FFBoard {
 		}
 		
 		ArrayList<Color> availColors = new ArrayList<Color>(boardArray[0][0].getDomain());
-		System.out.println(availColors.size());
 		for(int i = 1; i < input.size(); i++){
 			ArrayList<Integer> lineArray = parseLine(input.get(i));
 			boardArray[lineArray.get(1)][lineArray.get(2)].setColor(availColors.get(lineArray.get(0)),null);

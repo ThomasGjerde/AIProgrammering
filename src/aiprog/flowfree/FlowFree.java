@@ -16,8 +16,10 @@ public class FlowFree extends AStar {
 	FFStateNode currentState;
 	public FFGraphics graphic;
 	public boolean stateFail;
-	public FlowFree(Node startNode, FFGraphics graphics) {
+	int sleepTime = 0;
+	public FlowFree(Node startNode, FFGraphics graphics, int sleepTime) {
 		super(startNode);
+		this.sleepTime = sleepTime;
 		currentState = (FFStateNode) startNode;
 		graphic = graphics;
 		stateFail = false;
@@ -146,7 +148,6 @@ public class FlowFree extends AStar {
 					}
 				}
 				if(pathLengthRight != 0){
-					System.out.println(full.get(o).getColor() +" " + pathLengthRight);
 					pathLengthRight++;
 					for(int x=0; x<pathLengthRight; x++){
 						if(full.get(o+x).getColor() == null){
@@ -207,7 +208,7 @@ public class FlowFree extends AStar {
 			midList.get(0).setColor(node.getColor(), node);
 			try {
 				
-				Thread.sleep(100);
+				Thread.sleep(sleepTime);
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();

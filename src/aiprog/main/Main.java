@@ -23,12 +23,20 @@ public class Main {
 	 */
 	@SuppressWarnings("unused")
 	public static void main(String[] args) {
-		if(args.length == 2){
+		if(args.length >= 2){
 			if(args[0].toLowerCase().equals("flowfree")){
 				try {
 					FFBoard board = new FFBoard(args[1]);
 					FFGraphics ffgraph = new FFGraphics(board);
-					FlowFree ff = new FlowFree(board.createInitState(), ffgraph);
+					FlowFree ff;
+					if(args.length == 3){
+						ff = new FlowFree(board.createInitState(), ffgraph, Integer.parseInt(args[2]));
+					}else{
+						ff = new FlowFree(board.createInitState(), ffgraph,0);
+					}
+					 
+					System.out.println("Path length: " + ff.getPathLength());
+					System.out.println("Expanded nodes: " + ff.getSteps());
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -39,6 +47,8 @@ public class Main {
 					NNGraphics graphics = new NNGraphics(board);
 					NNStateNode sn = new NNStateNode(board);
 					NonoGram1 nono = new NonoGram1(sn, graphics);
+					System.out.println("Path length: " + nono.getPathLength());
+					System.out.println("Expanded nodes: " + nono.getSteps());
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();

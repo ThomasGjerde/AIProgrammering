@@ -92,9 +92,9 @@ public class NNColRow {
 			if(counter > 0){
 				checkArray.add(counter);
 			}
-			printArrayListBoolean(value);
-			printArrayList(checkArray);
-			printArrayList(constraints);
+			//printArrayListBoolean(value);
+			//printArrayList(checkArray);
+			//printArrayList(constraints);
 			if(constraints.size() == checkArray.size()){
 				for(int i = 0; i < constraints.size(); i++){
 					if(constraints.get(i) != checkArray.get(i)){
