@@ -20,8 +20,8 @@ public class NonoGram1 extends AStar {
 		graphics = graph;
 		initModifications(currentState);
 		graphics.setState(currentState);
-		makeAssumption();
-		this.search();
+		//makeAssumption();
+		//this.search();
 		/*
 		for(int i=0; i<currentState.colDomains.size(); i++){
 			System.out.println("colDomains: " + currentState.colDomains.get(i).getDomain().size());
@@ -134,9 +134,11 @@ public class NonoGram1 extends AStar {
 	public void makeAssumption(){
 		int col = currentState.getSmallestColDomainIndex();
 		int row = currentState.getSmallestRowDomainIndex();
+		//System.out.println("col: " + currentState.colDomains.get(col).getDomain().size());
+		//System.out.println("row: " + currentState.rowDomains.get(row).getDomain().size());
 
 		if(currentState.colDomains.get(col).getDomain().size() < currentState.rowDomains.get(row).getDomain().size()){
-			System.out.println("States Generated: " + currentState.colDomains.get(col).getDomain().size());
+			//System.out.println("States Generated: " + currentState.colDomains.get(col).getDomain().size());
 			for(int j = 0; j < currentState.colDomains.get(col).getDomain().size(); j++){
 				ArrayList<NNColRow> colChanges = new ArrayList<NNColRow>(); 
 				for(int i = 0; i < currentState.colDomains.size(); i++){
@@ -151,7 +153,7 @@ public class NonoGram1 extends AStar {
 			}
 			
 		}else{
-			System.out.println("States generated: " + currentState.rowDomains.get(row).getDomain().size());
+			//System.out.println("States generated: " + currentState.rowDomains.get(row).getDomain().size());
 			for(int j = 0; j < currentState.rowDomains.get(row).getDomain().size(); j++){
 				ArrayList<NNColRow> colChanges = new ArrayList<NNColRow>(); 
 				for(int i = 0; i < currentState.colDomains.size(); i++){
@@ -244,21 +246,27 @@ public class NonoGram1 extends AStar {
 	}
 	public void initModifications(NNStateNode state){
 		int oldDomainSize = state.getDomainSum();
-		//setSingles(state);
+		setSingles(state);
+		reduseByCommon(state);
+		System.out.println("oldDomainSize: " + oldDomainSize);
 		int newDomainSize = state.getDomainSum();
+		System.out.println("newDomainSize: " + newDomainSize);
 		//Funker, men 1 gang for mye
-		/*
+		
 		while(oldDomainSize > newDomainSize){
 			oldDomainSize = state.getDomainSum();
 			setSingles(state);
+			reduseByCommon(state);
 			newDomainSize = state.getDomainSum();
-		}*/
-		reduseByCommon(state);
-		//setSingles(state);
+		}
+		
 		graphics.setState(state);
 		
 		for(int i=0; i<state.colDomains.size(); i++){
-			System.out.println("ferdig: " + state.colDomains.get(i).getDomain());
+			System.out.println("ferdigCol: " + state.colDomains.get(i).getDomain());
+		}
+		for(int j=0; j<state.rowDomains.size(); j++){
+			System.out.println("ferdigRow: " + state.rowDomains.get(j).getDomain());
 		}
 		
 	}
@@ -300,7 +308,7 @@ public class NonoGram1 extends AStar {
 		reduseByCommon(currentState);
 		generalReduction();
 		makeAssumption();
-		System.out.println("Sum: " + currentState.getDomainSum());
+		//System.out.println("Sum: " + currentState.getDomainSum());
 		try {
 			Thread.sleep(0);
 		} catch (InterruptedException e) {
@@ -313,7 +321,7 @@ public class NonoGram1 extends AStar {
 	protected void setHeuristic(Node node) {
 		NNStateNode tempNode = (NNStateNode)node;
 		tempNode.heuristic = initialDomainSize - tempNode.getDomainSum();
-		System.out.println("H: " + tempNode.heuristic);
+		//System.out.println("H: " + tempNode.heuristic);
 		
 	}
 
