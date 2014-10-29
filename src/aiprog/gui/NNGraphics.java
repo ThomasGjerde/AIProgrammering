@@ -52,5 +52,18 @@ public class NNGraphics extends Graphics{
 		
 		grid.repaint();
 	}
+	public void setArray(Boolean[][] array){
+		for(int i = 0; i < array.length; i++){
+			for(int j = 0; j < array[0].length; j++){
+				if(array[i][j] == true){
+					grid.setCellColorWithoutRepaint(i, j, Color.BLACK);
+				}else{
+					grid.setCellColorWithoutRepaint(i, j, Color.WHITE);
+				}
+				
+			}
+		}
+		grid.repaint();
+	}
 
 }

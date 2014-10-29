@@ -287,6 +287,7 @@ public class NonoGram1 extends AStar {
 					return false;
 				}
 			}*/
+			//graphics.setArray(resultArray);
 			return true;
 		}else{
 			return false;
@@ -296,9 +297,6 @@ public class NonoGram1 extends AStar {
 	@Override
 	protected void processCurrentNode() {
 		currentState = (NNStateNode)currentNode;
-		reduseByCommon(currentState);
-
-		generalReduction();
 		reduseByCommon(currentState);
 		generalReduction();
 		makeAssumption();

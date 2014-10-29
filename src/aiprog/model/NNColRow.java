@@ -92,6 +92,9 @@ public class NNColRow {
 			if(counter > 0){
 				checkArray.add(counter);
 			}
+			printArrayListBoolean(value);
+			printArrayList(checkArray);
+			printArrayList(constraints);
 			if(constraints.size() == checkArray.size()){
 				for(int i = 0; i < constraints.size(); i++){
 					if(constraints.get(i) != checkArray.get(i)){
@@ -105,5 +108,17 @@ public class NNColRow {
 		}else{
 			return true;
 		}
+	}
+	private void printArrayList(ArrayList<Integer> input){
+		for(int i = 0; i < input.size(); i++){
+			System.out.print(input.get(i) + ",");
+		}
+		System.out.println("");
+	}
+	private void printArrayListBoolean(ArrayList<Boolean> input){
+		for(int i = 0; i < input.size(); i++){
+			System.out.print(input.get(i) + ",");
+		}
+		System.out.println("");
 	}
 }
