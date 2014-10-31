@@ -10,7 +10,7 @@ public abstract class DepthFirstSearch extends AStarWithEndPoint{
 		// TODO Auto-generated constructor stub
 	}
 	protected void setHeuristic(Node node) {
-		currentHeuristic--;
+		currentHeuristic++;
 		node.heuristic = currentHeuristic;
 	}
 }

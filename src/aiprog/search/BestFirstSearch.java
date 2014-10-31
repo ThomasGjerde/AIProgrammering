@@ -10,6 +10,6 @@ public abstract class BestFirstSearch extends AStarWithEndPoint{
 		super(startNode, endPoint);
 	}
 	protected void setHeuristic(Node node) {
-		node.heuristic = this.endPoint.getManhattanDistance(((NavNode)node).pos) + node.getCostFromStart();
+		node.heuristic = this.endPoint.getManhattanDistance(((NavNode)node).pos)*-1 - node.getCostFromStart();
 	}
 }
