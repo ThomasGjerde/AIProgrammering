@@ -4,6 +4,7 @@ import java.awt.Font;
 import java.awt.Graphics;
 import java.util.ArrayList;
 
+import aiprog.model.Direction;
 import aiprog.model.Point;
 import aiprog.utility.GraphicsHelper;
 
@@ -38,6 +39,30 @@ public class GridCanvas extends Canvas
 	}
 	public void setCellColorWithoutRepaint(int x, int y, Color color){
 		cells[x][y] = color;
+	}
+	public void transMoveTexts(Direction dir){
+		for(int i = 0; i < texts.size(); i++){
+			if(dir == Direction.DOWN){
+				if(texts.get(i).position.y < cells[0].length -1){
+					texts.get(i).transY += 1;
+				}
+			}else if(dir == Direction.UP){
+				if(texts.get(i).position.y > 0){
+					texts.get(i).transY -= 1;
+				}
+			}else if(dir == Direction.RIGHT){
+				if(texts.get(i).position.x < cells.length -1){
+					texts.get(i).transX += 1;
+				}
+			}else{
+				if(texts.get(i).position.x > 0){
+					texts.get(i).transX -= 1;
+				}
+			}
+
+		}
+		repaint();
+		
 	}
 	protected void renderGraphics(Graphics g) {
 		for(int i = 0; i < cells.length; i++){
@@ -78,7 +103,7 @@ public class GridCanvas extends Canvas
 			Point pos = calcCenterPosition(gt.position);
 			g.setColor(Color.BLACK);
 			g.setFont(new Font("TimesRoman",Font.PLAIN,(scale-spacing)/2));
-			g.drawString(gt.text, pos.x - ((scale-spacing)/4), pos.y + ((scale-spacing)/4));
+			g.drawString(gt.text, (pos.x + gt.transX) - ((scale-spacing)/4), (pos.y + gt.transY) + ((scale-spacing)/4));
 		}
 	}
 	public void addLine(Line line){
