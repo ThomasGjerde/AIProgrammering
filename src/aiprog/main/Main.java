@@ -56,18 +56,24 @@ public class Main {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-			}	
+			}else if(args[0].toLowerCase().equals("vcp")){
+				if(args.length == 3){
+					try {
+						VCPGraph graph = new VCPGraph(args[1], Integer.parseInt(args[2]));
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
+			}else if(args[0].toLowerCase().equals("navigation")){
+				
+			}
 		}else{
 			System.out.println("Wrong number of arguments");
 		}
-		/*
-		try {
-			VCPGraph graph = new VCPGraph("input/graph-color-1.txt", 4);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		*/
+		
+		
+		
 		/*
 		try {
 			FFBoard board = new FFBoard("input/flowspec-5.txt");
@@ -84,7 +90,7 @@ public class Main {
 		/*
 		try {
 			Board board = new Board("/home/board.txt");
-			GridBestFirstSearch gbfs = new GridBestFirstSearch(board.boardArray[board.startPos.x][board.startPos.y], board.endPos, board);
+			GridBreadthFirstSearch gbfs = new GridBreadthFirstSearch(board.boardArray[board.startPos.x][board.startPos.y], board.endPos, board);
 			gbfs.search();
 			System.out.println("Path: " + gbfs.getPathLength());
 			System.out.println("Steps: " + gbfs.getSteps());

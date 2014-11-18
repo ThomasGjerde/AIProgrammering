@@ -43,9 +43,10 @@ public class CSPNode extends Node{
 	}
 	public void setNodeValue(int nodeValue){
 		this.nodeValue = nodeValue;
-		/*if(this.nodeValue != -1){
-			//this.domain.clear();
-		}*/
+		if(this.nodeValue != -1){
+			this.domain.clear();
+			this.domain.add(this.nodeValue);
+		}
 	}
 	public void setId(int id){
 		this.id = id;

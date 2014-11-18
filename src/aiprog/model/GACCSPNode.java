@@ -39,7 +39,7 @@ public class GACCSPNode extends GACNode{
 		/*for(int j=0; j<availNodes.size(); j++){
 			System.out.println("availNodes" + availNodes.get(j).domain.size());
 		}*/
-		
+		/*
 		if(!availNodes.isEmpty()){
 			for(int j=0; j<availNodes.size(); j++){
 				for(int k=0; k<availNodes.get(j).domain.size(); k++){
@@ -50,7 +50,27 @@ public class GACCSPNode extends GACNode{
 					//sendNode.setNodeValue(-1);
 				}
 			}
-		}
+		}*/
+				
+				CSPNode smallestNode = getNodeWithSmallestDomain();
+				if(smallestNode != null){
+					for(int i = 0; i < smallestNode.getDomain().size(); i++){
+						CSPNode sendNode = new CSPNode();	
+						sendNode.id = smallestNode.id;
+						//sendNode.setNodeValue(smallestNode.getNodeValue());
+						sendNode.setDomain(new ArrayList<Integer>(smallestNode.getDomain()));
+						sendNode.setNodeValue(smallestNode.getDomain().get(i));
+		
+						GACCSPNode newNode = generateNewState(sendNode);
+						this.addChild(newNode);
+						
+					}
+				}
+				
+				
+				//System.out.println(newNode.getCSPList().get(0).getDomain());
+				
+				
 		
 		/*
 		for(int i = 0; i < this.children.size(); i++){
@@ -61,7 +81,28 @@ public class GACCSPNode extends GACNode{
 		}
 		*/
 	}
-	
+	private CSPNode getNodeWithSmallestDomain(){
+		int smallest = 10000;
+		CSPNode retNode;
+		CSPNode smallestNode = null;
+		for(int i = 0; i < getCSPList().size(); i++){
+			CSPNode tempNode = getCSPList().get(i);
+			if(tempNode.getDomain().size() > 1 && tempNode.getDomain().size() < smallest){
+				smallest = tempNode.getDomain().size();
+				smallestNode = tempNode;
+			}
+		}
+		retNode = new CSPNode();
+		if(smallestNode == null){
+			return null;
+		}
+		CSPNode oldNode = smallestNode;
+		retNode.id = oldNode.id;
+		retNode.setNodeValue(oldNode.getNodeValue());
+		retNode.setDomain(new ArrayList<Integer>(oldNode.getDomain()));
+		return retNode;
+		
+	}
 	private GACCSPNode generateNewState(CSPNode node){
 		GACCSPNode newState = new GACCSPNode();
 		newState.setCSPList(this.getCSPList());
