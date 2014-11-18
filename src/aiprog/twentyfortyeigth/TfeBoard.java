@@ -31,11 +31,12 @@ public class TfeBoard {
 					
 					this.getBoard()[midPoint.x][midPoint.y] = 0;
 					this.getBoard()[leftPoint.x][leftPoint.y] = value;
+					leftPoint.y = leftPoint.y + 1;
 					//leftValue = value;
 				}else{
 					
 				}
-				leftPoint.y = leftPoint.y + 1;
+				
 				
 				/*
 				int midValue = this.getBoard()[i][j];

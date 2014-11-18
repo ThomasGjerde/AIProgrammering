@@ -29,12 +29,9 @@ public class Main {
 	public static void main(String[] args) {
 		TfeBoard newBoard = new TfeBoard();
 		TFEGraphics tfeGraphics = new TFEGraphics();
-		newBoard.getBoard()[0][0] = 1;
 		tfeGraphics.setBoard(newBoard);
-		newBoard.getBoard()[0][0] = 0;
-		newBoard.getBoard()[0][1] = 1;
-		tfeGraphics.animateSetBoard(newBoard, Direction.RIGHT);
-		/*
+		
+		
 		if(args.length >= 2){
 			if(args[0].toLowerCase().equals("flowfree")){
 				try {
