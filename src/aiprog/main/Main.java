@@ -15,6 +15,7 @@ import aiprog.nonogram.NNBoard;
 import aiprog.nonogram.NonoGram1;
 import aiprog.vcp.VCP;
 import aiprog.vcp.VCPGraph;
+import aiprog.twentyfortyeigth.TfeBoard;
 
 
 public class Main {
@@ -24,6 +25,8 @@ public class Main {
 	 */
 	@SuppressWarnings("unused")
 	public static void main(String[] args) {
+		TfeBoard newBoard = new TfeBoard();
+		/*
 		if(args.length >= 2){
 			if(args[0].toLowerCase().equals("flowfree")){
 				try {
@@ -71,7 +74,7 @@ public class Main {
 		}else{
 			System.out.println("Wrong number of arguments");
 		}
-		
+		/*
 		
 		
 		/*
