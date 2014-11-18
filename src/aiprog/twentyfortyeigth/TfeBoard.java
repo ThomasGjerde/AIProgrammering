@@ -24,14 +24,18 @@ public class TfeBoard {
 		printBoard();
 		//moveLeft();
 		//moveRight();
-		moveUp();
+		//moveUp();
+		System.out.println(isLegalRightMove());
+		moveRight();
+		generateRandomNumber();
 		System.out.println();
-		//printBoard();
+		printBoard();
 		//System.out.println();
 		//moveLeft();
 		//moveRight();
 		System.out.println();
-		printBoard();
+		System.out.println(isLegalRightMove());
+		//printBoard();
 	}
 	
 	//works
@@ -98,6 +102,7 @@ public class TfeBoard {
 		}
 	}
 	
+	//Works
 	public void moveDown(){
 		for(int i=0; i<4; i++){
 			Point rightPoint = new Point(3,i);
@@ -157,6 +162,52 @@ public class TfeBoard {
 				
 			}
 		}
+	}
+	
+	public boolean isLegalRightMove(){
+		//return false;
+		for(int i=0; i<4; i++){
+			Point rightPoint = new Point(i,3);
+			int prevValue = 0;
+			for(int j=3; j>=0; j--){
+				int value = this.getBoard()[i][j];
+				Point midPoint = new Point(i,j);
+				boolean merge = false;
+				if(value != 0){
+					
+					if(prevValue == value){
+						rightPoint.y = rightPoint.y + 1;
+						return true;
+					}
+					//this.getBoard()[midPoint.x][midPoint.y] = 0;
+					//this.getBoard()[rightPoint.x][rightPoint.y] += value;
+					rightPoint.y = rightPoint.y - 1;
+					
+					if(merge){
+						prevValue = 0;
+					}else{
+						prevValue = value;
+					}
+				}else{
+					
+				}
+				
+			}
+		}
+		return false;
+		
+	}
+	
+	public boolean isLegalLeftMove(){
+		return false;
+	}
+	
+	public boolean isLegalUpMove(){
+		return false;
+	}
+	
+	public boolean isLegalDownMove(){
+		return false;
 	}
 	
 	public void generateRandomNumber(){
