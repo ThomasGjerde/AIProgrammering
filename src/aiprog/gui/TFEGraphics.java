@@ -15,7 +15,7 @@ public class TFEGraphics extends Graphics {
 		grid.texts.clear();
 		for(int i = 0; i < board.getBoard().length; i++){
 			for(int j = 0; j < board.getBoard()[0].length; j++){
-				grid.addText(new GridText(new Point(i,j),Integer.toString(board.getBoard()[i][j])));
+				grid.addText(new GridText(new Point(j,i),Integer.toString(board.getBoard()[i][j])));
 			}
 		}
 	}
