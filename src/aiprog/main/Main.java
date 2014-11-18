@@ -6,6 +6,7 @@ import aiprog.flowfree.FFBoard;
 import aiprog.flowfree.FlowFree;
 import aiprog.gui.FFGraphics;
 import aiprog.gui.NNGraphics;
+import aiprog.gui.TFEGraphics;
 import aiprog.model.NNStateNode;
 import aiprog.navigation.Board;
 import aiprog.navigation.GridBestFirstSearch;
@@ -26,6 +27,8 @@ public class Main {
 	@SuppressWarnings("unused")
 	public static void main(String[] args) {
 		TfeBoard newBoard = new TfeBoard();
+		TFEGraphics tfeGraphics = new TFEGraphics();
+		tfeGraphics.setBoard(newBoard, false);
 		/*
 		if(args.length >= 2){
 			if(args[0].toLowerCase().equals("flowfree")){

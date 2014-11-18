@@ -13,6 +13,7 @@ public class GridCanvas extends Canvas
 	Color[][] cells;
 	ArrayList<Line> lines = new ArrayList<Line>();
 	ArrayList<GridText> texts = new ArrayList<GridText>();
+	boolean showGrid = false;
 	public GridCanvas(int sizeX, int sizeY) {
 		super();
 		cells = new Color[sizeX][sizeY];
@@ -28,6 +29,9 @@ public class GridCanvas extends Canvas
 			}
 		}
 	}
+	public void setShowGrid(boolean showGrid){
+		this.showGrid = showGrid;
+	}
 	public void setCellColor(int x, int y, Color color){
 		cells[x][y] = color;
 		repaint();
@@ -38,11 +42,15 @@ public class GridCanvas extends Canvas
 	protected void renderGraphics(Graphics g) {
 		for(int i = 0; i < cells.length; i++){
 			for(int j = 0; j < cells[0].length; j++){
+				int cellX = scale + (i*scale);
+				int cellY = scale + (j*scale);
 				if(cells[i][j] != null){
-					int cellX = scale + (i*scale);
-					int cellY = scale + (j*scale);
 					g.setColor(cells[i][j]);
 					g.fillRect(cellX, cellY, scale - spacing, scale - spacing);
+				}
+				if(showGrid){
+					g.setColor(Color.BLACK);
+					g.drawRect(cellX, cellY, scale - spacing, scale - spacing);
 				}
 			}
 		}
