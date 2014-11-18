@@ -171,7 +171,7 @@ public class TfeBoard {
 			int prevValue = 0;
 			for(int j=3; j>=0; j--){
 				int value = this.getBoard()[i][j];
-				Point midPoint = new Point(i,j);
+				//Point midPoint = new Point(i,j);
 				boolean merge = false;
 				if(value != 0){
 					
@@ -199,14 +199,99 @@ public class TfeBoard {
 	}
 	
 	public boolean isLegalLeftMove(){
+		for(int i=0; i<4; i++){
+			Point leftPoint = new Point(i,0);
+			int prevValue = 0;
+			for(int j=0; j<4; j++){
+				int value = this.getBoard()[i][j];
+				//Point midPoint = new Point(i,j);
+				boolean merge = false;
+				if(value != 0){
+					
+					if(prevValue == value){
+						leftPoint.y = leftPoint.y - 1;
+						return true;
+					}
+					//this.getBoard()[midPoint.x][midPoint.y] = 0;
+					//this.getBoard()[leftPoint.x][leftPoint.y] += value;
+					leftPoint.y = leftPoint.y + 1;
+					
+					if(merge){
+						prevValue = 0;
+					}else{
+						prevValue = value;
+					}
+				}else{
+					
+				}
+				
+			}
+		}
 		return false;
 	}
 	
 	public boolean isLegalUpMove(){
+		for(int i=0; i<4; i++){
+			Point rightPoint = new Point(0,i);
+			int prevValue = 0;
+			for(int j=0; j<4; j++){
+				int value = this.getBoard()[j][i];
+				//Point midPoint = new Point(j,i);
+				boolean merge = false;
+				if(value != 0){
+					if(prevValue == value){
+						rightPoint.x = rightPoint.x - 1;
+						return true;
+						//merge = true;
+					}
+					//this.getBoard()[midPoint.x][midPoint.y] = 0;
+					//this.getBoard()[rightPoint.x][rightPoint.y] += value;
+					rightPoint.x = rightPoint.x + 1;
+					
+					if(merge){
+						prevValue = 0;
+					}else{
+						prevValue = value;
+					}
+				}else{
+					
+				}
+				
+			}
+		}
 		return false;
 	}
 	
 	public boolean isLegalDownMove(){
+		for(int i=0; i<4; i++){
+			Point rightPoint = new Point(3,i);
+			int prevValue = 0;
+			for(int j=3; j>=0; j--){
+				int value = this.getBoard()[j][i];
+				//Point midPoint = new Point(j,i);
+				boolean merge = false;
+				if(value != 0){
+					
+					if(prevValue == value){
+						rightPoint.x = rightPoint.x + 1;
+						return true;
+						//merge = true;
+					}
+					//this.getBoard()[midPoint.x][midPoint.y] = 0;
+					//this.getBoard()[rightPoint.x][rightPoint.y] += value;
+					rightPoint.x = rightPoint.x - 1;
+					
+					if(merge){
+						prevValue = 0;
+					}else{
+						prevValue = value;
+					}
+				}else{
+					
+				}
+				
+			}
+		}
 		return false;
 	}
 	
