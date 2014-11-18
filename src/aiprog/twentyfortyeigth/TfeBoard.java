@@ -13,58 +13,150 @@ public class TfeBoard {
 		generateRandomNumber();
 		generateRandomNumber();
 		generateRandomNumber();
+		generateRandomNumber();
+		generateRandomNumber();
+		
+		generateRandomNumber();
+		generateRandomNumber();
+		generateRandomNumber();
+		generateRandomNumber();
+		
 		printBoard();
-		moveLeft();
+		//moveLeft();
+		//moveRight();
+		moveUp();
+		System.out.println();
+		//printBoard();
+		//System.out.println();
+		//moveLeft();
+		//moveRight();
 		System.out.println();
 		printBoard();
 	}
 	
+	//works
 	public void moveLeft(){
 		for(int i=0; i<4; i++){
-			//int value = 1;
 			Point leftPoint = new Point(i,0);
+			int prevValue = 0;
 			for(int j=0; j<4; j++){
 				int value = this.getBoard()[i][j];
 				Point midPoint = new Point(i,j);
-				int leftValue = this.getBoard()[leftPoint.x][leftPoint.y];
+				boolean merge = false;
 				if(value != 0){
 					
+					if(prevValue == value){
+						leftPoint.y = leftPoint.y - 1;
+						merge = true;
+					}
 					this.getBoard()[midPoint.x][midPoint.y] = 0;
-					this.getBoard()[leftPoint.x][leftPoint.y] = value;
+					this.getBoard()[leftPoint.x][leftPoint.y] += value;
 					leftPoint.y = leftPoint.y + 1;
-					//leftValue = value;
+					
+					if(merge){
+						prevValue = 0;
+					}else{
+						prevValue = value;
+					}
 				}else{
 					
 				}
 				
-				
-				/*
-				int midValue = this.getBoard()[i][j];
-				Point midPoint = new Point(10,10);
-				if(midValue != 0 && value == 1){
-					midPoint = new Point(i,j);
-					value = midValue;
-				}
-				
-				if(midValue == value && midPoint.x != 10){
-					this.getBoard()[midPoint.x][midPoint.y] = value + midValue;
-					System.out.println("her");
-					this.getBoard()[i][j] = 0;
-				}*/
 			}
 		}
 	}
 	
+	//Works
 	public void moveRight(){
-		
-	}
-	
-	public void moveUp(){
-		
+		for(int i=0; i<4; i++){
+			Point rightPoint = new Point(i,3);
+			int prevValue = 0;
+			for(int j=3; j>=0; j--){
+				int value = this.getBoard()[i][j];
+				Point midPoint = new Point(i,j);
+				boolean merge = false;
+				if(value != 0){
+					
+					if(prevValue == value){
+						rightPoint.y = rightPoint.y + 1;
+						merge = true;
+					}
+					this.getBoard()[midPoint.x][midPoint.y] = 0;
+					this.getBoard()[rightPoint.x][rightPoint.y] += value;
+					rightPoint.y = rightPoint.y - 1;
+					
+					if(merge){
+						prevValue = 0;
+					}else{
+						prevValue = value;
+					}
+				}else{
+					
+				}
+				
+			}
+		}
 	}
 	
 	public void moveDown(){
-		
+		for(int i=0; i<4; i++){
+			Point rightPoint = new Point(3,i);
+			int prevValue = 0;
+			for(int j=3; j>=0; j--){
+				int value = this.getBoard()[j][i];
+				Point midPoint = new Point(j,i);
+				boolean merge = false;
+				if(value != 0){
+					
+					if(prevValue == value){
+						rightPoint.x = rightPoint.x + 1;
+						merge = true;
+					}
+					this.getBoard()[midPoint.x][midPoint.y] = 0;
+					this.getBoard()[rightPoint.x][rightPoint.y] += value;
+					rightPoint.x = rightPoint.x - 1;
+					
+					if(merge){
+						prevValue = 0;
+					}else{
+						prevValue = value;
+					}
+				}else{
+					
+				}
+				
+			}
+		}
+	}
+	//Works
+	public void moveUp(){
+		for(int i=0; i<4; i++){
+			Point rightPoint = new Point(0,i);
+			int prevValue = 0;
+			for(int j=0; j<4; j++){
+				int value = this.getBoard()[j][i];
+				Point midPoint = new Point(j,i);
+				boolean merge = false;
+				if(value != 0){
+					if(prevValue == value){
+						rightPoint.x = rightPoint.x - 1;
+						merge = true;
+					}
+					this.getBoard()[midPoint.x][midPoint.y] = 0;
+					this.getBoard()[rightPoint.x][rightPoint.y] += value;
+					rightPoint.x = rightPoint.x + 1;
+					
+					if(merge){
+						prevValue = 0;
+					}else{
+						prevValue = value;
+					}
+				}else{
+					
+				}
+				
+			}
+		}
 	}
 	
 	public void generateRandomNumber(){
