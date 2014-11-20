@@ -21,6 +21,7 @@ public class MinMax {
 					TfeBoard newBoard = this.board.cloneBoard();
 					newBoard.move(direction);
 					//Put win check here
+					newBoard.setPlayer(false);
 					MinMax newMinMax = new MinMax(newBoard);
 					if(depth == 0){
 						currentMove.setDirection(direction);
