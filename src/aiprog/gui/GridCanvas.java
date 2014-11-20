@@ -30,6 +30,11 @@ public class GridCanvas extends Canvas
 			}
 		}
 	}
+	public void clearAllColors(){
+		int sizeX = cells.length;
+		int sizeY = cells[0].length;
+		cells = new Color[sizeX][sizeY];
+	}
 	public void setShowGrid(boolean showGrid){
 		this.showGrid = showGrid;
 	}
