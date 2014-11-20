@@ -412,4 +412,8 @@ public class TfeBoard {
 	public boolean getPlayer(){
 		return player;
 	}
+	
+	public TfeBoard cloneBoard(){
+		return null;
+	}
 }
