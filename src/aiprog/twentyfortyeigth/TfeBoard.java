@@ -2,6 +2,7 @@ package aiprog.twentyfortyeigth;
 
 import java.util.ArrayList;
 
+import aiprog.model.Direction;
 import aiprog.model.Point;
 
 public class TfeBoard {
@@ -358,9 +359,17 @@ public class TfeBoard {
 			return false;
 		}
 	}
-	
-	public void findFarthestPosition(){
-		
+	//direction = 0 = up, 1 = right, 2 = down, 3 = left
+	public void findFarthestPosition(int startX, int startY, int direction){
+		if(direction == 0){//up
+			
+		}else if(direction == 1){//right
+			
+		}else if(direction == 2){//down
+			
+		}else{//left
+			
+		}
 	}
 	
 	public int heuristic(){
@@ -415,5 +424,29 @@ public class TfeBoard {
 	
 	public TfeBoard cloneBoard(){
 		return null;
+	}
+	
+	public void move(Direction dir){
+		if(dir == Direction.UP){
+			moveUp();
+		}else if(dir == Direction.LEFT){
+			moveLeft();
+		}else if(dir == Direction.RIGHT){
+			moveRight();
+		}else{
+			moveDown();
+		}
+	}
+	
+	public boolean isLegalMove(Direction dir){
+		if(dir == Direction.UP){
+			return isLegalUpMove();
+		}else if(dir == Direction.LEFT){
+			return isLegalLeftMove();
+		}else if(dir == Direction.RIGHT){
+			return isLegalRightMove();
+		}else{
+			return isLegalDownMove();
+		}
 	}
 }
