@@ -361,98 +361,178 @@ public class TfeBoard {
 		}
 	}
 	
-	public void findFarthestPosition(int[][] currentBoard, int startX, int startY, Direction dir){
+	public int findFarthestPosition(int[][] currentBoard, int startX, int startY, Direction dir){
 		if(dir == Direction.UP){//up
 			if(startY == 0){
-				
+				return 0;
 			}else{
 				int midY = startY;
 				while(midY >= 0){
 					if(currentBoard[startX][midY] != 0){
-						//return node
+						return currentBoard[startX][midY];
 					}
 					midY--;
 				}
+				return 0;
 			}
 		}else if(dir == Direction.RIGHT){//right
 			if(startX == 3){
-				
+				return 0;
 			}else{
 				int midX = startX;
 				while(midX >= 0){
 					if(currentBoard[midX][startY] != 0){
-						//return node
+						return currentBoard[midX][startY];
 					}
 					midX--;
 				}
+				return 0;
 			}
 		}else if(dir == Direction.DOWN){//down
 			if(startY == 3){
-				
+				return 0;
 			}else{
 				int midY = startY;
 				while(midY <= 3){
 					if(currentBoard[startX][midY] != 0){
-						//return node
+						return currentBoard[startX][midY];
 					}
 					midY++;
 				}
+				return 0;
 			}
 		}else{//left
 			if(startX == 0){
-				
+				return 0;
 			}else{
 				int midX = startX;
 				while(midX <= 3){
 					if(currentBoard[midX][startY] != 0){
-						//return node
+						return currentBoard[midX][startY];
 					}
 					midX++;
 				}
+				return 0;
 			}
 		}
+		//return 0;
 	}
 	
 	public int heuristic(){
 		return 0;
 	}
 	
-	public int monotonicity(){
-		return 0;
+	public double monotonicity(int[][] currentBoard){
+		double[] totals = new double[4];
+		totals[0]=0;totals[1]=0;totals[2]=0;totals[3]=0;
+		
+		//up/down
+		for(int i=0; i<4; i++){
+			int current = 0;
+			int next = current+1;
+			while(next<4){
+				while(next<4 && !checkOccupied(currentBoard, i, next)){
+					next++;
+				}
+				if(next>= 4){
+					next--;
+				}
+				double currentValue = 0;
+				double nextValue = 0;
+				
+				if(checkOccupied(currentBoard, i, current)){
+					currentValue = Math.log(getNodeValue(currentBoard, i, current) / Math.log(2));
+				}
+				if(checkOccupied(currentBoard, i ,next)){
+					nextValue = Math.log(getNodeValue(currentBoard, i, next) / Math.log(2));
+				}
+				
+				if(currentValue > nextValue){
+					totals[0] += nextValue - currentValue;
+				}else if(nextValue > currentValue){
+					totals[1] += currentValue - nextValue;
+				}
+				
+				current = next;
+				next++;
+			}
+		}
+		
+		//left/right
+		for(int j=0; j<4; j++){
+			int current = 0;
+			int next = current + 1;
+			while(next < 4){
+				while(next < 4 && !checkOccupied(currentBoard, j, next)){
+					next++;
+				}
+				if(next >= 4){
+					next--;
+				}
+				double currentValue = 0;
+				double nextValue = 0;
+				
+				if(checkOccupied(currentBoard, current, j)){
+					currentValue = Math.log(getNodeValue(currentBoard, current, j)/Math.log(2));
+				}
+				if(checkOccupied(currentBoard, next, j)){
+					nextValue = Math.log(getNodeValue(currentBoard, next, j)/Math.log(2));
+				}
+				
+				if(currentValue > nextValue){
+					totals[2] += nextValue - currentValue;
+				}else if(nextValue > currentValue){
+					totals[3] += currentValue - nextValue;
+				}
+				current = next;
+				next++;
+			}
+		}
+		return Math.max(totals[0], totals[1]) + Math.max(totals[2], totals[3]);
 	}
 	
-	public int smoothness(int[][] currentBoard){
-		int smoothness = 0;
+	//needs testing
+	public double smoothness(int[][] currentBoard){
+		double smoothness = 0;
 		for(int i=0; i<4; i++){
 			for(int j=0; j<4; j++){
 				if(checkOccupied(currentBoard, i, j)){
 					double value = Math.log(getNodeValue(currentBoard, i, j)) / Math.log(2);
-					for(int k=0; k<2; k++){
-						int vector;
-						Point target = new Point();
-						
-						/*
-						var vector = this.getVector(direction);
-				          var targetCell = this.findFarthestPosition(this.indexes[x][y], vector).next;
-
-				          if (this.cellOccupied(targetCell)) {
-				            var target = this.cellContent(targetCell);
-				            var targetValue = Math.log(target.value) / Math.log(2);
-				            smoothness -= Math.abs(value - targetValue);
-				          }
-				          */
+					ArrayList<Direction> dirArray = new ArrayList<Direction>();
+					dirArray.add(Direction.UP);
+					dirArray.add(Direction.DOWN);
+					dirArray.add(Direction.LEFT); 
+					dirArray.add(Direction.RIGHT);
+					while(!dirArray.isEmpty()){
+						Direction dir = dirArray.get(0);
+						dirArray.remove(0);
+						int targetValue = findFarthestPosition(currentBoard, i, j, dir);
+						if(targetValue != 0){
+							double realTarget = Math.log(targetValue)/Math.log(2);
+							smoothness -= Math.abs(value - realTarget);
+						}
 					}
 				}
 			}
 		}
-		
-		
-		
-		return 0;
+		return smoothness;
 	}
 	
 	public int islands(){
 		return 0;
+	}
+	
+	public double maxValue(int[][] currentBoard){
+		double max = 0;
+		for(int i=0; i<4; i++){
+			for(int j=0; j<4; j++){
+				double value = getNodeValue(currentBoard, i, j);
+				if(value != 0 && value > max){
+					max = value;
+				}
+			}
+		}
+		return Math.log(max) / Math.log(2);
 	}
 	
 	public void setPlayer(boolean value){
