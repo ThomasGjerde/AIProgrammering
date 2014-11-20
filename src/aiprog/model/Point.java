@@ -18,7 +18,7 @@ public class Point {
 	}
 	public String toString() {
 		// TODO Auto-generated method stub
-		return "(" + x + "," + y + ")";
+		return "(" + y + "," + x + ")";
 	}
 	
 }
