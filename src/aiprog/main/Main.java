@@ -27,7 +27,7 @@ public class Main {
 	 */
 	@SuppressWarnings("unused")
 	public static void main(String[] args) {
-		TfeBoard newBoard = new TfeBoard();
+		TfeBoard newBoard = new TfeBoard(true);
 		TFEGraphics tfeGraphics = new TFEGraphics();
 		tfeGraphics.setBoard(newBoard);
 		

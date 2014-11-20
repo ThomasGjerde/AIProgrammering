@@ -6,28 +6,26 @@ import aiprog.model.Point;
 
 public class TfeBoard {
 	private int[][] board;
+	private boolean player;
 	
-	public TfeBoard(){
-		board = new int[4][4];
-		generateRandomNumber();
-		generateRandomNumber();
-		generateRandomNumber();
-		generateRandomNumber();
-		generateRandomNumber();
-		generateRandomNumber();
+	public TfeBoard(boolean init){
+		if(init){
+			board = new int[4][4];
+			generateRandomNumber();
+			generateRandomNumber();
+			player = true;
+		}else{
+			
+		}
 		
-		generateRandomNumber();
-		generateRandomNumber();
-		generateRandomNumber();
-		generateRandomNumber();
-		
+		/*
 		printBoard();
 		//moveLeft();
 		//moveRight();
 		//moveUp();
 		System.out.println(isLegalRightMove());
 		moveRight();
-		generateRandomNumber();
+		//generateRandomNumber();
 		System.out.println();
 		printBoard();
 		//System.out.println();
@@ -35,7 +33,7 @@ public class TfeBoard {
 		//moveRight();
 		System.out.println();
 		System.out.println(isLegalRightMove());
-		//printBoard();
+		//printBoard();*/
 	}
 	
 	//works
@@ -341,5 +339,77 @@ public class TfeBoard {
 		}
 	}
 	
+	//enkel return av spesifik node value
+	public int getNodeValue(int[][] currentBoard, int posX, int posY){
+		int[][] mid = currentBoard;
+		if(posX >=0 && posX < mid.length && posY >= 0 && mid[0].length > posY){
+			return mid[posX][posY];
+		}else{
+			return 0;
+		}
+		//return this.getBoard()[posX][posY];
+	}
 	
+	//True hvis noden er tatt, false hvis den er 0
+	public boolean checkOccupied(int[][] currentBoard, int posX, int posY){
+		if(getNodeValue(currentBoard, posX, posY) != 0){
+			return true;
+		}else{
+			return false;
+		}
+	}
+	
+	public void findFarthestPosition(){
+		
+	}
+	
+	public int heuristic(){
+		return 0;
+	}
+	
+	public int monotonicity(){
+		return 0;
+	}
+	
+	public int smoothness(int[][] currentBoard){
+		int smoothness = 0;
+		for(int i=0; i<4; i++){
+			for(int j=0; j<4; j++){
+				if(checkOccupied(currentBoard, i, j)){
+					double value = Math.log(getNodeValue(currentBoard, i, j)) / Math.log(2);
+					for(int k=0; k<2; k++){
+						int vector;
+						Point target = new Point();
+						
+						/*
+						var vector = this.getVector(direction);
+				          var targetCell = this.findFarthestPosition(this.indexes[x][y], vector).next;
+
+				          if (this.cellOccupied(targetCell)) {
+				            var target = this.cellContent(targetCell);
+				            var targetValue = Math.log(target.value) / Math.log(2);
+				            smoothness -= Math.abs(value - targetValue);
+				          }
+				          */
+					}
+				}
+			}
+		}
+		
+		
+		
+		return 0;
+	}
+	
+	public int islands(){
+		return 0;
+	}
+	
+	public void setPlayer(boolean value){
+		player = value;
+	}
+	
+	public boolean getPlayer(){
+		return player;
+	}
 }
