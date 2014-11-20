@@ -15,6 +15,7 @@ public class TfeBoard {
 			generateRandomNumber();
 			generateRandomNumber();
 			player = true;
+			
 		}else{
 			
 		}
@@ -319,7 +320,7 @@ public class TfeBoard {
 		for(int i=0; i<4; i++){
 			for(int j=0; j<4; j++){
 				if(board[i][j] == 0){
-					Point point = new Point(i,j);
+					Point point = new Point(j,i);
 					pointList.add(point);
 				}
 			}
@@ -359,16 +360,56 @@ public class TfeBoard {
 			return false;
 		}
 	}
-	//direction = 0 = up, 1 = right, 2 = down, 3 = left
-	public void findFarthestPosition(int startX, int startY, int direction){
-		if(direction == 0){//up
-			
-		}else if(direction == 1){//right
-			
-		}else if(direction == 2){//down
-			
+	
+	public void findFarthestPosition(int[][] currentBoard, int startX, int startY, Direction dir){
+		if(dir == Direction.UP){//up
+			if(startY == 0){
+				
+			}else{
+				int midY = startY;
+				while(midY >= 0){
+					if(currentBoard[startX][midY] != 0){
+						//return node
+					}
+					midY--;
+				}
+			}
+		}else if(dir == Direction.RIGHT){//right
+			if(startX == 3){
+				
+			}else{
+				int midX = startX;
+				while(midX >= 0){
+					if(currentBoard[midX][startY] != 0){
+						//return node
+					}
+					midX--;
+				}
+			}
+		}else if(dir == Direction.DOWN){//down
+			if(startY == 3){
+				
+			}else{
+				int midY = startY;
+				while(midY <= 3){
+					if(currentBoard[startX][midY] != 0){
+						//return node
+					}
+					midY++;
+				}
+			}
 		}else{//left
-			
+			if(startX == 0){
+				
+			}else{
+				int midX = startX;
+				while(midX <= 3){
+					if(currentBoard[midX][startY] != 0){
+						//return node
+					}
+					midX++;
+				}
+			}
 		}
 	}
 	
