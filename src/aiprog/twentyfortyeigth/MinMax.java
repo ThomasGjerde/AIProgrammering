@@ -12,10 +12,10 @@ public class MinMax {
 		this.board = board;
 	}
 	public Move search(int alpha, int beta, int depth){
-		Move bestMove = new Move(null, 0);
+		Move bestMove = new Move(null, -10001);
 		if(board.getPlayer()){
 			bestMove.setHeuristic(alpha);
-			Move currentMove = new Move(null, 0);
+			Move currentMove = new Move(null, -10001);
 			for(Direction direction : Direction.values()){
 				if(board.isLegalMove(direction)){
 					TfeBoard newBoard = this.board.cloneBoard();
