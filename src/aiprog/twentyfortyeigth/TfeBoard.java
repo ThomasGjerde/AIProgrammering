@@ -184,7 +184,7 @@ public class TfeBoard {
 			int prevValue = 0;
 			for(int j=3; j>=0; j--){
 				int value = this.getBoard()[i][j];
-				//Point midPoint = new Point(i,j);
+				Point midPoint = new Point(i,j);
 				boolean merge = false;
 				if(value != 0){
 					
@@ -194,6 +194,9 @@ public class TfeBoard {
 					}
 					//this.getBoard()[midPoint.x][midPoint.y] = 0;
 					//this.getBoard()[rightPoint.x][rightPoint.y] += value;
+					if(midPoint.x != rightPoint.x || midPoint.y != rightPoint.y){
+						return true;
+					}
 					rightPoint.y = rightPoint.y - 1;
 					
 					if(merge){
@@ -217,7 +220,7 @@ public class TfeBoard {
 			int prevValue = 0;
 			for(int j=0; j<4; j++){
 				int value = this.getBoard()[i][j];
-				//Point midPoint = new Point(i,j);
+				Point midPoint = new Point(i,j);
 				boolean merge = false;
 				if(value != 0){
 					
@@ -227,6 +230,9 @@ public class TfeBoard {
 					}
 					//this.getBoard()[midPoint.x][midPoint.y] = 0;
 					//this.getBoard()[leftPoint.x][leftPoint.y] += value;
+					if(midPoint.x != leftPoint.x || midPoint.y != leftPoint.y){
+						return true;
+					}
 					leftPoint.y = leftPoint.y + 1;
 					
 					if(merge){
@@ -249,7 +255,7 @@ public class TfeBoard {
 			int prevValue = 0;
 			for(int j=0; j<4; j++){
 				int value = this.getBoard()[j][i];
-				//Point midPoint = new Point(j,i);
+				Point midPoint = new Point(j,i);
 				boolean merge = false;
 				if(value != 0){
 					if(prevValue == value){
@@ -259,6 +265,9 @@ public class TfeBoard {
 					}
 					//this.getBoard()[midPoint.x][midPoint.y] = 0;
 					//this.getBoard()[rightPoint.x][rightPoint.y] += value;
+					if(midPoint.x != rightPoint.x || midPoint.y != rightPoint.y){
+						return true;
+					}
 					rightPoint.x = rightPoint.x + 1;
 					
 					if(merge){
@@ -281,7 +290,7 @@ public class TfeBoard {
 			int prevValue = 0;
 			for(int j=3; j>=0; j--){
 				int value = this.getBoard()[j][i];
-				//Point midPoint = new Point(j,i);
+				Point midPoint = new Point(j,i);
 				boolean merge = false;
 				if(value != 0){
 					
@@ -292,6 +301,9 @@ public class TfeBoard {
 					}
 					//this.getBoard()[midPoint.x][midPoint.y] = 0;
 					//this.getBoard()[rightPoint.x][rightPoint.y] += value;
+					if(midPoint.x != rightPoint.x || midPoint.y != rightPoint.y){
+						return true;
+					}
 					rightPoint.x = rightPoint.x - 1;
 					
 					if(merge){
@@ -597,6 +609,8 @@ public class TfeBoard {
 		}else{
 			moveDown();
 		}
+		printBoard();
+		System.out.println();
 	}
 	
 	public boolean isLegalMove(Direction dir){

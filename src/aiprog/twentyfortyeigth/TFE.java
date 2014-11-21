@@ -9,7 +9,7 @@ public class TFE {
 		TFEGraphics graphics = new TFEGraphics();
 		graphics.setBoard(board);
 		while(!board.hasFailed() && !board.victoryCheck()) {//!board.isWin && board.hasFailed
-			System.out.println("While loop");
+			//System.out.println("While loop");
 			MinMax minMax = new MinMax(board);
 			Move bestMove = minMax.search(-10000, 10000, 3);
 			board.move(bestMove.getDirection());
