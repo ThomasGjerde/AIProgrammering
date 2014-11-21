@@ -9,19 +9,21 @@ public class TfeBoard {
 	private int[][] board;
 	private boolean player;
 	private boolean failed;
+	private int victoryValue;
 	
-	public TfeBoard(boolean init){
+	public TfeBoard(boolean init,int vValue){
 		if(init){
 			board = new int[4][4];
 			generateRandomNumber();
 			generateRandomNumber();
 			player = true;
-			
+			victoryValue = vValue;
 		}else{
 			board = new int[4][4];
 			generateRandomNumber();
 			generateRandomNumber();
 			player = false;
+			victoryValue = vValue;
 		}
 		
 		/*
@@ -579,6 +581,7 @@ public class TfeBoard {
 		}
 		TfeBoard midTfe = new TfeBoard(clonePlayer, cloneBoard);
 		midTfe.setFailed(cloneFailed);
+		midTfe.setVictoryValue(this.getVictoryValue());
 		return midTfe;
 	}
 	
@@ -604,6 +607,27 @@ public class TfeBoard {
 		}else{
 			return isLegalDownMove();
 		}
+	}
+	
+	//Mid victoryCheck
+	public boolean victoryCheck(){
+		boolean check = false;
+		for(int i=0; i<4; i++){
+			for(int j=0; j<4; j++){
+				if(board[i][j] == victoryValue){
+					check = true;
+				}
+			}
+		}
+		return check;
+	}
+	
+	public int getVictoryValue(){
+		return victoryValue;
+	}
+	
+	public void setVictoryValue(int vValue){
+		victoryValue = vValue;
 	}
 	
 	public boolean hasFailed(){
