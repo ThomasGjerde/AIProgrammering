@@ -38,6 +38,11 @@ public class TfeBoard {
 		//printBoard();*/
 	}
 	
+	private TfeBoard(boolean clonePlayer, int[][] cloneBoard){
+		board = cloneBoard;
+		player = clonePlayer;
+	}
+	
 	//works
 	public void moveLeft(){
 		for(int i=0; i<4; i++){
@@ -342,10 +347,9 @@ public class TfeBoard {
 	}
 	
 	//enkel return av spesifik node value
-	public int getNodeValue(int[][] currentBoard, int posX, int posY){
-		int[][] mid = currentBoard;
-		if(posX >=0 && posX < mid.length && posY >= 0 && mid[0].length > posY){
-			return mid[posX][posY];
+	public int getNodeValue(int posX, int posY){
+		if(posX >=0 && posX < board.length && posY >= 0 && board[0].length > posY){
+			return board[posX][posY];
 		}else{
 			return 0;
 		}
@@ -353,23 +357,23 @@ public class TfeBoard {
 	}
 	
 	//True hvis noden er tatt, false hvis den er 0
-	public boolean checkOccupied(int[][] currentBoard, int posX, int posY){
-		if(getNodeValue(currentBoard, posX, posY) != 0){
+	public boolean checkOccupied(int posX, int posY){
+		if(getNodeValue(posX, posY) != 0){
 			return true;
 		}else{
 			return false;
 		}
 	}
 	
-	public int findFarthestPosition(int[][] currentBoard, int startX, int startY, Direction dir){
+	public int findFarthestPosition(int startX, int startY, Direction dir){
 		if(dir == Direction.UP){//up
 			if(startY == 0){
 				return 0;
 			}else{
 				int midY = startY;
 				while(midY >= 0){
-					if(currentBoard[startX][midY] != 0){
-						return currentBoard[startX][midY];
+					if(board[startX][midY] != 0){
+						return board[startX][midY];
 					}
 					midY--;
 				}
@@ -381,8 +385,8 @@ public class TfeBoard {
 			}else{
 				int midX = startX;
 				while(midX >= 0){
-					if(currentBoard[midX][startY] != 0){
-						return currentBoard[midX][startY];
+					if(board[midX][startY] != 0){
+						return board[midX][startY];
 					}
 					midX--;
 				}
@@ -394,8 +398,8 @@ public class TfeBoard {
 			}else{
 				int midY = startY;
 				while(midY <= 3){
-					if(currentBoard[startX][midY] != 0){
-						return currentBoard[startX][midY];
+					if(board[startX][midY] != 0){
+						return board[startX][midY];
 					}
 					midY++;
 				}
@@ -407,8 +411,8 @@ public class TfeBoard {
 			}else{
 				int midX = startX;
 				while(midX <= 3){
-					if(currentBoard[midX][startY] != 0){
-						return currentBoard[midX][startY];
+					if(board[midX][startY] != 0){
+						return board[midX][startY];
 					}
 					midX++;
 				}
@@ -418,11 +422,16 @@ public class TfeBoard {
 		//return 0;
 	}
 	
-	public int heuristic(){
-		return 0;
+	public double heuristic(){
+		//int[][] calcBoard = getBoard();
+		double mono = monotonicity() * 1;
+		double smooth = smoothness() * 0.1;
+		double max = maxValue() * 1;
+		double freeTiles = Math.log(getUnoccupiedTiles().size()) * 2.7;
+		return mono + smooth + max + freeTiles;
 	}
 	
-	public double monotonicity(int[][] currentBoard){
+	public double monotonicity(){
 		double[] totals = new double[4];
 		totals[0]=0;totals[1]=0;totals[2]=0;totals[3]=0;
 		
@@ -431,7 +440,7 @@ public class TfeBoard {
 			int current = 0;
 			int next = current+1;
 			while(next<4){
-				while(next<4 && !checkOccupied(currentBoard, i, next)){
+				while(next<4 && !checkOccupied(i, next)){
 					next++;
 				}
 				if(next>= 4){
@@ -440,11 +449,11 @@ public class TfeBoard {
 				double currentValue = 0;
 				double nextValue = 0;
 				
-				if(checkOccupied(currentBoard, i, current)){
-					currentValue = Math.log(getNodeValue(currentBoard, i, current) / Math.log(2));
+				if(checkOccupied(i, current)){
+					currentValue = Math.log(getNodeValue(i, current) / Math.log(2));
 				}
-				if(checkOccupied(currentBoard, i ,next)){
-					nextValue = Math.log(getNodeValue(currentBoard, i, next) / Math.log(2));
+				if(checkOccupied(i ,next)){
+					nextValue = Math.log(getNodeValue(i, next) / Math.log(2));
 				}
 				
 				if(currentValue > nextValue){
@@ -463,7 +472,7 @@ public class TfeBoard {
 			int current = 0;
 			int next = current + 1;
 			while(next < 4){
-				while(next < 4 && !checkOccupied(currentBoard, j, next)){
+				while(next < 4 && !checkOccupied(j, next)){
 					next++;
 				}
 				if(next >= 4){
@@ -472,11 +481,11 @@ public class TfeBoard {
 				double currentValue = 0;
 				double nextValue = 0;
 				
-				if(checkOccupied(currentBoard, current, j)){
-					currentValue = Math.log(getNodeValue(currentBoard, current, j)/Math.log(2));
+				if(checkOccupied(current, j)){
+					currentValue = Math.log(getNodeValue(current, j)/Math.log(2));
 				}
-				if(checkOccupied(currentBoard, next, j)){
-					nextValue = Math.log(getNodeValue(currentBoard, next, j)/Math.log(2));
+				if(checkOccupied(next, j)){
+					nextValue = Math.log(getNodeValue(next, j)/Math.log(2));
 				}
 				
 				if(currentValue > nextValue){
@@ -492,12 +501,12 @@ public class TfeBoard {
 	}
 	
 	//needs testing
-	public double smoothness(int[][] currentBoard){
+	public double smoothness(){
 		double smoothness = 0;
 		for(int i=0; i<4; i++){
 			for(int j=0; j<4; j++){
-				if(checkOccupied(currentBoard, i, j)){
-					double value = Math.log(getNodeValue(currentBoard, i, j)) / Math.log(2);
+				if(checkOccupied(i, j)){
+					double value = Math.log(getNodeValue(i, j)) / Math.log(2);
 					ArrayList<Direction> dirArray = new ArrayList<Direction>();
 					dirArray.add(Direction.UP);
 					dirArray.add(Direction.DOWN);
@@ -506,7 +515,7 @@ public class TfeBoard {
 					while(!dirArray.isEmpty()){
 						Direction dir = dirArray.get(0);
 						dirArray.remove(0);
-						int targetValue = findFarthestPosition(currentBoard, i, j, dir);
+						int targetValue = findFarthestPosition(i, j, dir);
 						if(targetValue != 0){
 							double realTarget = Math.log(targetValue)/Math.log(2);
 							smoothness -= Math.abs(value - realTarget);
@@ -522,11 +531,11 @@ public class TfeBoard {
 		return 0;
 	}
 	
-	public double maxValue(int[][] currentBoard){
+	public double maxValue(){
 		double max = 0;
 		for(int i=0; i<4; i++){
 			for(int j=0; j<4; j++){
-				double value = getNodeValue(currentBoard, i, j);
+				double value = getNodeValue(i, j);
 				if(value != 0 && value > max){
 					max = value;
 				}
@@ -544,7 +553,22 @@ public class TfeBoard {
 	}
 	
 	public TfeBoard cloneBoard(){
-		return null;
+		boolean clonePlayer;
+		if(player){
+			clonePlayer = true;
+		}else{
+			clonePlayer = false;
+		}
+		
+		int[][] cloneBoard = new int[4][4];
+		for(int i=0; i<4; i++){
+			for(int j=0; j<4; j++){
+				int midValue = board[i][j];
+				cloneBoard[i][j] = midValue;
+			}
+		}
+		TfeBoard midTfe = new TfeBoard(clonePlayer, cloneBoard);
+		return midTfe;
 	}
 	
 	public void move(Direction dir){
