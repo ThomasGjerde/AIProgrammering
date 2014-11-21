@@ -11,11 +11,17 @@ public class TFE {
 		while(!board.hasFailed() && !board.victoryCheck()) {//!board.isWin && board.hasFailed
 			//System.out.println("While loop");
 			MinMax minMax = new MinMax(board);
-			Move bestMove = minMax.search(-10000, 10000, 3);
+			Move bestMove = minMax.search(-10000, 10000, 2);
 			board.move(bestMove.getDirection());
 			board.generateRandomNumber();
-			board.printBoard();
-			System.out.println();
+			System.out.println(bestMove.getDirection());
+			try {
+				Thread.sleep(10000);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+
 			graphics.animateSetBoard(board, bestMove.getDirection());
 		}
 		if(board.hasFailed()){

@@ -32,7 +32,7 @@ public class MinMax {
 					}
 					if(currentMove.getHeuristic() > bestMove.getHeuristic()){
 						bestMove.setHeuristic(currentMove.getHeuristic());
-						bestMove.setDirection(currentMove.getDirection());
+						bestMove.setDirection(direction);
 					}
 					if(bestMove.getHeuristic() > beta){
 						return new Move(bestMove.getDirection(),beta);
