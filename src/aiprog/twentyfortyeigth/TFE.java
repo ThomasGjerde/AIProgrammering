@@ -5,16 +5,20 @@ import aiprog.model.Move;
 
 public class TFE {
 	public TFE(){
-		TfeBoard board = new TfeBoard(true);
+		TfeBoard board = new TfeBoard(true,2048);
 		TFEGraphics graphics = new TFEGraphics();
 		graphics.setBoard(board);
-		while(true) {//!board.isWin && board.hasFailed
+		while(!board.hasFailed() && !board.victoryCheck()) {//!board.isWin && board.hasFailed
 			MinMax minMax = new MinMax(board);
 			Move bestMove = minMax.search(-10000, 10000, 3);
 			board.move(bestMove.getDirection());
 			board.generateRandomNumber();
 			graphics.animateSetBoard(board, bestMove.getDirection());
 		}
-		//Put Win || Fail check here
+		if(board.hasFailed()){
+			System.out.println("Failed");
+		}else{
+			System.out.println("Victory");
+		}
 	}
 }
