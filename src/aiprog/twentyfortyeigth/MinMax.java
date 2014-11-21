@@ -12,14 +12,13 @@ public class MinMax {
 		this.board = board;
 	}
 	public Move search(double alpha, double beta, int depth){
+		//System.out.println("Search called, depth: " + depth + " Player: " + board.getPlayer());
 		Move bestMove = new Move(null, -10001);
 		if(board.getPlayer()){
-			boolean moved = false;
 			bestMove.setHeuristic(alpha);
 			Move currentMove = new Move(null, -10001);
 			for(Direction direction : Direction.values()){
 				if(board.isLegalMove(direction)){
-					moved = true;
 					TfeBoard newBoard = this.board.cloneBoard();
 					newBoard.move(direction);
 					//Put win check here
@@ -40,10 +39,6 @@ public class MinMax {
 					}
 				}
 			}
-			if(moved == false){
-				board.setFailed(true);
-				System.out.println("Failed");
-			}
 		}else{ //Player == false
 			bestMove.setHeuristic(beta);
 			ArrayList<Point> availableTiles = this.board.getUnoccupiedTiles();
@@ -51,6 +46,7 @@ public class MinMax {
 			for(Point tilePos : availableTiles){
 				for(int value : values){
 					TfeBoard newBoard = this.board.cloneBoard();
+					newBoard.setPlayer(true);
 					newBoard.getBoard()[tilePos.y][tilePos.x] = value;
 					MinMax newMinMax = new MinMax(newBoard);
 					Move currentMove = newMinMax.search(alpha, bestMove.getHeuristic(), depth);
