@@ -334,7 +334,7 @@ public class TfeBoard {
 			
 			double randomPlace = Math.random() * pointList.size();
 			Point placePoint = pointList.get((int)randomPlace);
-			this.getBoard()[placePoint.x][placePoint.y] = tileValue;
+			this.getBoard()[placePoint.y][placePoint.x] = tileValue;
 		}else{
 			System.out.println("lost");
 		}
