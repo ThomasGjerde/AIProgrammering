@@ -25,6 +25,7 @@ public class TfeBoard {
 			player = false;
 			victoryValue = vValue;
 		}
+		failed = false;
 		
 		/*
 		printBoard();
