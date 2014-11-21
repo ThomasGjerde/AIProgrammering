@@ -609,8 +609,8 @@ public class TfeBoard {
 		}else{
 			moveDown();
 		}
-		printBoard();
-		System.out.println();
+		//printBoard();
+		//System.out.println();
 	}
 	
 	public boolean isLegalMove(Direction dir){

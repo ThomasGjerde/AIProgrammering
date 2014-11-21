@@ -14,6 +14,8 @@ public class TFE {
 			Move bestMove = minMax.search(-10000, 10000, 3);
 			board.move(bestMove.getDirection());
 			board.generateRandomNumber();
+			board.printBoard();
+			System.out.println();
 			graphics.animateSetBoard(board, bestMove.getDirection());
 		}
 		if(board.hasFailed()){
