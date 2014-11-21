@@ -18,7 +18,8 @@ public class TfeBoard {
 			generateRandomNumber();
 			player = true;
 			victoryValue = vValue;
-		}else{
+		}
+		else{
 			board = new int[4][4];
 			generateRandomNumber();
 			generateRandomNumber();
