@@ -337,6 +337,7 @@ public class TfeBoard {
 			this.getBoard()[placePoint.y][placePoint.x] = tileValue;
 		}else{
 			System.out.println("lost");
+			this.setFailed(true);
 		}
 	}
 	

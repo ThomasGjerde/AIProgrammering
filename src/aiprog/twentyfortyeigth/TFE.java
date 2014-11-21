@@ -19,8 +19,10 @@ public class TFE {
 		}
 		if(board.hasFailed()){
 			System.out.println("Failed");
+			graphics.setBoard(board);
 		}else{
 			System.out.println("Victory");
+			graphics.setBoard(board);
 		}
 	}
 }
