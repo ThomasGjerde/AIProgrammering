@@ -107,7 +107,7 @@ public class GridCanvas extends Canvas
 			GridText gt = texts.get(i);
 			Point pos = calcCenterPosition(gt.position);
 			g.setColor(Color.BLACK);
-			g.setFont(new Font("TimesRoman",Font.PLAIN,(scale-spacing)/2));
+			g.setFont(new Font("TimesRoman",Font.PLAIN,((scale-spacing)/2) + gt.sizeMod));
 			g.drawString(gt.text, (pos.x + gt.transX) - ((scale-spacing)/4), (pos.y + gt.transY) + ((scale-spacing)/4));
 		}
 	}

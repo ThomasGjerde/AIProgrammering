@@ -15,13 +15,6 @@ public class TFE {
 			board.move(bestMove.getDirection());
 			board.generateRandomNumber();
 			System.out.println(bestMove.getDirection());
-			try {
-				Thread.sleep(10000);
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-
 			graphics.animateSetBoard(board, bestMove.getDirection());
 		}
 		if(board.hasFailed()){
