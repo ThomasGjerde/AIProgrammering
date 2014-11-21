@@ -11,13 +11,15 @@ public class MinMax {
 	public MinMax(TfeBoard board){
 		this.board = board;
 	}
-	public Move search(int alpha, int beta, int depth){
+	public Move search(double alpha, double beta, int depth){
 		Move bestMove = new Move(null, -10001);
 		if(board.getPlayer()){
+			boolean moved = false;
 			bestMove.setHeuristic(alpha);
 			Move currentMove = new Move(null, -10001);
 			for(Direction direction : Direction.values()){
 				if(board.isLegalMove(direction)){
+					moved = true;
 					TfeBoard newBoard = this.board.cloneBoard();
 					newBoard.move(direction);
 					//Put win check here
@@ -37,6 +39,10 @@ public class MinMax {
 						return new Move(bestMove.getDirection(),beta);
 					}
 				}
+			}
+			if(moved == false){
+				board.setFailed(true);
+				System.out.println("Failed");
 			}
 		}else{ //Player == false
 			bestMove.setHeuristic(beta);
