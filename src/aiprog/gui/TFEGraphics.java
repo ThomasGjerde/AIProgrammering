@@ -44,7 +44,7 @@ public class TFEGraphics extends Graphics {
 		for(int i = 0; i < grid.scale; i++){
 			grid.transMoveTexts(dir);
 			try {
-				Thread.sleep(50);
+				Thread.sleep(25);
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
