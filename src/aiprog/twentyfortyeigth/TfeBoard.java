@@ -8,6 +8,7 @@ import aiprog.model.Point;
 public class TfeBoard {
 	private int[][] board;
 	private boolean player;
+	private boolean failed;
 	
 	public TfeBoard(boolean init){
 		if(init){
@@ -17,7 +18,10 @@ public class TfeBoard {
 			player = true;
 			
 		}else{
-			
+			board = new int[4][4];
+			generateRandomNumber();
+			generateRandomNumber();
+			player = false;
 		}
 		
 		/*
@@ -554,10 +558,16 @@ public class TfeBoard {
 	
 	public TfeBoard cloneBoard(){
 		boolean clonePlayer;
+		boolean cloneFailed;
 		if(player){
 			clonePlayer = true;
 		}else{
 			clonePlayer = false;
+		}
+		if(hasFailed()){
+			cloneFailed = true;
+		}else{
+			cloneFailed = false;
 		}
 		
 		int[][] cloneBoard = new int[4][4];
@@ -568,6 +578,7 @@ public class TfeBoard {
 			}
 		}
 		TfeBoard midTfe = new TfeBoard(clonePlayer, cloneBoard);
+		midTfe.setFailed(cloneFailed);
 		return midTfe;
 	}
 	
@@ -593,5 +604,13 @@ public class TfeBoard {
 		}else{
 			return isLegalDownMove();
 		}
+	}
+	
+	public boolean hasFailed(){
+		return failed;
+	}
+	
+	public void setFailed(boolean status){
+		failed = status;
 	}
 }
