@@ -1,6 +1,7 @@
 package aiprog.main;
 
 import java.io.IOException;
+import java.util.concurrent.ExecutionException;
 
 import aiprog.flowfree.FFBoard;
 import aiprog.flowfree.FlowFree;
@@ -28,7 +29,18 @@ public class Main {
 	 */
 	@SuppressWarnings("unused")
 	public static void main(String[] args) {
-		TFE tfe = new TFE();
+		try
+		{
+			TFE tfe = new TFE();
+		} catch (InterruptedException e1)
+		{
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		} catch (ExecutionException e1)
+		{
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 		
 		if(args.length >= 2){
 			if(args[0].toLowerCase().equals("flowfree")){
