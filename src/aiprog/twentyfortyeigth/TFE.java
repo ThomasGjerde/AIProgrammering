@@ -12,12 +12,50 @@ import aiprog.gui.TFEGraphics;
 import aiprog.model.Move;
 
 public class TFE {
-	private int wins = 0;
-	private int fails = 0;
-	public TFE() throws InterruptedException, ExecutionException{
+	private final int targetValue;
+	private static double initAlpha = -100000;
+	private static double initBeta = 100000;
+	public TFE(int targetValue) throws InterruptedException, ExecutionException{
+		this.targetValue = targetValue;
+	}
+	public void runTFE(boolean animate){
+		TfeBoard board = new TfeBoard(true,this.targetValue);
+		int depth = 2;
+		TFEGraphics graphics = new TFEGraphics();
+		graphics.setBoard(board);
+		while(!board.hasFailed() && !board.victoryCheck()) {
+			MinMax minMax = new MinMax(board);
+			Move bestMove = minMax.search(initAlpha, initBeta, depth);
+			while(bestMove.getDirection() == null && depth > 0){
+				System.out.println("Move null, trying lower depth");
+				depth--;
+				bestMove = minMax.search(initAlpha, initBeta, depth);
+			}
+			board.move(bestMove.getDirection());
+			board.generateRandomNumber();
+			System.out.println(bestMove.getDirection());
+			if(animate){
+				graphics.animateSetBoard(board, bestMove.getDirection());
+			}else{
+				graphics.setBoard(board);
+			}
+			
+		}	
+		if(board.hasFailed()){
+			System.out.println("Failed");
+			graphics.setBoard(board);
+		}else{
+			System.out.println("Victory");
+			graphics.setBoard(board);
+		}
+	}
+	@SuppressWarnings("rawtypes")
+	public void runMultiThreadedTest(int iterations) throws InterruptedException, ExecutionException{
+		int wins = 0;
+		int fails = 0;
 		ExecutorService executorService = Executors.newFixedThreadPool(10);
 		List<Future> futures = new ArrayList<>();
-		for(int i = 0; i < 10; i++){
+		for(int i = 0; i < iterations; i++){
 			Future<Boolean> future = executorService.submit(new Callable<Boolean>(){
                 @Override
                 public Boolean call() throws Exception {
@@ -38,27 +76,21 @@ public class TFE {
 		System.out.println("----------------");
 		System.out.println("Wins: " + wins);
 		System.out.println("Fails: " + fails);
-		
 	}
 	private boolean runTFETest(){
-		TfeBoard board = new TfeBoard(true,2048);
-		//TFEGraphics graphics = new TFEGraphics();
-		//graphics.setBoard(board);
+		TfeBoard board = new TfeBoard(true,this.targetValue);
 		while(!board.hasFailed() && !board.victoryCheck()) {
 			MinMax minMax = new MinMax(board);
-			Move bestMove = minMax.search(-10000, 10000, 2);
+			Move bestMove = minMax.search(initAlpha, initBeta, 2);
 			board.move(bestMove.getDirection());
 			board.generateRandomNumber();
-			//System.out.println(bestMove.getDirection());
-			//graphics.animateSetBoard(board, bestMove.getDirection());
 		}	
 		if(board.hasFailed()){
 			System.out.println("Failed");
-			//graphics.setBoard(board);
+			System.out.println(Math.pow(2, board.maxValue()));
 			return false;
 		}else{
 			System.out.println("Victory");
-			//graphics.setBoard(board);
 			return true;
 		}
 	}

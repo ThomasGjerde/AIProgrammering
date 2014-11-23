@@ -1,6 +1,7 @@
 package aiprog.gui;
 
 import java.awt.Color;
+import java.util.ArrayList;
 
 import aiprog.model.Direction;
 import aiprog.model.Point;
@@ -23,12 +24,14 @@ public class TFEGraphics extends Graphics {
 				new Color(0x6BA5DE),
 				new Color(0xDCAD60),
 				new Color(0xB60022),
+				new Color(0xEEE4DA),
 				new Color(0xEEE4DA)};
 		grid.setShowGrid(true);
 		grid.repaint();
 		// TODO Auto-generated constructor stub
 	}
 	public void setBoard(TfeBoard board){
+		this.board = board.cloneBoard();
 		grid.texts.clear();
 		grid.clearAllColors();
 		for(int i = 0; i < board.getBoard().length; i++){
@@ -43,8 +46,9 @@ public class TFEGraphics extends Graphics {
 		grid.repaint();
 	}
 	public void animateSetBoard(TfeBoard board, Direction dir){
+		ArrayList<Point> movedTiles = getMovedTiles(board);
 		for(int i = 0; i < grid.scale; i++){
-			grid.transMoveTexts(dir);
+			grid.transMoveTexts(movedTiles, dir);
 			try {
 				Thread.sleep(1);
 			} catch (InterruptedException e) {
@@ -53,6 +57,19 @@ public class TFEGraphics extends Graphics {
 			}
 		}
 		setBoard(board);
+	}
+	private ArrayList<Point> getMovedTiles(TfeBoard newBoard){
+		ArrayList<Point> movedTiles = new ArrayList<Point>();
+		int[][] oldArray = board.getBoard();
+		int[][] newArray = newBoard.getBoard();
+		for(int i = 0; i < oldArray.length; i++){
+			for(int j = 0; j < oldArray[0].length; j++){
+				if(oldArray[i][j] != newArray[i][j] && oldArray[i][j]*2 != newArray[i][j]){
+					movedTiles.add(new Point(j,i));
+				}
+			}
+		}
+		return movedTiles;
 	}
 	
 }

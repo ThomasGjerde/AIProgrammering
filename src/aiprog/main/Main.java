@@ -29,20 +29,9 @@ public class Main {
 	 */
 	@SuppressWarnings("unused")
 	public static void main(String[] args) {
-		try
-		{
-			TFE tfe = new TFE();
-		} catch (InterruptedException e1)
-		{
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		} catch (ExecutionException e1)
-		{
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
+
 		
-		if(args.length >= 2){
+		if(args.length >= 1){
 			if(args[0].toLowerCase().equals("flowfree")){
 				try {
 					FFBoard board = new FFBoard(args[1]);
@@ -84,68 +73,58 @@ public class Main {
 					}
 				}
 			}else if(args[0].toLowerCase().equals("navigation")){
-				
+				if(args[1].toLowerCase().equals("best")){
+					try {
+						Board board = new Board(args[2]);
+						GridBestFirstSearch gbfs = new GridBestFirstSearch(board.boardArray[board.startPos.x][board.startPos.y], board.endPos, board);
+						gbfs.search();
+						System.out.println("Path: " + gbfs.getPathLength());
+						System.out.println("Steps: " + gbfs.getSteps());
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}else if(args[1].toLowerCase().equals("breadth")){
+					try {
+						Board board = new Board(args[2]);
+						GridBreadthFirstSearch gbfs = new GridBreadthFirstSearch(board.boardArray[board.startPos.x][board.startPos.y], board.endPos, board);
+						gbfs.search();
+						System.out.println("Path: " + gbfs.getPathLength());
+						System.out.println("Steps: " + gbfs.getSteps());
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}else if(args[1].toLowerCase().equals("depth")){
+					try {
+						Board board = new Board(args[2]);
+						GridDepthFirstSearch gdfs = new GridDepthFirstSearch(board.boardArray[board.startPos.x][board.startPos.y], board.endPos, board);
+						gdfs.search();
+						System.out.println("Path: " + gdfs.getPathLength());
+						System.out.println("Steps: " + gdfs.getSteps());
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
+			}else if(args[0].toLowerCase().equals("2048")){
+				try
+				{
+					TFE tfe = new TFE(Integer.parseInt(args[1]));
+					if(args.length == 3 && args[2].toLowerCase().equals("noanimation")){
+						tfe.runTFE(false);
+					}else{
+						tfe.runTFE(true);
+					}
+				} catch (InterruptedException | ExecutionException e)
+				{
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 			}
 		}else{
 			System.out.println("Wrong number of arguments");
-		}
-		/*
-		
-		
-		/*
-		try {
-			FFBoard board = new FFBoard("input/flowspec-5.txt");
-			FFGraphics ffgraph = new FFGraphics(board);
-			//�ja, s� derfor m� jeg arve fra node i statenodesa....
-			//Det er mye dritt i denne arverekka som vi ikke trenger i dette.
-			//Egentlig trenger vi kun aStar og csp delene tror jeg, og ca halvparten av Node
-			FlowFree ff = new FlowFree(board.createInitState(), ffgraph);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		*/
-		/*
-		try {
-			Board board = new Board("/home/board.txt");
-			GridBreadthFirstSearch gbfs = new GridBreadthFirstSearch(board.boardArray[board.startPos.x][board.startPos.y], board.endPos, board);
-			gbfs.search();
-			System.out.println("Path: " + gbfs.getPathLength());
-			System.out.println("Steps: " + gbfs.getSteps());
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		*/
-		/*
-		try {
-			Board board = new Board("C:\\Users\\Lefdal\\Desktop\\AIProg\\GRID\\board8.txt");
-			GridBestFirstSearch gbfs = new GridBestFirstSearch(board.boardArray[board.startPos.x][board.startPos.y], board.endPos, board);
-			gbfs.search();
-			System.out.println("Path: " + gbfs.getPathLength());
-			System.out.println("Steps: " + gbfs.getSteps());
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		*/
-		/*
-		try {
-			Board board = new Board("C:\\Users\\Lefdal\\Desktop\\AIProg\\GRID\\board3.txt");
-			GridDepthFirstSearch gbfs = new GridDepthFirstSearch(board.boardArray[board.startPos.x][board.startPos.y], board.endPos, board);
-			gbfs.search();
-			System.out.println("Path: " + gbfs.getPathLength());
-			System.out.println("Steps: " + gbfs.getSteps());
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		*/
-		
-		
-		
-		
-		
+		}		
 	}
 
 }

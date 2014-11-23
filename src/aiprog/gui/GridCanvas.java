@@ -45,29 +45,41 @@ public class GridCanvas extends Canvas
 	public void setCellColorWithoutRepaint(int x, int y, Color color){
 		cells[x][y] = color;
 	}
-	public void transMoveTexts(Direction dir){
-		for(int i = 0; i < texts.size(); i++){
+	public void transMoveTexts(ArrayList<Point> positions, Direction dir){
+		ArrayList<GridText> textList = pointsToGridtexts(positions);
+		for(int i = 0; i < textList.size(); i++){
 			if(dir == Direction.DOWN){
-				if(texts.get(i).position.y < cells[0].length -1){
-					texts.get(i).transY += 1;
+				if(textList.get(i).position.y < cells[0].length -1){
+					textList.get(i).transY += 1;
 				}
 			}else if(dir == Direction.UP){
-				if(texts.get(i).position.y > 0){
-					texts.get(i).transY -= 1;
+				if(textList.get(i).position.y > 0){
+					textList.get(i).transY -= 1;
 				}
 			}else if(dir == Direction.RIGHT){
-				if(texts.get(i).position.x < cells.length -1){
-					texts.get(i).transX += 1;
+				if(textList.get(i).position.x < cells.length -1){
+					textList.get(i).transX += 1;
 				}
 			}else{
-				if(texts.get(i).position.x > 0){
-					texts.get(i).transX -= 1;
+				if(textList.get(i).position.x > 0){
+					textList.get(i).transX -= 1;
 				}
 			}
 
 		}
 		repaint();
 		
+	}
+	private ArrayList<GridText> pointsToGridtexts(ArrayList<Point> positions){
+		ArrayList<GridText> retArray = new ArrayList<GridText>();
+		for(Point pos : positions){
+			for(GridText gt : texts){
+				if(gt.position.x == pos.x && gt.position.y == pos.y){
+					retArray.add(gt);
+				}
+			}
+		}
+		return retArray;
 	}
 	protected void renderGraphics(Graphics g) {
 		for(int i = 0; i < cells.length; i++){
