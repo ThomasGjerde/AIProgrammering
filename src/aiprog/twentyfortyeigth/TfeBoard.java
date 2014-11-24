@@ -10,7 +10,7 @@ public class TfeBoard {
 	private boolean player;
 	private boolean failed;
 	private int victoryValue;
-	
+	private Point maxPoint;
 	public TfeBoard(boolean init,int vValue){
 		if(init){
 			board = new int[4][4];
@@ -386,6 +386,68 @@ public class TfeBoard {
 		}
 	}
 	
+	public int findNeighbour(int posX, int posY, Direction dir){
+		if(dir==Direction.UP){
+			//endre y, --
+			//Nothing available over the current position
+			if(posY == 0){
+				return 0;
+			//Possible neighbour over
+			}else{
+				for(int i=posY-1; i>=0; i--){
+					if(board[posX][i] != 0){
+						return board[posX][i];
+					}
+				}
+			}
+			return 0;
+		}else if(dir==Direction.DOWN){
+			//endre y, ++
+			//Nothing available under the current position
+			if(posY == 3){
+				return 0;
+			//Possible neighbour under
+			}else{
+				for(int i=posY+1; i <= 3; i++){
+					if(board[posX][i] != 0){
+						return board[posX][i];
+					}
+				}
+			}
+			return 0;
+		}else if(dir==Direction.RIGHT){
+			//endre x, ++
+			//Nothing to the right
+			if(posX == 3){
+				return 0;
+			//Possible neighbour to the right
+			}else{
+				for(int i=posX+1; i<=3; i++){
+					if(board[i][posY] != 0){
+						return board[i][posY];
+					}
+				}
+			}
+			return 0;
+		}else if(dir==Direction.LEFT){
+			//endre x, --
+			//Nothing to the left
+			if(posX == 0){
+				return 0;
+			//Possible neighbour to the left
+			}else{
+				for(int i=posX-1; i>=0; i--){
+					if(board[i][posY] != 0){
+						return board[i][posY];
+					}
+				}
+			}
+			return 0;
+		}else{
+			return 0;
+		}
+	}
+	
 	public int findFarthestPosition(int startX, int startY, Direction dir){
 		if(dir == Direction.UP){//up
 			if(startY == 0){
@@ -445,11 +507,176 @@ public class TfeBoard {
 	
 	public double heuristic(){
 		//int[][] calcBoard = getBoard();
-		double mono = monotonicity() * 1;
-		double smooth = smoothness() * 0.1;
 		double max = maxValue() * 1;
+		double mono = monotonicity() * 1;
+		//double order = order() * 0.1;
+		//System.out.println("order: " + order);
+		double smooth = smoothness() * 0.2;
 		double freeTiles = Math.log(getUnoccupiedTiles().size()) * 2.7;
-		return mono + smooth + max + freeTiles;
+		
+		//Ikke bedre
+		//double corner = cornerPos() * 1;
+		/*
+		if(smooth != 0){
+			System.out.println();
+			System.out.println("max: " + max);
+			System.out.println("mono: " + mono);
+			System.out.println("smooth: " + smooth);
+			System.out.println("free: " + freeTiles);
+			System.out.println("heuristic: " + (max+mono+smooth+freeTiles));
+			System.out.println();
+		}
+		*/
+		/*
+		
+		*/
+		//Best so far 57,6
+		return (mono + smooth + max + freeTiles);
+		
+		//test
+		//return (mono + order + smooth + max + freeTiles);
+		//return (mono + smooth + max + freeTiles + corner);
+		//return (order + smooth + max + freeTiles);
+	} 
+	
+	
+	public double lineOrder(){
+		return 0;
+	}
+	
+	//Working on it
+	//Skal erstatte mono tenker jeg, kanskje jeg skal ha med begge
+	public double order(){
+		double order = 0;
+		if(maxPoint.x == 0 && maxPoint.y == 0){
+			double prevTop = Math.log(board[0][0]) / Math.log(2);
+			double nextTop = Math.log(board[1][0]) / Math.log(2);
+			double prevLeft = Math.log(board[0][0]) / Math.log(2);
+			double nextLeft = Math.log(board[0][1]) / Math.log(2);
+			double maxLog = prevTop*2;
+			//System.out.println("MaxLog: " + maxLog);
+			for(int i=2; i<=3; i++){
+				if(nextTop != 0){
+					if(prevTop - nextTop == 0){
+						maxLog = maxLog-1;
+					}else{
+						maxLog = maxLog - (prevTop - nextTop);
+					}
+					prevTop = nextTop;
+					nextTop = Math.log(board[i][0]) / Math.log(2);
+				}
+				if(nextLeft != 0){
+					if(prevLeft - nextLeft == 0){
+						maxLog = maxLog-1;
+					}else{
+						maxLog = maxLog - (prevLeft - nextLeft);
+					}
+					//maxLog = maxLog - (prevLeft - nextLeft);
+					prevLeft = nextLeft;
+					nextLeft = Math.log(board[0][i]) / Math.log(2);
+				}
+			}
+			order = maxLog;
+		}else if(maxPoint.x == 0 && maxPoint.y == 3){
+			double prevBot = Math.log(board[0][3]) / Math.log(2);
+			double nextBot = Math.log(board[1][3]) / Math.log(2);
+			double prevLeft = Math.log(board[0][3]) / Math.log(2);
+			double nextLeft = Math.log(board[0][2]) / Math.log(2);
+			double maxLog = prevBot*2;
+			//System.out.println("MaxLog: " + maxLog);
+			for(int i=2; i<=3; i++){
+				if(nextBot != 0){
+					if(prevBot - nextBot == 0){
+						maxLog = maxLog-1;
+					}else{
+						maxLog = maxLog - (prevBot - nextBot);
+					}
+					//maxLog = maxLog - (prevBot - nextBot);
+					prevBot = nextBot;
+					nextBot = Math.log(board[i][3]) / Math.log(2);
+				}
+			}
+			//teit
+			for(int j=1; j>=0; j--){
+				if(nextLeft != 0){
+					if(prevLeft - nextLeft == 0){
+						maxLog = maxLog-1;
+					}else{
+						maxLog = maxLog - (prevLeft - nextLeft);
+					}
+					//maxLog = maxLog - (prevLeft - nextLeft);
+					prevLeft = nextLeft;
+					nextLeft = Math.log(board[0][j]) / Math.log(2);
+				}
+			}
+			order = maxLog;
+		}else if(maxPoint.x == 3 && maxPoint.y == 0){
+			double prevTop = Math.log(board[3][0]) / Math.log(2);
+			double nextTop = Math.log(board[2][0]) / Math.log(2);
+			double prevRight = Math.log(board[3][0]) / Math.log(2);
+			double nextRight = Math.log(board[3][1]) / Math.log(2);
+			double maxLog = prevTop*2;
+			//System.out.println("MaxLog: " + maxLog);
+			for(int i=1; i>=0; i--){
+				if(nextTop != 0){
+					if(prevTop - nextTop == 0){
+						maxLog = maxLog-1;
+					}else{
+						maxLog = maxLog - (prevTop - nextTop);
+					}
+					//maxLog = maxLog - (prevTop - nextTop);
+					prevTop = nextTop;
+					nextTop = Math.log(board[i][0]) / Math.log(2);
+				}
+			}
+			//teit
+			for(int j=2; j<=3; j++){
+				if(nextRight != 0){
+					if(prevRight - nextRight == 0){
+						maxLog = maxLog-1;
+					}else{
+						maxLog = maxLog - (prevRight - nextRight);
+					}
+					//maxLog = maxLog - (prevRight - nextRight);
+					prevRight = nextRight;
+					nextRight = Math.log(board[3][j]) / Math.log(2);
+				}
+			}
+			order = maxLog;
+		}else if(maxPoint.x == 3 && maxPoint.y == 3){
+			double prevBot = Math.log(board[3][3]) / Math.log(2);
+			double nextBot = Math.log(board[2][3]) / Math.log(2);
+			double prevRight = Math.log(board[3][3]) / Math.log(2);
+			double nextRight = Math.log(board[3][2]) / Math.log(2);
+			double maxLog = prevBot*2;
+			//System.out.println("MaxLog: " + maxLog);
+			for(int i=1; i>=0; i--){
+				if(nextBot != 0){
+					if(prevBot - nextBot == 0){
+						maxLog = maxLog-1;
+					}else{
+						maxLog = maxLog - (prevBot - nextBot);
+					}
+					//maxLog = maxLog - (prevBot - nextBot);
+					prevBot = nextBot;
+					nextBot = Math.log(board[i][3]) / Math.log(2);
+				}
+				if(nextRight != 0){
+					if(prevRight - nextRight == 0){
+						maxLog = maxLog-1;
+					}else{
+						maxLog = maxLog - (prevRight - nextRight);
+					}
+					//maxLog = maxLog - (prevRight - nextRight);
+					prevRight = nextRight;
+					nextRight = Math.log(board[3][i]) / Math.log(2);
+				}
+			}
+			order = maxLog;
+		}else{
+			//order = monotonicity();
+		}
+		return order;
 	}
 	
 	public double monotonicity(){
@@ -457,6 +684,7 @@ public class TfeBoard {
 		totals[0]=0;totals[1]=0;totals[2]=0;totals[3]=0;
 		
 		//up/down
+		//current = 0;
 		for(int i=0; i<4; i++){
 			int current = 0;
 			int next = current+1;
@@ -489,6 +717,7 @@ public class TfeBoard {
 		}
 		
 		//left/right
+		//current = 0;
 		for(int j=0; j<4; j++){
 			int current = 0;
 			int next = current + 1;
@@ -521,7 +750,7 @@ public class TfeBoard {
 		return Math.max(totals[0], totals[1]) + Math.max(totals[2], totals[3]);
 	}
 	
-	//needs testing
+	//works
 	public double smoothness(){
 		double smoothness = 0;
 		for(int i=0; i<4; i++){
@@ -531,12 +760,13 @@ public class TfeBoard {
 					ArrayList<Direction> dirArray = new ArrayList<Direction>();
 					dirArray.add(Direction.UP);
 					dirArray.add(Direction.DOWN);
-					dirArray.add(Direction.LEFT); 
+					dirArray.add(Direction.LEFT);
 					dirArray.add(Direction.RIGHT);
 					while(!dirArray.isEmpty()){
 						Direction dir = dirArray.get(0);
 						dirArray.remove(0);
-						int targetValue = findFarthestPosition(i, j, dir);
+						//int targetValue = findFarthestPosition(i, j, dir);
+						int targetValue = findNeighbour(i,j,dir);
 						if(targetValue != 0){
 							double realTarget = Math.log(targetValue)/Math.log(2);
 							smoothness -= Math.abs(value - realTarget);
@@ -548,20 +778,98 @@ public class TfeBoard {
 		return smoothness;
 	}
 	
-	public int islands(){
+	//Mulig jeg skal bruke denne til ny mono funk etterhvert
+	//Målet er og holde vinkel monster
+	//Se note
+	public double cornerPos(){
+		if(maxPoint.x == 0 && maxPoint.y == 0){
+			return 1;
+		}else if(maxPoint.x == 0 && maxPoint.y == 3){
+			return 1;
+		}else if(maxPoint.x == 3 && maxPoint.y == 0){
+			return 1;
+		}else if(maxPoint.x == 3 && maxPoint.y == 0){
+			return 1;
+		}
 		return 0;
+	}
+	
+	public double islands(){
+		double islandScore = 0;
+		for(int i=0; i<4; i++){
+			for(int j=0; j<4; j++){
+				if(board[i][j] != 0){
+					//i=x 
+					//j=y
+					//i=0 = venstre Linje
+					//i=3 = hoyre linje
+					//j=0 = overste linje 
+					//j=3 = nederste linje
+					if(j == 0){
+						//vi er nederste
+						if(i==0){
+							//vi er nederst venstre - 0,0
+						}else if(i==3){
+							//vi er nederst hoyre - 3,0
+						}else{
+							//vi er i en av to i midten nederst - 1,3 / 2,3
+						}
+					}
+					if(j == 3){
+						//vi er overste
+						if(i==0){
+							//vi er overst venstre - 0,3
+						}else if(i==3){
+							//vi er overst hoyre - 3,3
+						}else{
+							//vi er i en av to i midten overst - 1,3 / 2,3
+						}
+					}
+					if(i == 0){
+						//vi er venstre
+						if(j==0){
+							//vi er overst venstre - 0,0
+						}else if(j==3){
+							//vi er nederst venstre - 0,3
+						}else{
+							//vi er i en av to i midten venstre - 0,1 / 0,2
+						}
+					}
+					if(i == 3){
+						//vi er hoyre
+						if(j==0){
+							//vi er overst hoyre - 3,0
+						}else if(j==3){
+							//vi er nederst hoyre - 3,3
+						}else{
+							//vi er i en av to i midten hoyre - 3,1 / 3,2
+						}
+					}
+					
+					
+				}
+			}
+		}
+		return islandScore;
 	}
 	
 	public double maxValue(){
 		double max = 0;
+		Point midPoint = new Point(0,0);
 		for(int i=0; i<4; i++){
 			for(int j=0; j<4; j++){
 				double value = getNodeValue(i, j);
 				if(value != 0 && value > max){
 					max = value;
+					midPoint.x = i;
+					midPoint.y = j;
 				}
 			}
 		}
+		if(max > 2048){
+			return 20;
+		}
+		maxPoint = midPoint;
 		return Math.log(max) / Math.log(2);
 	}
 	
