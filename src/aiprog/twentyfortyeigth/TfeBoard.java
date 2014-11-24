@@ -336,7 +336,7 @@ public class TfeBoard {
 			Point placePoint = pointList.get((int)randomPlace);
 			this.getBoard()[placePoint.y][placePoint.x] = tileValue;
 		}else{
-			System.out.println("lost");
+			//System.out.println("lost");
 			this.setFailed(true);
 		}
 	}
@@ -505,7 +505,7 @@ public class TfeBoard {
 		//return 0;
 	}
 	
-	public double heuristic(){
+	public double heuristic1(){
 		//int[][] calcBoard = getBoard();
 		double max = maxValue() * 1;
 		double mono = monotonicity() * 1;
@@ -539,6 +539,26 @@ public class TfeBoard {
 		//return (order + smooth + max + freeTiles);
 	} 
 	
+	public double heuristic(){
+		double h = 0;
+		ArrayList<Double> easy = easyHeuristic();
+		double smoothness = easy.get(0) * 0.2;
+		double max = easy.get(1) * 1;
+		double maxPlacement = easy.get(2) * 0.5;
+		double freeSize = easy.get(3) * 2.7;
+		double mono = monotonicity() * 1;
+		
+		//Standard
+		//h = smoothness + max + freeSize + mono;
+		
+		//Med maxPlacement
+		h = smoothness + max + freeSize + mono + maxPlacement;
+		//returnArray.add(smoothness); //pos 0
+		//returnArray.add(max); //pos 1
+		//returnArray.add(maxPlacement); //pos 2 
+		//returnArray.add(freeArraySize); //pos 3
+		return h;
+	}
 	
 	public double lineOrder(){
 		return 0;
@@ -778,9 +798,73 @@ public class TfeBoard {
 		return smoothness;
 	}
 	
+	public ArrayList<Double> easyHeuristic(){
+		//For smoothness - done
+		double smoothness = 0; //det som skal brukes i h
+		//For MaxValue - done
+		double max = 0; //det som skal brukes i h
+		Point midPoint = new Point(0,0);
+		//For freeTiles - done
+		ArrayList<Point> freeArray = new ArrayList<Point>(); 
+		double freeArraySize = 0;//det som skal brukes i h
+		//MaxAtEdge + //MaxAtCorner - testing
+		double maxPlacement = 0; //Den som skal brukes i h
+		
+		for(int i=0; i<4; i++){
+			for(int j=0; j<4; j++){
+				if(board[i][j] == 0){
+					Point freePoint = new Point(i,j);
+					freeArray.add(freePoint);
+				}else{
+					if(board[i][j] != 0 && board[i][j] > max){
+						max = board[i][j];
+						midPoint.x = i;
+						midPoint.y = j;
+					}
+					double value = Math.log(board[i][j]) / Math.log(2);
+					ArrayList<Direction> dirArray = new ArrayList<Direction>();
+					dirArray.add(Direction.UP);
+					dirArray.add(Direction.DOWN);
+					dirArray.add(Direction.LEFT);
+					dirArray.add(Direction.RIGHT);
+					while(!dirArray.isEmpty()){
+						Direction dir = dirArray.get(0);
+						dirArray.remove(0);
+						//int targetValue = findFarthestPosition(i, j, dir);
+						int targetValue = findNeighbour(i,j,dir);
+						if(targetValue != 0){
+							double realTarget = Math.log(targetValue)/Math.log(2);
+							smoothness -= Math.abs(value - realTarget);
+						}
+					}
+				}
+			}
+		}
+		if(max > 2048){
+			max = 20;
+		}else{
+			max = Math.log(max) / Math.log(2);
+		}
+		maxPoint = midPoint;
+		freeArraySize = Math.log(freeArray.size());
+		//Testing med MaxAtEdge + MaxAtCorner //Med value 1 for edge og 2 for corner
+		if(maxPoint.x == 0 || maxPoint.x == 3 || maxPoint.y == 0 || maxPoint.y == 3){
+			maxPlacement = 1;
+			if((maxPoint.x == 0 && maxPoint.y == 0) || (maxPoint.x == 3 && maxPoint.y == 3) || (maxPoint.x == 0 && maxPoint.y == 3) || (maxPoint.x == 3 && maxPoint.y == 0)){
+				maxPlacement = 2;
+			}
+		}
+		ArrayList<Double> returnArray = new ArrayList<Double>();
+		returnArray.add(smoothness); //pos 0
+		returnArray.add(max); //pos 1
+		returnArray.add(maxPlacement); //pos 2 
+		returnArray.add(freeArraySize); //pos 3
+		return returnArray;
+	}
+	
 	//Mulig jeg skal bruke denne til ny mono funk etterhvert
 	//Målet er og holde vinkel monster
-	//Se note
+	//Se note //Dette funker dårlig
 	public double cornerPos(){
 		if(maxPoint.x == 0 && maxPoint.y == 0){
 			return 1;
