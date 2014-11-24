@@ -13,17 +13,19 @@ public class TFEGraphics extends Graphics {
 	public TFEGraphics() {
 		super(4,4);
 		grid.setScale(100);
-		colors = new Color[] {new Color(0xEEE4DA),
-				new Color(0xEAE0C8),
-				new Color(0xF59563),
-				new Color(0x3399ff),
-				new Color(0xffa333),
-				new Color(0xcef030),
-				new Color(0xE8D8CE),
-				new Color(0x990303),
-				new Color(0x6BA5DE),
-				new Color(0xDCAD60),
-				new Color(0xB60022),
+		colors = new Color[] {
+				new Color(0xeee4da),
+				new Color(0xede0c8),
+				new Color(0xf2b179),
+				new Color(0xf59563),
+				new Color(0xf67c5f),
+				new Color(0xf65e3b),
+				new Color(0xedcf72),
+				new Color(0xedcc61),
+				new Color(0xedc850),
+				new Color(0xedc53f),
+				new Color(0xedc22e),
+				new Color(0xEEE4DA),
 				new Color(0xEEE4DA),
 				new Color(0xEEE4DA)};
 		grid.setShowGrid(true);
