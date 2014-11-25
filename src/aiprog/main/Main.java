@@ -113,11 +113,12 @@ public class Main {
 					TFE tfe = new TFE(Integer.parseInt(args[1]));
 					if(args.length == 3 && args[2].toLowerCase().equals("noanimation")){
 						tfe.runTFE(false);
+					}else if(args.length == 4 && args[2].toLowerCase().equals("test")){
+						tfe.runMultiThreadedTest(Integer.parseInt(args[3]));
 					}else{
 						tfe.runTFE(true);
 					}
-				} catch (InterruptedException | ExecutionException e)
-				{
+				} catch (InterruptedException | ExecutionException e){
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}

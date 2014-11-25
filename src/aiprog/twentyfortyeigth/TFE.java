@@ -53,7 +53,7 @@ public class TFE {
 	public void runMultiThreadedTest(int iterations) throws InterruptedException, ExecutionException{
 		int wins = 0;
 		int fails = 0;
-		ExecutorService executorService = Executors.newFixedThreadPool(10);
+		ExecutorService executorService = Executors.newFixedThreadPool(7);
 		List<Future> futures = new ArrayList<>();
 		for(int i = 0; i < iterations; i++){
 			Future<Boolean> future = executorService.submit(new Callable<Boolean>(){
@@ -69,8 +69,12 @@ public class TFE {
 		for(Future future : futures) {
 		    if((boolean)future.get() == true){
 		    	wins++;
+				System.out.println("Wins: " + wins);
+				System.out.println("Fails: " + fails);
 		    }else{
 		    	fails++;
+				System.out.println("Wins: " + wins);
+				System.out.println("Fails: " + fails);
 		    }
 		}
 		System.out.println("----------------");
@@ -86,8 +90,7 @@ public class TFE {
 			board.generateRandomNumber();
 		}	
 		if(board.hasFailed()){
-			System.out.println("Failed");
-			System.out.println(Math.pow(2, board.maxValue()));
+			System.out.println("Failed at " + Math.pow(2, board.maxValue()));
 			return false;
 		}else{
 			System.out.println("Victory");
