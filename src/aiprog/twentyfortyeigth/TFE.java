@@ -24,10 +24,10 @@ public class TFE {
 		TFEGraphics graphics = new TFEGraphics();
 		graphics.setBoard(board);
 		while(!board.hasFailed() && !board.victoryCheck()) {
+			depth = 2;
 			MinMax minMax = new MinMax(board);
 			Move bestMove = minMax.search(initAlpha, initBeta, depth);
 			while(bestMove.getDirection() == null && depth > 0){
-				System.out.println("Move null, trying lower depth");
 				depth--;
 				bestMove = minMax.search(initAlpha, initBeta, depth);
 			}
@@ -53,7 +53,7 @@ public class TFE {
 	public void runMultiThreadedTest(int iterations) throws InterruptedException, ExecutionException{
 		int wins = 0;
 		int fails = 0;
-		ExecutorService executorService = Executors.newFixedThreadPool(7);
+		ExecutorService executorService = Executors.newFixedThreadPool(6);
 		List<Future> futures = new ArrayList<>();
 		for(int i = 0; i < iterations; i++){
 			Future<Boolean> future = executorService.submit(new Callable<Boolean>(){
@@ -80,12 +80,19 @@ public class TFE {
 		System.out.println("----------------");
 		System.out.println("Wins: " + wins);
 		System.out.println("Fails: " + fails);
+		System.out.println(((double)wins/(double)iterations)*100 + "% Win");
 	}
 	private boolean runTFETest(){
+		int depth = 2;
 		TfeBoard board = new TfeBoard(true,this.targetValue);
 		while(!board.hasFailed() && !board.victoryCheck()) {
+			depth = 2;
 			MinMax minMax = new MinMax(board);
 			Move bestMove = minMax.search(initAlpha, initBeta, 2);
+			while(bestMove.getDirection() == null && depth > 0){
+				depth--;
+				bestMove = minMax.search(initAlpha, initBeta, depth);
+			}
 			board.move(bestMove.getDirection());
 			board.generateRandomNumber();
 		}	
