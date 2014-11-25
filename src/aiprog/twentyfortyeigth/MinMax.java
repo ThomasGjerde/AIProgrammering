@@ -23,11 +23,12 @@ public class MinMax {
 					newBoard.move(direction);
 					//Put win check here
 					newBoard.setPlayer(false);
-					MinMax newMinMax = new MinMax(newBoard);
+					
 					if(depth == 0){
 						currentMove.setDirection(direction);
 						currentMove.setHeuristic(newBoard.heuristic());
 					}else{
+						MinMax newMinMax = new MinMax(newBoard);
 						currentMove = newMinMax.search(bestMove.getHeuristic(), beta, depth - 1);
 					}
 					if(currentMove.getHeuristic() > bestMove.getHeuristic()){
