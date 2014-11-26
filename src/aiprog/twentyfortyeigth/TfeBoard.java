@@ -33,8 +33,6 @@ public class TfeBoard {
 		board = cloneBoard;
 		player = clonePlayer;
 	}
-	
-	//works
 	public void moveLeft(){
 		for(int i=0; i<4; i++){
 			Point leftPoint = new Point(i,0);
@@ -64,8 +62,6 @@ public class TfeBoard {
 			}
 		}
 	}
-	
-	//Works
 	public void moveRight(){
 		for(int i=0; i<4; i++){
 			Point rightPoint = new Point(i,3);
@@ -95,8 +91,6 @@ public class TfeBoard {
 			}
 		}
 	}
-	
-	//Works
 	public void moveDown(){
 		for(int i=0; i<4; i++){
 			Point rightPoint = new Point(3,i);
@@ -126,7 +120,6 @@ public class TfeBoard {
 			}
 		}
 	}
-	//Works
 	public void moveUp(){
 		for(int i=0; i<4; i++){
 			Point rightPoint = new Point(0,i);
@@ -157,7 +150,6 @@ public class TfeBoard {
 	}
 	
 	public boolean isLegalRightMove(){
-		//return false;
 		for(int i=0; i<4; i++){
 			Point rightPoint = new Point(i,3);
 			int prevValue = 0;
@@ -269,7 +261,6 @@ public class TfeBoard {
 					if(prevValue == value){
 						rightPoint.x = rightPoint.x + 1;
 						return true;
-						//merge = true;
 					}
 					
 					if(midPoint.x != rightPoint.x || midPoint.y != rightPoint.y){
@@ -336,17 +327,14 @@ public class TfeBoard {
 		}
 	}
 	
-	//enkel return av spesifik node value
 	public int getNodeValue(int posX, int posY){
 		if(posX >=0 && posX < board.length && posY >= 0 && board[0].length > posY){
 			return board[posX][posY];
 		}else{
 			return 0;
 		}
-		//return this.getBoard()[posX][posY];
 	}
 	
-	//True hvis noden er tatt, false hvis den er 0
 	public boolean checkOccupied(int posX, int posY){
 		if(getNodeValue(posX, posY) != 0){
 			return true;
@@ -357,11 +345,8 @@ public class TfeBoard {
 	
 	public int findNeighbour(int posX, int posY, Direction dir){
 		if(dir==Direction.UP){
-			//endre y, --
-			//Nothing available over the current position
 			if(posY == 0){
 				return 0;
-			//Possible neighbour over
 			}else{
 				for(int i=posY-1; i>=0; i--){
 					if(board[posX][i] != 0){
@@ -371,11 +356,8 @@ public class TfeBoard {
 			}
 			return 0;
 		}else if(dir==Direction.DOWN){
-			//endre y, ++
-			//Nothing available under the current position
 			if(posY == 3){
 				return 0;
-			//Possible neighbour under
 			}else{
 				for(int i=posY+1; i <= 3; i++){
 					if(board[posX][i] != 0){
@@ -385,11 +367,8 @@ public class TfeBoard {
 			}
 			return 0;
 		}else if(dir==Direction.RIGHT){
-			//endre x, ++
-			//Nothing to the right
 			if(posX == 3){
 				return 0;
-			//Possible neighbour to the right
 			}else{
 				for(int i=posX+1; i<=3; i++){
 					if(board[i][posY] != 0){
@@ -399,11 +378,8 @@ public class TfeBoard {
 			}
 			return 0;
 		}else if(dir==Direction.LEFT){
-			//endre x, --
-			//Nothing to the left
 			if(posX == 0){
 				return 0;
-			//Possible neighbour to the left
 			}else{
 				for(int i=posX-1; i>=0; i--){
 					if(board[i][posY] != 0){
@@ -436,7 +412,6 @@ public class TfeBoard {
 		totals[0]=0;totals[1]=0;totals[2]=0;totals[3]=0;
 		
 		//up/down
-		//current = 0;
 		for(int i=0; i<4; i++){
 			int current = 0;
 			int next = current+1;
@@ -469,7 +444,6 @@ public class TfeBoard {
 		}
 		
 		//left/right
-		//current = 0;
 		for(int j=0; j<4; j++){
 			int current = 0;
 			int next = current + 1;
@@ -504,15 +478,15 @@ public class TfeBoard {
 	
 	public ArrayList<Double> easyHeuristic(){
 		//For smoothness - done
-		double smoothness = 0; //det som skal brukes i h
+		double smoothness = 0;
 		//For MaxValue - done
-		double max = 0; //det som skal brukes i h
+		double max = 0;
 		Point midPoint = new Point(0,0);
 		//For freeTiles - done
 		ArrayList<Point> freeArray = new ArrayList<Point>(); 
-		double freeArraySize = 0;//det som skal brukes i h
+		double freeArraySize = 0;
 		//MaxAtEdge + //MaxAtCorner - testing
-		double maxPlacement = 0; //Den som skal brukes i h
+		double maxPlacement = 0;
 		
 		for(int i=0; i<4; i++){
 			for(int j=0; j<4; j++){
@@ -549,9 +523,7 @@ public class TfeBoard {
 			max = Math.log(max) / Math.log(2);
 		}
 		maxPoint = midPoint;
-		//freeArraySize = Math.log(freeArray.size());
 		freeArraySize = freeArray.size();
-		//Testing med MaxAtEdge + MaxAtCorner //Med value 1 for edge og 2 for corner
 		if(maxPoint.x == 0 || maxPoint.x == 3 || maxPoint.y == 0 || maxPoint.y == 3){
 			maxPlacement = 1;
 			if((maxPoint.x == 0 && maxPoint.y == 0) || (maxPoint.x == 3 && maxPoint.y == 3) || (maxPoint.x == 0 && maxPoint.y == 3) || (maxPoint.x == 3 && maxPoint.y == 0)){

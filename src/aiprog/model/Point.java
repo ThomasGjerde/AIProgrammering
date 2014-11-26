@@ -1,7 +1,6 @@
 package aiprog.model;
 
 public class Point {
-	//Clean up this shit
 	public int x;
 	public int y;
 	public Point(int x, int y){
@@ -17,7 +16,6 @@ public class Point {
 		return (xDist + yDist);
 	}
 	public String toString() {
-		// TODO Auto-generated method stub
 		return "(" + y + "," + x + ")";
 	}
 	

@@ -54,6 +54,7 @@ public class NNStateNode extends Node{
 		return newColRow;
 		
 	}
+	@SuppressWarnings("unused")
 	private void printArrayList(ArrayList<Boolean> list){
 		for(int i = 0; i < list.size(); i++){
 			System.out.print((list.get(i) ? "1" : "0") + " ");
@@ -61,7 +62,6 @@ public class NNStateNode extends Node{
 		System.out.println("");
 	}
 	private void makePermutation(int[] array, int startIndex){
-		//int[] array = a.clone();
 		saveArray(array);
 		
 		if(startIndex < array.length && array[startIndex] != 0){
@@ -80,6 +80,7 @@ public class NNStateNode extends Node{
 			makePermutation(array, startIndex + 1);
 		}
 	}
+	@SuppressWarnings("unused")
 	private void printArray(int[] a, String prefix){
 		System.out.println("----------------");
 		System.out.println(prefix);
@@ -156,13 +157,11 @@ public class NNStateNode extends Node{
 		return midPos;
 	}
 	public int getSmallestColDomainIndex(){
-		NNColRow smallest = null;
 		int h=100;
 		int midPos = 0;
 		for(int i=0; i<this.colDomains.size(); i++){
 			if(h>this.colDomains.get(i).getDomain().size() && this.colDomains.get(i).getDomain().size() >= 2){
 				h = this.colDomains.get(i).getDomain().size();
-				smallest = this.colDomains.get(i);
 				midPos = i;
 			}
 		}

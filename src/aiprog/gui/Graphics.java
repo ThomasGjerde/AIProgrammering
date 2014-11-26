@@ -11,7 +11,6 @@ public class Graphics {
 			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
 		} catch (ClassNotFoundException | InstantiationException
 				| IllegalAccessException | UnsupportedLookAndFeelException e){
-			//e.printStackTrace();
 		}
         grid = new GridCanvas(sizeX,sizeY);
         JFrame window = new JFrame();

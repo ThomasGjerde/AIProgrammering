@@ -7,19 +7,15 @@ import aiprog.flowfree.FFBoard;
 import aiprog.flowfree.FlowFree;
 import aiprog.gui.FFGraphics;
 import aiprog.gui.NNGraphics;
-import aiprog.gui.TFEGraphics;
-import aiprog.model.Direction;
 import aiprog.model.NNStateNode;
 import aiprog.navigation.Board;
 import aiprog.navigation.GridBestFirstSearch;
 import aiprog.navigation.GridBreadthFirstSearch;
 import aiprog.navigation.GridDepthFirstSearch;
 import aiprog.nonogram.NNBoard;
-import aiprog.nonogram.NonoGram1;
-import aiprog.vcp.VCP;
+import aiprog.nonogram.NonoGram;
 import aiprog.vcp.VCPGraph;
 import aiprog.twentyfortyeigth.TFE;
-import aiprog.twentyfortyeigth.TfeBoard;
 
 
 public class Main {
@@ -47,7 +43,6 @@ public class Main {
 					System.out.println("Expanded nodes: " + ff.getSteps());
 					System.out.println("Generated states: " + (ff.getGeneratedChildren()+1));
 				} catch (IOException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 			}else if(args[0].toLowerCase().equals("nonogram")){
@@ -55,12 +50,11 @@ public class Main {
 					NNBoard board = new NNBoard(args[1]);
 					NNGraphics graphics = new NNGraphics(board);
 					NNStateNode sn = new NNStateNode(board);
-					NonoGram1 nono = new NonoGram1(sn, graphics);
+					NonoGram nono = new NonoGram(sn, graphics);
 					System.out.println("Path length: " + nono.getPathLength());
 					System.out.println("Expanded nodes: " + nono.getSteps());
 					System.out.println("Generated states: " + (nono.getGeneratedChildren()+1));
 				} catch (IOException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 			}else if(args[0].toLowerCase().equals("vcp")){
@@ -68,7 +62,6 @@ public class Main {
 					try {
 						VCPGraph graph = new VCPGraph(args[1], Integer.parseInt(args[2]));
 					} catch (IOException e) {
-						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
 				}
@@ -81,7 +74,6 @@ public class Main {
 						System.out.println("Path: " + gbfs.getPathLength());
 						System.out.println("Steps: " + gbfs.getSteps());
 					} catch (IOException e) {
-						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
 				}else if(args[1].toLowerCase().equals("breadth")){
@@ -92,7 +84,6 @@ public class Main {
 						System.out.println("Path: " + gbfs.getPathLength());
 						System.out.println("Steps: " + gbfs.getSteps());
 					} catch (IOException e) {
-						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
 				}else if(args[1].toLowerCase().equals("depth")){
@@ -103,7 +94,6 @@ public class Main {
 						System.out.println("Path: " + gdfs.getPathLength());
 						System.out.println("Steps: " + gdfs.getSteps());
 					} catch (IOException e) {
-						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
 				}
@@ -119,7 +109,6 @@ public class Main {
 						tfe.runTFE(true);
 					}
 				} catch (InterruptedException | ExecutionException e){
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 			}

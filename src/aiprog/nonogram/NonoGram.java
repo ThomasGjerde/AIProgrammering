@@ -8,126 +8,215 @@ import aiprog.model.NNStateNode;
 import aiprog.model.Node;
 import aiprog.search.AStar;
 
-public class NonoGram extends AStar{
-	int counter = 0;
+public class NonoGram extends AStar {
+
 	NNStateNode currentState;
 	NNGraphics graphics;
+	int initialDomainSize = 0;
 	public NonoGram(Node startNode, NNGraphics graph) {
 		super(startNode);
-		graphics = graph;
 		currentState = (NNStateNode)startNode;
-		
-		System.out.println("domainsum: " + currentState.getDomainSum());
-		
+		initialDomainSize = currentState.getDomainSum();
+		graphics = graph;
 		initModifications(currentState);
-		checkVictory();
 		graphics.setState(currentState);
-		//assumption(currentState);
-		System.out.println("ferdig med reductions");
-		System.out.println("domainsum: " + currentState.getDomainSum());
-		System.out.println("counter: " + counter);
-		//search();
+		makeAssumption();
+		this.search();
 	}
 	
-	public void initModifications(NNStateNode state){
+	public void setSingles(NNStateNode state){
 		for(int i=0; i<state.colDomains.size(); i++){
 			if(state.colDomains.get(i).getDomain().size() == 1){
 				state.colDomains.get(i).setValue(state.colDomains.get(i).getDomain().get(0));
-				reduseByCol(i, state);
-				//System.out.println("colFilled");
+				reduseByCol(i,state);
 			}
 		}
 		for(int j=0; j<state.rowDomains.size(); j++){
 			if(state.rowDomains.get(j).getDomain().size() == 1){
 				state.rowDomains.get(j).setValue(state.rowDomains.get(j).getDomain().get(0));
-				reduseByRow(j, state);
-				//System.out.println("rowfilled");
+				reduseByRow(j,state);
 			}
 		}
-		
-		
-		//int oldCount = currentState.getDomainSum();
-		initColReduction(currentState);
-		initRowReduction(currentState);
-		//initColReduction(currentState);
-		//initRowReduction(currentState);
-		//int newCount = currentState.getDomainSum();
-		/*
-		for(int x=0; x<state.colDomains.size(); x++){
-			System.out.println("colDomains: " + state.colDomains.get(x).getDomain().size());
-		}
-		for(int c=0; c<state.rowDomains.size(); c++){
-			System.out.println("rowdomains: " + state.rowDomains.get(c).getDomain().size());
-		}*/
 	}
-	
-	public void initColReduction(NNStateNode state){
-		for(int i=0; i<state.colDomains.size(); i++){
-			ArrayList<Integer> intArray = findCommon(state.colDomains.get(i).getDomain());
-			if(checkCommon(intArray)){
-				for(int j=0; j<intArray.size(); j++){
-					if(intArray.get(j) != 3){
-						boolean check;
-						if(intArray.get(j) == 1){
-							check = true;
-						}else{
-							check = false;
-						}
-						state.rowDomains.get(j).catogory = true;
-						reduction(state.rowDomains.get(j), i, check, state, j);
+	public void reduseByRow(int posInArray, NNStateNode state){
+		NNColRow row = state.rowDomains.get(posInArray);
+		for(int i=0; i<row.getValue().size(); i++){
+			NNColRow col = state.colDomains.get(i);
+			for(int j=0; j<col.getDomain().size(); j++){
+				if(col.getDomain().get(j).get(posInArray) != row.getValue().get(i)){
+					col.getDomain().remove(j);
+					if(col.getDomain().size() == 1){
+						col.setValue(col.getDomain().get(0));
+						reduseByCol(i, state);
 					}
 				}
 			}
 		}
 	}
-	
-	
-	public void initRowReduction(NNStateNode state){
-		for(int i=0; i<state.rowDomains.size(); i++){
-			ArrayList<Integer> intArray = findCommon(state.rowDomains.get(i).getDomain());
-			if(checkCommon(intArray)){
-				for(int j=0; j<intArray.size(); j++){
-					if(intArray.get(j) != 3){
-						boolean check;
-						if(intArray.get(j) == 1){
-							check = true;
-						}else{
-							check = false;
-						}
-						state.colDomains.get(j).catogory = false;
-						reduction(state.colDomains.get(j), i, check, state, j);
+	public void reduseByCol(int posInArray, NNStateNode state){
+		NNColRow col = state.colDomains.get(posInArray);
+		for(int i=0; i<col.getValue().size(); i++){
+			NNColRow row = state.rowDomains.get(i);
+			for(int j=0; j<row.getDomain().size(); j++){
+				if(row.getDomain().get(j).get(posInArray) != col.getValue().get(i)){
+					row.getDomain().remove(j);
+					if(row.getDomain().size() == 1){
+						row.setValue(row.getDomain().get(0));
+						reduseByRow(i, state);
 					}
-				}	
+				}
 			}
 		}
 	}
+	public void reduseByCommon(NNStateNode state){
+		ArrayList<NNColRow> colList = new ArrayList<NNColRow>(state.colDomains);
+		for(int i = 0; i < colList.size(); i++){
+			if(colList.get(i).getDomain().size() < 1){
+				continue;
+			}
+			ArrayList<Integer> changeStatus = findCommon(colList.get(i));
+			for(int j = 0; j < changeStatus.size(); j++){
+				if(changeStatus.get(j) != 3){
+					NNColRow row = state.rowDomains.get(j);
+					for(int k = 0; k < row.getDomain().size(); k++){
+						boolean value;
+						if(changeStatus.get(j) == 1){
+							value = true;
+						}else{
+							value = false;
+						}
+						if(row.getDomain().get(k).get(i) != value){
+							row.deleteFromDomain(row.getDomain().get(k));
+						}
+					}
+				}
+			}
+		}
+		
+		ArrayList<NNColRow> rowList = new ArrayList<NNColRow>(state.rowDomains);
+		for(int i = 0; i < rowList.size(); i++){
+			if(rowList.get(i).getDomain().size() < 1){
+				continue;
+			}
+			ArrayList<Integer> changeStatus = findCommon(rowList.get(i));
+			for(int j = 0; j < changeStatus.size(); j++){
+				if(changeStatus.get(j) != 3){
+					NNColRow col = state.colDomains.get(j);
+					for(int k = 0; k < col.getDomain().size(); k++){
+						boolean value;
+						if(changeStatus.get(j) == 1){
+							value = true;
+						}else{
+							value = false;
+						}
+						if(col.getDomain().get(k).get(i) != value){
+							col.deleteFromDomain(col.getDomain().get(k));
+						}
+					}
+				}
+			}
+		}
+		
+	}
+	public void makeAssumption(){
+		int col = currentState.getSmallestColDomainIndex();
+		int row = currentState.getSmallestRowDomainIndex();
 
-	//Mulig jeg m� modifisere denne litt
-	public ArrayList<Integer> findCommon(ArrayList<ArrayList<Boolean>> domain){
-		//System.out.println("domainsize " + domain.get(0).size());
+		if(currentState.colDomains.get(col).getDomain().size() < currentState.rowDomains.get(row).getDomain().size()){
+			for(int j = 0; j < currentState.colDomains.get(col).getDomain().size(); j++){
+				ArrayList<NNColRow> colChanges = new ArrayList<NNColRow>(); 
+				for(int i = 0; i < currentState.colDomains.size(); i++){
+					colChanges.add(currentState.colDomains.get(i).cloneColRow());
+				}
+				ArrayList<NNColRow> rowChanges = new ArrayList<NNColRow>(); 
+				for(int i = 0; i < currentState.rowDomains.size(); i++){
+					rowChanges.add(currentState.rowDomains.get(i).cloneColRow());
+				}
+				colChanges.get(col).setValue(colChanges.get(col).getDomain().get(j));
+				currentState.generateStateNode(colChanges, rowChanges);
+			}
+			
+		}else{
+			for(int j = 0; j < currentState.rowDomains.get(row).getDomain().size(); j++){
+				ArrayList<NNColRow> colChanges = new ArrayList<NNColRow>(); 
+				for(int i = 0; i < currentState.colDomains.size(); i++){
+					colChanges.add(currentState.colDomains.get(i).cloneColRow());
+				}
+				ArrayList<NNColRow> rowChanges = new ArrayList<NNColRow>(); 
+				for(int i = 0; i < currentState.rowDomains.size(); i++){
+					rowChanges.add(currentState.rowDomains.get(i).cloneColRow());
+				}
+				rowChanges.get(row).setValue(rowChanges.get(row).getDomain().get(j));
+				currentState.generateStateNode(colChanges, rowChanges);
+			}
+		}
+	}
+	public void generalReduction(){
+		ArrayList<NNColRow> colList = new ArrayList<NNColRow>(currentState.colDomains);
+		for(int i = 0; i < colList.size(); i++){
+			NNColRow col = colList.get(i);
+			if(col.getValue() != null){
+				for(int j = 0; j < col.getValue().size(); j++){
+					NNColRow row = currentState.rowDomains.get(j);
+					for(int k = 0; k < row.getDomain().size(); k++){
+						if(row.getDomain().get(k).get(i) != col.getValue().get(j)){
+							row.deleteFromDomain(row.getDomain().get(k));
+						}
+					}
+				}
+			}
+			
+		}
+		
+		ArrayList<NNColRow> rowList = new ArrayList<NNColRow>(currentState.rowDomains);
+		for(int i = 0; i < rowList.size(); i++){
+			NNColRow row = rowList.get(i);
+			if(row.getValue() != null){
+				for(int j = 0; j < row.getValue().size(); j++){
+					NNColRow col = currentState.colDomains.get(j);
+					for(int k = 0; k < col.getDomain().size(); k++){
+						if(col.getDomain().get(k).get(i) != row.getValue().get(j)){
+							col.deleteFromDomain(col.getDomain().get(k));
+						}
+					}
+				}
+			}
+			
+		}
+	}
+	public void reduseSpesific(){
+		
+	}
+	public ArrayList<Integer> findCommon(NNColRow obj){
 		ArrayList<Integer> intArray = new ArrayList<Integer>();
-		for(int i=0; i<domain.get(0).size(); i++){
-			if(domain.get(0).get(i) == true){
+		for(int c=0; c<obj.getDomain().get(0).size(); c++){
+			if(obj.getDomain().get(0).get(c) == true){
 				intArray.add(1);
 			}else{
 				intArray.add(0);
 			}
 		}
-		
-		for(int j=0; j<domain.size(); j++){
-			for(int k=0; k<domain.get(j).size(); k++){
-				if(intArray.get(k) == 1 && domain.get(j).get(k) != true){
-					intArray.set(k, 3);
-				}
-				if(intArray.get(k) == 0 && domain.get(j).get(k) != false){
-					intArray.set(k, 3);
+		for(int i=0; i<obj.getDomain().size(); i++){
+			ArrayList<Boolean> midArray = obj.getDomain().get(i);
+			for(int j=0; j<midArray.size(); j++){
+				if(midArray.get(j) == true){
+					if(intArray.get(j) == 1){
+						
+					}else{
+						intArray.set(j, 3);
+					}
+				}else{
+					if(intArray.get(j) == 0){
+						
+					}else{
+						intArray.set(j, 3);
+					}
 				}
 			}
 		}
 		return intArray;
 	}
 	
-	//Denne funker
 	public boolean checkCommon(ArrayList<Integer> intArray){
 		for(int i=0; i<intArray.size(); i++){
 			if(intArray.get(i) == 1 || intArray.get(i) == 0){
@@ -136,99 +225,33 @@ public class NonoGram extends AStar{
 		}
 		return false;
 	}
-	
-	//Det ser ut til at denne fungerer
-	//Vet ikke om dette funker....
-	public void reduction(NNColRow obj, int pos, boolean value, NNStateNode state, int objPos){
-		for(int i=0; i<obj.getDomain().size(); i++){
-			if(obj.getDomain().get(i).get(pos) != value){
-				obj.deleteFromDomain(obj.getDomain().get(i));
-				if(obj.getDomain().size() == 1){
-					obj.setValue(obj.getDomain().get(0));
-					if(obj.catogory == true){
-						reduseByRow(objPos, state);
-					}else{
-						reduseByCol(objPos, state);
-					}
-				}
-				//counter++;
-				//System.out.println("reduction");
-			}
+	public void initModifications(NNStateNode state){
+		int oldDomainSize = state.getDomainSum();
+		setSingles(state);
+		reduseByCommon(state);
+		int newDomainSize = state.getDomainSum();
+		
+		while(oldDomainSize > newDomainSize){
+			oldDomainSize = state.getDomainSum();
+			setSingles(state);
+			reduseByCommon(state);
+			newDomainSize = state.getDomainSum();
 		}
-		//counter++;
+		
+		graphics.setState(state);
+		
 	}
-	
-	public void stateReduction(NNStateNode state){
-		for(int i=0; i<state.colDomains.size(); i++){
-			NNColRow col = state.colDomains.get(i);
-			if(col.getValue() != null){
-				reduseByCol(i, state);
-			}
-		}
-		for(int j=0; j<state.rowDomains.size(); j++){
-			NNColRow row = state.rowDomains.get(j);
-			if(row.getValue() != null){
-				reduseByRow(j, state);
-			}
-		}
-	}
-	
-	//Denne ser ut til og fungere
-	public void reduseByCol(int pos, NNStateNode state){
-		NNColRow col = state.colDomains.get(pos);
-		for(int i=0; i<col.getValue().size(); i++){
-			NNColRow row = state.rowDomains.get(i);
-			if(row.getValue() == null){
-				for(int j=0; j<row.getDomain().size(); j++){
-					ArrayList<Boolean> rowDomain = row.getDomain().get(j);
-					if(rowDomain.get(pos) != col.getValue().get(i)){
-						row.getDomain().remove(j);
-						if(row.getDomain().size() == 1){
-							row.setValue(row.getDomain().get(0));
-							reduseByRow(i, state);
-						}
-					}
-				}
-			}
-		}
-	}
-	
-	//Denne ser ut til og fungere
-	public void reduseByRow(int pos, NNStateNode state){
-		NNColRow row = state.rowDomains.get(pos);
-		for(int i=0; i<row.getValue().size(); i++){
-			NNColRow col = state.colDomains.get(i);
-			if(col.getValue() == null){
-				for(int j=0; j<col.getDomain().size(); j++){
-					ArrayList<Boolean> colDomain = col.getDomain().get(j);
-					if(colDomain.get(pos) != row.getValue().get(i)){
-						col.getDomain().remove(j);
-						if(col.getDomain().size() == 1){
-							col.setValue(col.getDomain().get(0));
-							reduseByCol(i, state);
-						}
-					}
-				}
-			}
-		}
-	}
-
 	@Override
 	protected boolean checkVictory() {
-		NNStateNode state = (NNStateNode)currentNode;
-		int rows=0;
-		int cols=0;
-		for(int i=0; i<state.rowDomains.size(); i++){
-			if(state.rowDomains.get(i).getValue() != null && state.rowDomains.get(i).getDomain().size() == 1){
-				rows++;
+		if(currentState.validateConstraints()){
+			Boolean[][] resultArray = currentState.buildArray();
+			for(int i = 0; i < resultArray.length; i++){
+				for(int j = 0; j < resultArray[0].length; j++){
+					if(resultArray[i][j] == null){
+						return false;
+					}
+				}
 			}
-		}
-		for(int j=0; j<state.colDomains.size(); j++){
-			if(state.colDomains.get(j).getValue() != null && state.colDomains.get(j).getDomain().size() == 1){
-				cols++;
-			}
-		}
-		if(state.rowDomains.size() == rows && state.colDomains.size() == cols){
 			return true;
 		}else{
 			return false;
@@ -237,74 +260,38 @@ public class NonoGram extends AStar{
 
 	@Override
 	protected void processCurrentNode() {
-		System.out.println("processcurrentNode");
-		if(!checkVictory()){
-			NNStateNode state = (NNStateNode)currentNode;
-			graphics.setState(state);
-			assumption(state);
-		}else{
-			System.out.println("Seier");
-			graphics.setState((NNStateNode)currentNode);
+		currentState = (NNStateNode)currentNode;
+		int oldDomainSize = currentState.getDomainSum();
+		reduseByCommon(currentState);
+		generalReduction();
+		setSingles(currentState);
+		int newDomainSize = currentState.getDomainSum();
+		while(oldDomainSize > newDomainSize){
+			oldDomainSize = currentState.getDomainSum();
+			generalReduction();
+			setSingles(currentState);
+			reduseByCommon(currentState);
+			newDomainSize = currentState.getDomainSum();
 		}
-		
-	}
-	
-	//Funker tror jeg
-	//Skal finne raden eller col med minst domene og sende videre til enten
-	//assumtionCol (for col) eller assumptionRow for row
-	public void assumption(NNStateNode state){
-		/*
-		NNColRow smallestRow = state.getSmallestRowDomain();
-		NNColRow smallestCol = state.getSmallestColDomain();
-		if(smallestRow.getDomain().size() > smallestCol.getDomain().size()){
-			assumptionCol(smallestCol, state);
-		}else{
-			assumptionRow(smallestCol, state);
-		}
-		*/
-	}
-	
-	//Funker ikke
-	//Skal genere en state for v�rt element i domain
-	//Ettersom de er generert skal endringen bli satt og reduction skal bli gjort
-	//S� skal den legges til i openlista
-	public void assumptionCol(NNColRow col, NNStateNode state){
-		for(int i=0; i<col.getDomain().size(); i++){
-			NNStateNode childState = state.generateStateNode(state.colDomains, state.rowDomains);
-			childState.colDomains.get(state.smallestPos).setValue(col.getDomain().get(i));
-			stateReduction(childState);
-			
-			setHeuristic(childState);
-			state.children.add(childState);
-			System.out.println("assumptionCol");
-		}
-		
-	}
-	
-	//Funker ikke
-	//Skal genere en state for v�rt element  domain
-	//Ettersom de er generert skal endringen bli satt og reduction skal bli gjort
-	//S� skal den legges til i openlista
-	public void assumptionRow(NNColRow row, NNStateNode state){
-		for(int i=0; i<row.getDomain().size(); i++){
-			NNStateNode childState = state.generateStateNode(state.colDomains, state.rowDomains);
-			childState.rowDomains.get(state.smallestPos).setValue(row.getDomain().get(i));
-			stateReduction(childState);
-			
-			setHeuristic(childState);
-			state.children.add(childState);
-			System.out.println("assumptionRow");
+		makeAssumption();
+		try {
+			Thread.sleep(0);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
 		}
 	}
 
+	@Override
 	protected void setHeuristic(Node node) {
-		NNStateNode state = (NNStateNode)node;
-		state.heuristic = state.getDomainSum();
+		NNStateNode tempNode = (NNStateNode)node;
+		tempNode.heuristic = initialDomainSize - tempNode.getDomainSum();
 		
 	}
 
+	@Override
 	protected void updateGui() {
+		graphics.setState(currentState);
 		
 	}
-
+	
 }

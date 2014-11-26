@@ -23,6 +23,4 @@ public abstract class Canvas extends JPanel{
             renderGraphics(g);
         }
         protected abstract void renderGraphics(Graphics g);
-        
-
 }

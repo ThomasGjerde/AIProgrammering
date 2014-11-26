@@ -43,10 +43,7 @@ public class FlowFree extends AStar {
 		return ((FFStateNode)currentNode).checkAllConstraints();
 	}
 	
-	//Skal bare kj�re p� S0
-	//Kan kanskje kj�re i starten p� alle states, er ikke sikker
 	private void setCorners(FFStateNode state){
-		//alle tomme gjorne noder blir satt til en farge hvis det bare er 1 mulighet
 				FFNode venstreTop = null;
 				FFNode venstreBot = null;
 				FFNode hoyreBot = null;
@@ -91,7 +88,6 @@ public class FlowFree extends AStar {
 	private void initModifications(FFStateNode state){
 		edge = (int) Math.sqrt(state.getNodes().size()) - 1;
 		
-		//Start antagelser
 		ArrayList<FFNode> cloneArray = new ArrayList<FFNode>();
 		for(int ii=0; ii<state.getNodes().size(); ii++){
 			cloneArray.add(state.getNodes().get(ii).cloneNode());
@@ -115,7 +111,6 @@ public class FlowFree extends AStar {
 			}
 		}
 		
-		//Alle edgenoder i et "rundt" array
 		ArrayList<FFNode> full = new ArrayList<FFNode>();
 		for(int l=0; l<right.size(); l++){
 			full.add(right.get(l));
@@ -125,9 +120,6 @@ public class FlowFree extends AStar {
 			full.add(left.get(m));
 		}
 		
-		
-		
-		//Dette gaar bare den ene veien
 		for(int o=0; o<full.size(); o++){
 			if(full.get(o).getColor() != null){
 				FFNode colorStart = full.get(o);
@@ -154,7 +146,6 @@ public class FlowFree extends AStar {
 							full.get(o+x).setColor(colorStart.getColor(),full.get(o+x-1));
 						}
 					}
-					FFStateNode genState = currentState.generateStateNode(cloneArray);
 				}
 			}
 		}
@@ -179,15 +170,11 @@ public class FlowFree extends AStar {
 	}
 	
 	
-	//For og sette heuristic per state
 	@Override
 	protected void setHeuristic(Node node) {
 		// TODO Auto-generated method stub
-		//Blanco it is
 	}
-	
-	//kan evt v�re deduction
-	//skal fikse det �penbare
+
 	public boolean reduceSingle(FFNode node){
 		ArrayList<FFNode> midList = new ArrayList<FFNode>();
 		for(int i=0; i<node.getChildren().size(); i++){
@@ -204,13 +191,11 @@ public class FlowFree extends AStar {
 			return false;
 		}
 		if(midList.size() == 1){
-			//stateFail = false;
 			midList.get(0).setColor(node.getColor(), node);
 			try {
 				
 				Thread.sleep(sleepTime);
 			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			return true;
@@ -265,10 +250,6 @@ public class FlowFree extends AStar {
 						result = setNeighbouringSingleton(endArray.get(i));
 					}
 				}
-				/*if(result){
-					check = true;
-					graphic.setState(state);
-				}*/
 				check = result;
 				graphic.setState(state);
 			}
@@ -283,7 +264,7 @@ public class FlowFree extends AStar {
 		FFStateNode current = (FFStateNode)currentNode;
 		current.applyChanges();
 		reduction(current,true);
-		completedColorReduction(); //Might move this
+		completedColorReduction();
 		if(!stateFail && !current.hasFailed()){
 			assumptions(current);
 		}else{
@@ -296,23 +277,13 @@ public class FlowFree extends AStar {
 		for(int i = 0; i < completedColors.size(); i++){
 			current.removeColorFromAllDomains(completedColors.get(i));
 		}
-	}
-	public void pathAssumption(){
-		//Kanskje vi faktisk skal bruke domener her
-		//Vi burde velge ut en farge/og en av nodene i dette paret
-		//s� m� vi lage en state per mulige path, en path er mulig hvis den overholder alle "pathreglene" og at den ender opp hos endnoden den ikke starta fra
-		//kanskje vi m� lage et path object
-		//For det minste mappet s� f�r vi ikke s� mange mulige paths, feks, og hvis en path ikke er mulig og lage, s� skal staten legges til closed
-	}
-	
-	
+	}	
 	public void assumptionsSupp(FFStateNode state, FFNode node){
 		ArrayList<FFNode> cloneArray = new ArrayList<FFNode>();
 		FFNode midParent = null;
 		FFNode midChild = null;
 		for(int c=0; c<state.getNodes().size(); c++){
 			cloneArray.add(state.getNodes().get(c).cloneNode());
-			//System.out.println("cloneArray" + cloneArray.get(c).getColor());
 			
 			if(cloneArray.get(c).pos.x == node.getParentPos().x && cloneArray.get(c).pos.y == node.getParentPos().y){
 				midParent = cloneArray.get(c);
@@ -329,7 +300,6 @@ public class FlowFree extends AStar {
 	public void assumptions(FFStateNode state){
 		
 		ArrayList<FFNode> headList = state.getAllEndOfPathNodes();
-		//int counter = 0;
 		
 		for(int i=0; i<headList.size(); i++){
 			FFNode midHead = headList.get(i);
@@ -338,14 +308,8 @@ public class FlowFree extends AStar {
 				if(midChild.getColor() == null && midChild.getDomain().contains(midHead.getColor())){
 					midChild.setColor(midHead.getColor(), midHead);
 					assumptionsSupp(state, midChild);
-					//counter++;
-					//System.out.println("midchild x: " + midChild.pos.x + " y: " + midChild.pos.y + " counter " + counter);
 				}
-				//state.generateStateNode(cloneArray);
 			}
 		}
 	}
-	
-	//public ArrayList<FFNode> revert(ArrayList<FFNode> )
-
 }

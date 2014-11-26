@@ -32,22 +32,7 @@ public abstract class CSP extends AStarCSPGAC{
 		}
 		node.heuristic = heuristic;
 	}
-	
-	/*
-	private void reduction(Node node){
-		ArrayList<CSPNode> cspList = ((GACNode)node).getCSPList();
-		for(int i=0; i<cspList.size(); i++){
-			VCPNode midNode = (VCPNode)cspList.get(i);
-			if(midNode.getNodeValue() != -1){
-				
-			}
-		}
-	}
-	
-	private void reductionCycle(VCPNode child){
 		
-	}*/
-	
 	private void reduction(Node node){
 		GACCSPNode tempNode = (GACCSPNode)node;
 		CSPNode midNode = null;

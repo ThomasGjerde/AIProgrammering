@@ -28,6 +28,7 @@ public class NNColRow {
 	public ArrayList<ArrayList<Boolean>> getDomain() {
 		return domain;
 	}
+	@SuppressWarnings("unchecked")
 	public void setDomain(ArrayList<ArrayList<Boolean>> domain) {
 		this.domain = new ArrayList<ArrayList<Boolean>>();
 		for(int i = 0; i < domain.size(); i++){
@@ -37,7 +38,6 @@ public class NNColRow {
 	public void addToDomain(ArrayList<Boolean> list){
 		domain.add(list);
 	}
-	//vel, for se om dette her funker
 	public void deleteFromDomain(ArrayList<Boolean> removeArray){
 		boolean check = false;
 		for(int i=0; i<domain.size(); i++){
@@ -92,9 +92,6 @@ public class NNColRow {
 			if(counter > 0){
 				checkArray.add(counter);
 			}
-			//printArrayListBoolean(value);
-			//printArrayList(checkArray);
-			//printArrayList(constraints);
 			if(constraints.size() == checkArray.size()){
 				for(int i = 0; i < constraints.size(); i++){
 					if(constraints.get(i) != checkArray.get(i)){
@@ -109,12 +106,14 @@ public class NNColRow {
 			return true;
 		}
 	}
+	@SuppressWarnings("unused")
 	private void printArrayList(ArrayList<Integer> input){
 		for(int i = 0; i < input.size(); i++){
 			System.out.print(input.get(i) + ",");
 		}
 		System.out.println("");
 	}
+	@SuppressWarnings("unused")
 	private void printArrayListBoolean(ArrayList<Boolean> input){
 		for(int i = 0; i < input.size(); i++){
 			System.out.print(input.get(i) + ",");

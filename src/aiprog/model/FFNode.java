@@ -74,25 +74,12 @@ public class FFNode extends NavNode {
 	}
 	
 	public void setDomain(ArrayList<Color> newDomain){
-		//Husk at dette er pass by referanse
-		//Vi kan enten clone det her, eller i metoden for nye states
-		
-		//Hvis clone allerede er gjort
-		//domain = newDomain;
-		
-		//Hvis clone ikke er gjort
 		domain.clear();
 		for(int i=0; i<newDomain.size(); i++){
 			Color midColor = null;
 			midColor = newDomain.get(i);
 			domain.add(midColor);
 		}
-	}
-	
-	public void calcHeuristic(){
-		//Utregning for heuristic for denne noden
-		//Dette er unikt for v�r state, s� vi kan evt nullstille heuristc/dvs ikke ta det med over n�r vi lager en ny state
-		//Har ikke funnet ut om det g�r og ta med openlist nedover, tviler egentlig p� det... kanskje hvis vi har parents, kan v�re tricky
 	}
 	public FFNode cloneNode(){
 		FFNode newNode = new FFNode(new Point(pos.x,pos.y));
@@ -160,11 +147,6 @@ public class FFNode extends NavNode {
 		for(int i = 0; i < tempNode.children.size(); i++){
 			FFNode tempNode2 = (FFNode)tempNode.children.get(i);
 			if(tempNode2.getColor() == this.getColor()){
-				/*
-				if(tempNode2.originPos != null && (tempNode2.originPos.x != this.pos.x || tempNode2.originPos.y == this.pos.y)){
-					return true;
-				}
-				*/
 				if(tempNode2.isHead() && tempNode2.pos != this.pos){
 					return true;
 				}

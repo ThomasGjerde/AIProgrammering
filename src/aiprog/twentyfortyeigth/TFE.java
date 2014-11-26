@@ -53,7 +53,7 @@ public class TFE {
 	public void runMultiThreadedTest(int iterations) throws InterruptedException, ExecutionException{
 		int wins = 0;
 		int fails = 0;
-		ExecutorService executorService = Executors.newFixedThreadPool(6);
+		ExecutorService executorService = Executors.newFixedThreadPool(8);
 		List<Future> futures = new ArrayList<>();
 		for(int i = 0; i < iterations; i++){
 			Future<Boolean> future = executorService.submit(new Callable<Boolean>(){

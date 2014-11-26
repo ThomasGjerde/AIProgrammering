@@ -1,9 +1,6 @@
 package aiprog.model;
 
-import java.awt.Color;
 import java.util.ArrayList;
-
-import aiprog.model.Node.Status;
 import bsh.EvalError;
 
 public class GACCSPNode extends GACNode{
@@ -13,7 +10,6 @@ public class GACCSPNode extends GACNode{
 	public GACCSPNode() {
 		super();
 		cspList = new ArrayList<CSPNode>();
-		// TODO Auto-generated constructor stub
 	}
 	public void setCSPList(ArrayList<CSPNode> cspList){
 		this.cspList = cspList;
@@ -21,9 +17,9 @@ public class GACCSPNode extends GACNode{
 	public ArrayList<CSPNode> getCSPList(){
 		return this.cspList;
 	}
-	
+
 	public void generateChildren(){
-		
+
 		ArrayList<CSPNode> availNodes = new ArrayList<CSPNode>();
 		for(int i=0; i<this.getCSPList().size(); i++){
 			if(this.getCSPList().get(i).getNodeValue() == -1){
@@ -35,51 +31,19 @@ public class GACCSPNode extends GACNode{
 				availNodes.add(tempNode);
 			}
 		}
-		System.out.println("availNodes.size " + availNodes.size());
-		/*for(int j=0; j<availNodes.size(); j++){
-			System.out.println("availNodes" + availNodes.get(j).domain.size());
-		}*/
-		/*
-		if(!availNodes.isEmpty()){
-			for(int j=0; j<availNodes.size(); j++){
-				for(int k=0; k<availNodes.get(j).domain.size(); k++){
-					CSPNode sendNode = availNodes.get(j);
-					sendNode.setNodeValue(availNodes.get(j).domain.get(k));
-					GACCSPNode newNode = generateNewState(sendNode);
-					this.addChild(newNode);
-					//sendNode.setNodeValue(-1);
-				}
-			}
-		}*/
-				
-				CSPNode smallestNode = getNodeWithSmallestDomain();
-				if(smallestNode != null){
-					for(int i = 0; i < smallestNode.getDomain().size(); i++){
-						CSPNode sendNode = new CSPNode();	
-						sendNode.id = smallestNode.id;
-						//sendNode.setNodeValue(smallestNode.getNodeValue());
-						sendNode.setDomain(new ArrayList<Integer>(smallestNode.getDomain()));
-						sendNode.setNodeValue(smallestNode.getDomain().get(i));
-		
-						GACCSPNode newNode = generateNewState(sendNode);
-						this.addChild(newNode);
-						
-					}
-				}
-				
-				
-				//System.out.println(newNode.getCSPList().get(0).getDomain());
-				
-				
-		
-		/*
-		for(int i = 0; i < this.children.size(); i++){
-			GACNode gacNode = (GACNode)this.children.get(i);
-			gacNode.applyChanges();
-			for(int j = 0; j < gacNode.getCSPList().size(); j++){
+		CSPNode smallestNode = getNodeWithSmallestDomain();
+		if(smallestNode != null){
+			for(int i = 0; i < smallestNode.getDomain().size(); i++){
+				CSPNode sendNode = new CSPNode();	
+				sendNode.id = smallestNode.id;
+				sendNode.setDomain(new ArrayList<Integer>(smallestNode.getDomain()));
+				sendNode.setNodeValue(smallestNode.getDomain().get(i));
+
+				GACCSPNode newNode = generateNewState(sendNode);
+				this.addChild(newNode);
+
 			}
 		}
-		*/
 	}
 	private CSPNode getNodeWithSmallestDomain(){
 		int smallest = 10000;
@@ -101,7 +65,7 @@ public class GACCSPNode extends GACNode{
 		retNode.setNodeValue(oldNode.getNodeValue());
 		retNode.setDomain(new ArrayList<Integer>(oldNode.getDomain()));
 		return retNode;
-		
+
 	}
 	private GACCSPNode generateNewState(CSPNode node){
 		GACCSPNode newState = new GACCSPNode();
@@ -129,20 +93,11 @@ public class GACCSPNode extends GACNode{
 				this.assumption = tempNode;
 			}
 		}
-		
-		/*
-		CSPNode assumtionNode = new CSPNode();
-		assumtionNode.setId(node.getId());
-		assumtionNode.setDomain(new ArrayList<Integer>(node.getDomain()));
-		assumtionNode.setNodeValue(node.getNodeValue());
-		changesList.add(assumtionNode);
-		newState.setChanges(changesList);
-		*/
 		newState.setChanges(changesList);
 		return newState;
 	}
 	public void applyChanges(){
-		//Can be optimized later
+		//Can be optimized
 		if(cspList == null){
 			return;
 		}

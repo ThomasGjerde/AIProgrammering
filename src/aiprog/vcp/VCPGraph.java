@@ -22,7 +22,6 @@ public class VCPGraph {
 	int k;
 	ArrayList<String> constraintVars = new ArrayList<String>();
 	String constraintExpression;
-	//ArrayList<ColorNode> nodes = new ArrayList<ColorNode>();
 	Map<Integer,VCPNode> nodeMap = new HashMap<Integer, VCPNode>();
 	public VCPGraph(String path, int k) throws IOException{
 		this.k = k;
@@ -37,7 +36,6 @@ public class VCPGraph {
 		generateEdges(input);
 		GACCSPNode initStateNode = generateInitialStateNode();
 		VCP vcp = new VCP(initStateNode);
-		//ToDoRevise tdr = new ToDoRevise(initStateNode);
 	}
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	private GACCSPNode generateInitialStateNode(){
@@ -49,17 +47,14 @@ public class VCPGraph {
 		}
 		GACCSPNode gacNode = new GACCSPNode();
 		gacNode.setCSPList(vcpNodes);
-		//ArrayList<VCPNode> changesList = new ArrayList<VCPNode>();
 		for(int i = 0; i < gacNode.getCSPList().size(); i++){
 			VCPNode oldNode = (VCPNode)gacNode.getCSPList().get(i);
 			VCPNode newNode = new VCPNode(constraintVars,constraintExpression,k);
 			newNode.setId(oldNode.getId());
 			newNode.setColor(oldNode.getColor());
 			newNode.setDomain(new ArrayList<Integer>(oldNode.getDomain()));
-			//changesList.add(newNode);
 			gacNode.addChange((CSPNode)newNode);
 		}
-		//gacNode.setChanges((ArrayList<CSPNode>)changesList);
 		return gacNode;
 	}
 	private void generateNodes(ArrayList<String> input){
@@ -68,27 +63,7 @@ public class VCPGraph {
 			VCPNode vcpNode = new VCPNode(constraintVars,constraintExpression,k);
 				vcpNode.setId(tempList.get(0).intValue());
 				vcpNode.getPos().setX(tempList.get(1));
-				vcpNode.getPos().setY(tempList.get(2));
-				/*
-				for(int j = 0; j < k; j++){
-					cn.addDomain();
-				}
-				*/
-				//<remove before production testing>
-				/*
-				cn.addDomain();
-				cn.addDomain();
-				cn.addDomain();
-				
-				if(i % 2 == 0){
-					vcpNode.setColor(Color.BLUE);
-				}else{
-					vcpNode.setColor(Color.DARK_GRAY);
-				}
-				/*
-				*/
-				//</remove before production testing>
-				
+				vcpNode.getPos().setY(tempList.get(2));			
 				nodeMap.put(vcpNode.getId(), vcpNode);
 		}
 	}

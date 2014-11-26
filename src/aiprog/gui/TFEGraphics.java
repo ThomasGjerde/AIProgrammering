@@ -30,7 +30,6 @@ public class TFEGraphics extends Graphics {
 				new Color(0xEEE4DA)};
 		grid.setShowGrid(true);
 		grid.repaint();
-		// TODO Auto-generated constructor stub
 	}
 	public void setBoard(TfeBoard board){
 		this.board = board.cloneBoard();
@@ -54,7 +53,6 @@ public class TFEGraphics extends Graphics {
 			try {
 				Thread.sleep(1);
 			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}

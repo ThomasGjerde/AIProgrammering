@@ -1,9 +1,6 @@
 package aiprog.vcp;
 
-import java.util.ArrayList;
-
 import bsh.EvalError;
-
 import aiprog.csp.CSP;
 import aiprog.gui.GraphGraphics;
 import aiprog.model.CSPNode;
@@ -17,7 +14,6 @@ public class VCP extends CSP{
 		 graphics.setGraph((GACCSPNode)currentNode);
 		 ((GACCSPNode)currentNode).generateChildren();
 		 this.search();
-		// TODO Auto-generated constructor stub
 	}
 
 	@Override
@@ -34,7 +30,6 @@ public class VCP extends CSP{
 			}
 		} catch (EvalError e)
 		{
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
@@ -56,7 +51,6 @@ public class VCP extends CSP{
 						errors++;
 					}
 				} catch (EvalError e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 			}
@@ -79,7 +73,6 @@ public class VCP extends CSP{
 		try {
 			Thread.sleep(0);
 		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		graphics.setGraph((GACCSPNode)currentNode);

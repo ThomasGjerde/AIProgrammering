@@ -3,9 +3,6 @@ package aiprog.model;
 import java.awt.Color;
 import java.util.ArrayList;
 
-import bsh.EvalError;
-import bsh.Interpreter;
-
 public class VCPNode extends CSPNode{
 	DoublePoint pos = new DoublePoint();
 	public VCPNode(ArrayList<String> constraintVars, String constraintExpression, int k) {

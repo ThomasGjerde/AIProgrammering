@@ -13,7 +13,6 @@ public class GridDepthFirstSearch extends DepthFirstSearch{
 		super(startNode, endPoint);
 		this.board = board;
 		graphics = new BoardGraphics(board);
-		// TODO Auto-generated constructor stub
 	}
 
 	@Override
@@ -22,7 +21,6 @@ public class GridDepthFirstSearch extends DepthFirstSearch{
 		try {
 			Thread.sleep(100);
 		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		for(int i = 0; i < board.size.x; i++){
