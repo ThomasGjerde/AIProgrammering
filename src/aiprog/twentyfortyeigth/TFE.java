@@ -19,7 +19,7 @@ public class TFE {
 		this.targetValue = targetValue;
 	}
 	public void runTFE(boolean animate){
-		TfeBoard board = new TfeBoard(true,this.targetValue);
+		TFEBoard board = new TFEBoard(true,this.targetValue);
 		int depth = 2;
 		TFEGraphics graphics = new TFEGraphics();
 		graphics.setBoard(board);
@@ -84,7 +84,7 @@ public class TFE {
 	}
 	private boolean runTFETest(){
 		int depth = 2;
-		TfeBoard board = new TfeBoard(true,this.targetValue);
+		TFEBoard board = new TFEBoard(true,this.targetValue);
 		while(!board.hasFailed() && !board.victoryCheck()) {
 			depth = 2;
 			MinMax minMax = new MinMax(board);

@@ -5,10 +5,10 @@ import java.util.ArrayList;
 
 import aiprog.model.Direction;
 import aiprog.model.Point;
-import aiprog.twentyfortyeigth.TfeBoard;
+import aiprog.twentyfortyeigth.TFEBoard;
 
 public class TFEGraphics extends Graphics {
-	TfeBoard board;
+	TFEBoard board;
 	Color[] colors;
 	public TFEGraphics() {
 		super(4,4);
@@ -31,7 +31,7 @@ public class TFEGraphics extends Graphics {
 		grid.setShowGrid(true);
 		grid.repaint();
 	}
-	public void setBoard(TfeBoard board){
+	public void setBoard(TFEBoard board){
 		this.board = board.cloneBoard();
 		grid.texts.clear();
 		grid.clearAllColors();
@@ -46,7 +46,7 @@ public class TFEGraphics extends Graphics {
 		}
 		grid.repaint();
 	}
-	public void animateSetBoard(TfeBoard board, Direction dir){
+	public void animateSetBoard(TFEBoard board, Direction dir){
 		ArrayList<Point> movedTiles = getMovedTiles(board);
 		for(int i = 0; i < grid.scale; i++){
 			grid.transMoveTexts(movedTiles, dir);
@@ -58,7 +58,7 @@ public class TFEGraphics extends Graphics {
 		}
 		setBoard(board);
 	}
-	private ArrayList<Point> getMovedTiles(TfeBoard newBoard){
+	private ArrayList<Point> getMovedTiles(TFEBoard newBoard){
 		ArrayList<Point> movedTiles = new ArrayList<Point>();
 		int[][] oldArray = board.getBoard();
 		int[][] newArray = newBoard.getBoard();

@@ -7,8 +7,8 @@ import aiprog.model.Move;
 import aiprog.model.Point;
 
 public class MinMax {
-	TfeBoard board;
-	public MinMax(TfeBoard board){
+	TFEBoard board;
+	public MinMax(TFEBoard board){
 		this.board = board;
 	}
 	public Move search(double alpha, double beta, int depth){
@@ -18,7 +18,7 @@ public class MinMax {
 			Move currentMove = new Move(null, -100001);
 			for(Direction direction : Direction.values()){
 				if(board.isLegalMove(direction)){
-					TfeBoard newBoard = this.board.cloneBoard();
+					TFEBoard newBoard = this.board.cloneBoard();
 					newBoard.move(direction);
 					newBoard.setPlayer(false);
 					
@@ -44,7 +44,7 @@ public class MinMax {
 			int[] values = { 2 , 4 };
 			for(Point tilePos : availableTiles){
 				for(int value : values){
-					TfeBoard newBoard = this.board.cloneBoard();
+					TFEBoard newBoard = this.board.cloneBoard();
 					newBoard.setPlayer(true);
 					newBoard.getBoard()[tilePos.y][tilePos.x] = value;
 					MinMax newMinMax = new MinMax(newBoard);

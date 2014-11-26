@@ -5,13 +5,13 @@ import java.util.ArrayList;
 import aiprog.model.Direction;
 import aiprog.model.Point;
 
-public class TfeBoard {
+public class TFEBoard {
 	private int[][] board;
 	private boolean player;
 	private boolean failed;
 	private int victoryValue;
 	private Point maxPoint;
-	public TfeBoard(boolean init,int vValue){
+	public TFEBoard(boolean init,int vValue){
 		if(init){
 			board = new int[4][4];
 			generateRandomNumber();
@@ -29,7 +29,7 @@ public class TfeBoard {
 		failed = false;
 	}
 	
-	private TfeBoard(boolean clonePlayer, int[][] cloneBoard){
+	private TFEBoard(boolean clonePlayer, int[][] cloneBoard){
 		board = cloneBoard;
 		player = clonePlayer;
 	}
@@ -563,7 +563,7 @@ public class TfeBoard {
 		return player;
 	}
 	
-	public TfeBoard cloneBoard(){
+	public TFEBoard cloneBoard(){
 		boolean clonePlayer;
 		boolean cloneFailed;
 		
@@ -585,7 +585,7 @@ public class TfeBoard {
 				cloneBoard[i][j] = midValue;
 			}
 		}
-		TfeBoard midTfe = new TfeBoard(clonePlayer, cloneBoard);
+		TFEBoard midTfe = new TFEBoard(clonePlayer, cloneBoard);
 		midTfe.setFailed(cloneFailed);
 		double max;
 		Point mid;
