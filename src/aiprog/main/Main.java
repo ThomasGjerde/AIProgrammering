@@ -9,12 +9,14 @@ import aiprog.gui.FFGraphics;
 import aiprog.gui.NNGraphics;
 import aiprog.model.NNStateNode;
 import aiprog.navigation.Board;
+import aiprog.navigation.DirectedBoard;
 import aiprog.navigation.GridBestFirstSearch;
 import aiprog.navigation.GridBreadthFirstSearch;
 import aiprog.navigation.GridDepthFirstSearch;
 import aiprog.nonogram.NNBoard;
 import aiprog.nonogram.NonoGram;
 import aiprog.vcp.VCPGraph;
+import aiprog.search.LessTurnSearch;
 import aiprog.twentyfortyeigth.TFE;
 
 
@@ -96,6 +98,20 @@ public class Main {
 					} catch (IOException e) {
 						e.printStackTrace();
 					}
+				}else if(args[1].toLowerCase().equals("lessturn")){
+					
+					try
+					{
+						Board board = new Board(args[2]);
+						LessTurnSearch lts = new LessTurnSearch(board.boardArray[board.startPos.x][board.startPos.y], board.endPos, board);
+						lts.search();
+					} catch (IOException e)
+					{
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					
+					
 				}
 			}else if(args[0].toLowerCase().equals("2048")){
 				try
@@ -112,7 +128,8 @@ public class Main {
 					e.printStackTrace();
 				}
 			}
-		}else{
+		}
+		else{
 			System.out.println("Wrong number of arguments");
 		}		
 	}

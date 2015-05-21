@@ -29,7 +29,8 @@ public abstract class AStar {
 				generatedChildren++;
 				Node tempNode = children.get(i);
 				if(!openList.contains(tempNode) && !closedList.contains(tempNode)){
-					tempNode.parent = currentNode;
+					
+					tempNode.setParent(currentNode);
 					setHeuristic(tempNode);
 					addToOpenList(tempNode);
 				}

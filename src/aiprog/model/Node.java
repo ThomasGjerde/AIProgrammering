@@ -56,4 +56,7 @@ public abstract class Node {
 		}
 		return cost;
 	}
+	public void setParent(Node node){
+		this.parent = node;
+	}
 }

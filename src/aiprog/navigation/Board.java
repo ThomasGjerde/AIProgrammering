@@ -3,7 +3,7 @@ package aiprog.navigation;
 import java.io.*;
 import java.util.ArrayList;
 
-import aiprog.model.NavNode;
+import aiprog.model.DirectedNavNode;
 import aiprog.model.Node;
 import aiprog.model.Point;
 import aiprog.model.Node.Status;
@@ -14,7 +14,7 @@ public class Board {
 	public Point startPos = new Point();
 	public Point endPos = new Point();
 	public int steps = 0;
-	public NavNode[][] boardArray;
+	public DirectedNavNode[][] boardArray;
 	public boolean complete = false;
 	
 	public Board(String path) throws IOException{
@@ -37,7 +37,7 @@ public class Board {
 		}
 		return returnArray;
 	}
-	public boolean isEndNode(NavNode node){
+	public boolean isEndNode(DirectedNavNode node){
 		if(node.pos.x == endPos.x && node.pos.y == endPos.y){
 			return true;
 		}else{
@@ -63,7 +63,7 @@ public class Board {
 			}
 		}
 	}
-	private void setChildren(NavNode node){
+	private void setChildren(DirectedNavNode node){
 		if(node.pos.x > 0){
 			node.addChild(boardArray[node.pos.x -1][node.pos.y]);
 		}
@@ -89,10 +89,10 @@ public class Board {
 		}
 	}
 	private void generateBoard(){
-		boardArray = new NavNode[size.x][size.y];
+		boardArray = new DirectedNavNode[size.x][size.y];
 		for(int i = 0; i < size.x; i++){
 			for(int j = 0; j < size.y; j++){
-				boardArray[i][j] = new NavNode(new Point(i,j));
+				boardArray[i][j] = new DirectedNavNode(new Point(i,j));
 			}
 		}
 	}

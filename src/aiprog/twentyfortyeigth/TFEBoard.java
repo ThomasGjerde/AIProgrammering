@@ -397,8 +397,8 @@ public class TFEBoard {
 		double h = 0;
 		ArrayList<Double> easy = easyHeuristic();
 		double smoothness = easy.get(0) * 0.2;
-		double max = easy.get(1) * 1;
-		double maxPlacement = easy.get(2) * 0.5;
+		double max = easy.get(1) * 10;
+		double maxPlacement = easy.get(2) * 3;
 		//double freeSize = easy.get(3) * 2.7;
 		double freeSize = easy.get(3) * 1;
 		double order = order() * 1;
